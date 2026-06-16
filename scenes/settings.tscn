@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnf6m2x8m58j4"]
+
+[ext_resource type="Script" uid="uid://cxpxn81buvy8n" path="res://scripts/settings.gd" id="1_5p8wc"]
+
+[node name="Settings" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5p8wc")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -73.0
+offset_top = 45.0
+offset_right = 74.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "SETTINGS"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.0
+offset_top = -205.0
+offset_right = 434.0
+offset_bottom = 249.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -505.0
+offset_top = -212.0
+offset_right = -265.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Audio set" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Audio Settings"
+
+[node name="control set" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Control Settings"
+
+[node name="back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.5
+offset_top = -102.0
+offset_right = 74.5
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
