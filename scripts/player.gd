@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed : float = 200
+@export var speed : float = 500
 @export var jump : float = -300
 @export var gravity : float = 980 
 
@@ -12,9 +12,14 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump
 	
 	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
 	
+	if is_on_floor():
+		if direction:
+			velocity.x = direction * speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, speed)
+			
+	else:
+		velocity.x = lerp(velocity.x, direction*speed, delta * 2.0)
+		
 	move_and_slide()
