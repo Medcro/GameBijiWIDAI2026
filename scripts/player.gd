@@ -1,8 +1,17 @@
 extends CharacterBody2D
 
+# Base Attribute
+@export var hp : int = 5
 @export var speed : float = 500
 @export var jump : float = -300
 @export var gravity : float = 980 
+
+# Dash Attribute
+@export var dash_speed : float = 1200.0
+@export var dash_duration : float = 0.2
+var dash_timer : float = 0.0
+var is_dashing : bool = false
+var facing_direction : float = 1.0
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
