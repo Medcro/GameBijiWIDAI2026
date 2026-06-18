@@ -15,6 +15,10 @@ run/main_scene="uid://r8gk7inos0cq"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
+[autoload]
+
+CameraEffects="*res://camera_effects.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"
