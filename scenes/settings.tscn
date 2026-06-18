@@ -1,0 +1,170 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnf6m2x8m58j4"]
+
+[ext_resource type="Script" uid="uid://cxpxn81buvy8n" path="res://scripts/settings.gd" id="1_5p8wc"]
+[ext_resource type="Script" uid="uid://bhaica5lawsto" path="res://scripts/master_slider.gd" id="2_r6d6q"]
+[ext_resource type="Script" uid="uid://4h6pmk1pninm" path="res://scripts/music_slider.gd" id="3_6wm04"]
+[ext_resource type="Script" uid="uid://e31002rpfg7i" path="res://scripts/sfx_slider.gd" id="4_f4mfi"]
+
+[node name="Settings" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5p8wc")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 324.0
+offset_top = 106.0
+offset_right = 332.0
+offset_bottom = -148.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -73.0
+offset_top = 45.0
+offset_right = 74.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "SETTINGS"
+
+[node name="audioTab" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -205.0
+offset_right = 392.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="master" type="Label" parent="audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Master"
+
+[node name="MasterSlider" type="HSlider" parent="audioTab"]
+layout_mode = 2
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("2_r6d6q")
+audio_bus_name = "Master"
+
+[node name="Music" type="Label" parent="audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="audioTab"]
+layout_mode = 2
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("3_6wm04")
+audio_bus_name = "Music"
+
+[node name="SFX" type="Label" parent="audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "SFX"
+
+[node name="SFXSlider" type="HSlider" parent="audioTab"]
+layout_mode = 2
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("4_f4mfi")
+audio_bus_name = "SFX"
+
+[node name="controlTab" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -205.0
+offset_right = 392.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -505.0
+offset_top = -212.0
+offset_right = -265.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Audio set" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Audio Settings"
+
+[node name="control set" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Control Settings"
+
+[node name="back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -102.0
+offset_right = -91.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+
+[node name="apply" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 74.0
+offset_top = -102.0
+offset_right = 234.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Apply
+"
+
+[connection signal="value_changed" from="audioTab/MasterSlider" to="audioTab/MasterSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="audioTab/MusicSlider" to="audioTab/MusicSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="audioTab/SFXSlider" to="audioTab/SFXSlider" method="_on_value_changed"]
+[connection signal="pressed" from="VBoxContainer2/Audio set" to="." method="_on_audio_set_pressed"]
+[connection signal="pressed" from="VBoxContainer2/control set" to="." method="_on_control_set_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="apply" to="." method="_on_apply_pressed"]
