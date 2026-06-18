@@ -3,12 +3,12 @@ extends CharacterBody2D
 # Base Attribute
 @export var hp : int = 5
 @export var speed : float = 500
-@export var jump : float = -350
+@export var jump : float = -500
 @export var gravity : float = 980 
 
 # Dash Attribute
 @export var dash_speed : float = 1200.0
-@export var dash_duration : float = 0.2
+@export var dash_duration : float = 0.15
 @export var dash_cooldown : float = 0.25 # Variabel bebas (boleh diganti angkanya kalo rasanya kelamaan)
 var dash_timer : float = 0.0 
 var dash_cooldown_timer : float = 0.0 # init
@@ -17,7 +17,7 @@ var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
-@export var has_flight_essence : bool = false  
+@export var has_flight_essence : bool = true 
 
 var is_invincible : bool = false 
 var can_double_jump : bool = false 
@@ -51,7 +51,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		# can double jump
 		can_double_jump = true
-
+		
+	if Input.is_action_just_pressed("ui_down") and is_on_floor():
+		position.y += 1.2
+		
 	if Input.is_action_just_pressed("Jump") and not is_dashing:
 		if is_on_floor():
 			velocity.y = jump
@@ -64,12 +67,9 @@ func _physics_process(delta: float) -> void:
 		velocity.x = facing_direction * dash_speed
 		velocity.y = 0 
 	else:
-		if is_on_floor():
-			if direction:
-				velocity.x = direction * speed
-			else:
-				velocity.x = move_toward(velocity.x, 0, speed)
+		if direction:
+			velocity.x = direction * speed
 		else:
-			velocity.x = lerp(velocity.x, direction * speed, delta * 2.0)
+			velocity.x = move_toward(velocity.x, 0, speed)
 			
 	move_and_slide()

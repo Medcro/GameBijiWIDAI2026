@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scenes/player_camera.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bmylvoan1tfh4" path="res://scenes/platform.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bidb6vs2t4uaw" path="res://scenes/drop_down_platform.tscn" id="4_jyhfs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(1162, 518)
@@ -28,3 +29,6 @@ position = Vector2(684, 457)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBound"]
 position = Vector2(571, 249)
 shape = SubResource("RectangleShape2D_jyhfs")
+
+[node name="DropDownPlatform" parent="." instance=ExtResource("4_jyhfs")]
+position = Vector2(486, 308)
