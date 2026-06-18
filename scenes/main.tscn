@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://r8gk7inos0cq"]
+[gd_scene load_steps=8 format=3 uid="uid://r8gk7inos0cq"]
 
 [ext_resource type="PackedScene" uid="uid://cv3ekrp0fcc0o" path="res://scenes/floor.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
-[ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scenes/player_camera.gd" id="3_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://bmylvoan1tfh4" path="res://scenes/platform.tscn" id="3_sugp2"]
-[ext_resource type="PackedScene" uid="uid://bidb6vs2t4uaw" path="res://scenes/drop_down_platform.tscn" id="4_jyhfs"]
+[ext_resource type="Script" path="res://scenes/player_camera.gd" id="3_jyhfs"]
+[ext_resource type="PackedScene" path="res://scenes/platform.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" path="res://scenes/drop_down_platform.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://breavhqoiq6ys" path="res://scenes/pause_menu.tscn" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(1162, 518)
@@ -32,3 +33,8 @@ shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="DropDownPlatform" parent="." instance=ExtResource("4_jyhfs")]
 position = Vector2(486, 308)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("6_tefeu")]
+visible = false
