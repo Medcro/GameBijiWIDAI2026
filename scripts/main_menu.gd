@@ -9,7 +9,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if settings.hidden:
+	if settings.visible:
+		button_box.hide()
+	else:
 		button_box.show()
 
 func _on_start_pressed() -> void:
