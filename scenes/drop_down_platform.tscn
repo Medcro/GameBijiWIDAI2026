@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bidb6vs2t4uaw"]
+
+[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="1_shn5l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvkj4"]
+size = Vector2(105, 55.652176)
+
+[node name="DropDownPlatform" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.4117647, 0, 0, 1)
+position = Vector2(0.50000113, 0.0921075)
+scale = Vector2(0.82031244, 0.15111017)
+texture = ExtResource("1_shn5l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2.3841858e-07)
+scale = Vector2(1, 0.359375)
+shape = SubResource("RectangleShape2D_rvkj4")
+one_way_collision = true
