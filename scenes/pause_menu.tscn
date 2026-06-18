@@ -1,15 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://breavhqoiq6ys"]
+[gd_scene load_steps=4 format=3 uid="uid://breavhqoiq6ys"]
 
 [ext_resource type="Script" uid="uid://cclqyc8f8ebps" path="res://scripts/pause_menu.gd" id="1_n87rw"]
+[ext_resource type="PackedScene" uid="uid://cnf6m2x8m58j4" path="res://scenes/settings.tscn" id="2_myx47"]
 
-[node name="Pause Menu" type="Panel"]
+[sub_resource type="Theme" id="Theme_myx47"]
+default_font_size = 20
+
+[node name="Pause Menu" type="Control"]
 process_mode = 3
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n87rw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -31,21 +44,53 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -120.0
-offset_right = 80.0
-offset_bottom = 120.0
+offset_left = -90.0
+offset_top = -110.0
+offset_right = 90.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Resume" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+text = "Resume"
 
 [node name="Reset" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+text = "Reset"
 
 [node name="Settings" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+text = "Settings"
 
 [node name="exitmenu" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+text = "Exit"
+
+[node name="Settings" parent="." instance=ExtResource("2_myx47")]
+visible = false
+layout_mode = 1
+
+[node name="resetConfirm" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Warning!"
+initial_position = 1
+size = Vector2i(442, 139)
+always_on_top = true
+content_scale_aspect = 2
+theme = SubResource("Theme_myx47")
+ok_button_text = "Yes"
+dialog_text = "Are you sure you want to reset?
+This will bring you to the first dream."
+cancel_button_text = "No"
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/exitmenu" to="." method="_on_exitmenu_pressed"]
+[connection signal="canceled" from="resetConfirm" to="." method="_on_reset_confirm_canceled"]
+[connection signal="confirmed" from="resetConfirm" to="." method="_on_reset_confirm_confirmed"]
