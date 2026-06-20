@@ -9,18 +9,16 @@ radius = 22.0
 height = 126.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
-size = Vector2(81.21889, 128.01572)
+size = Vector2(85, 123.99997)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(3.500001, 0)
 scale = Vector2(0.33593753, 1)
 texture = ExtResource("2_qhqgy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 0)
 shape = SubResource("CapsuleShape2D_dqkch")
 
 [node name="Dreamcatcher" type="Node2D" parent="."]
@@ -31,7 +29,9 @@ position = Vector2(-1.5258789e-05, -3.4332275e-05)
 scale = Vector2(0.21468806, 0.33131456)
 texture = ExtResource("2_qhqgy")
 
-[node name="AttackHitbox" type="CollisionShape2D" parent="."]
-position = Vector2(66, -1)
-scale = Vector2(1, 1.0000002)
+[node name="AttackHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(-65, 0)
 shape = SubResource("RectangleShape2D_qhqgy")
+debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)

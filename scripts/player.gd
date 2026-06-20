@@ -146,7 +146,6 @@ func perform_attack() -> void:
 func _set_hitbox_active(active: bool) -> void:
 	if attack_hitbox:
 		for child in attack_hitbox.get_children():
-			if child is CollisionShape2D or child is CollisionPolygon2D:
 				child.set_deferred("disabled", not active)
 
 # placeholder smpe ada animasi
