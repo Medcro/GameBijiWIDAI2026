@@ -15,6 +15,12 @@ var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 
+## Melee Attack Attributes (belum implement)
+#@export var combo_window_duration : float = 0.4 # window buat 2-hit
+#var is_attacking : bool = false
+#var combo_step : int = 0
+#var combo_window_timer : float = 0.0
+
 # Essence Attributes
 @export var has_agility_essence : bool = false 
 @export var has_flight_essence : bool = true 
