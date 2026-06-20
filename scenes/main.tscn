@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://r8gk7inos0cq"]
+[gd_scene load_steps=6 format=3 uid="uid://r8gk7inos0cq"]
 
 [ext_resource type="Texture2D" uid="uid://b37h730lit766" path="res://platform room.jpg" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scripts/player_camera.gd" id="3_jyhfs"]
-[ext_resource type="PackedScene" path="res://scenes/platform.tscn" id="3_sugp2"]
-[ext_resource type="PackedScene" path="res://scenes/drop_down_platform.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://breavhqoiq6ys" path="res://scenes/pause_menu.tscn" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
@@ -74,7 +72,7 @@ position_smoothing_enabled = true
 script = ExtResource("3_jyhfs")
 bounds_path = NodePath("../../CameraBound")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="Player/Camera2D"]
 
-[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("6_tefeu")]
+[node name="Pause Menu" parent="Player/Camera2D/CanvasLayer" instance=ExtResource("6_tefeu")]
 visible = false
