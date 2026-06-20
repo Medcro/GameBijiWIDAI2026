@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://r8gk7inos0cq"]
+[gd_scene load_steps=7 format=3 uid="uid://r8gk7inos0cq"]
 
 [ext_resource type="Texture2D" uid="uid://b37h730lit766" path="res://platform room.jpg" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
-[ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scripts/player_camera.gd" id="3_jyhfs"]
-[ext_resource type="Script" uid="uid://csn1sja5oanyq" path="res://scripts/dreamcatcher.gd" id="4_tbgi4"]
+[ext_resource type="Script" path="res://scripts/player_camera.gd" id="3_jyhfs"]
+[ext_resource type="Script" path="res://scripts/dreamcatcher.gd" id="4_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="5_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
