@@ -1,11 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=6 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://csn1sja5oanyq" path="res://scripts/dreamcatcher.gd" id="3_qhqgy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
 radius = 22.0
 height = 126.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
+size = Vector2(81.21889, 128.01572)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
@@ -18,3 +22,16 @@ texture = ExtResource("2_qhqgy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, 0)
 shape = SubResource("CapsuleShape2D_dqkch")
+
+[node name="Dreamcatcher" type="Node2D" parent="."]
+script = ExtResource("3_qhqgy")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dreamcatcher"]
+position = Vector2(-1.5258789e-05, -3.4332275e-05)
+scale = Vector2(0.21468806, 0.33131456)
+texture = ExtResource("2_qhqgy")
+
+[node name="AttackHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(66, -1)
+scale = Vector2(1, 1.0000002)
+shape = SubResource("RectangleShape2D_qhqgy")
