@@ -1,40 +1,82 @@
 [gd_scene load_steps=8 format=3 uid="uid://r8gk7inos0cq"]
 
-[ext_resource type="PackedScene" uid="uid://cv3ekrp0fcc0o" path="res://scenes/floor.tscn" id="1_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://b37h730lit766" path="res://platform room.jpg" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
-[ext_resource type="Script" path="res://scenes/player_camera.gd" id="3_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://bmylvoan1tfh4" path="res://scenes/platform.tscn" id="3_sugp2"]
-[ext_resource type="PackedScene" uid="uid://bidb6vs2t4uaw" path="res://scenes/drop_down_platform.tscn" id="4_jyhfs"]
-[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scripts/player_camera.gd" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://csn1sja5oanyq" path="res://scripts/dreamcatcher.gd" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="5_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
-size = Vector2(1162, 518)
+size = Vector2(1875, 1041)
 
 [node name="main" type="Node2D"]
 
-[node name="Floor" parent="." instance=ExtResource("1_0wfyh")]
-position = Vector2(546, 481)
-
-[node name="Player" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(367, 387)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-script = ExtResource("3_jyhfs")
-bounds_path = NodePath("../../CameraBound")
-
-[node name="Platform" parent="." instance=ExtResource("3_sugp2")]
-position = Vector2(684, 457)
+[node name="PlatformRoom" type="Sprite2D" parent="."]
+position = Vector2(896, 509)
+texture = ExtResource("1_tefeu")
 
 [node name="CameraBound" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBound"]
-position = Vector2(571, 249)
+position = Vector2(888, 507)
 shape = SubResource("RectangleShape2D_jyhfs")
 
-[node name="DropDownPlatform" parent="." instance=ExtResource("4_jyhfs")]
-position = Vector2(486, 308)
+[node name="Platform" type="StaticBody2D" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Platform"]
+polygon = PackedVector2Array(1323, 664, 1804, 662, 1804, 669, 1837, 669, 1837, -12, -44, -14, -45, 669, -11, 668, -13, 10, 1803, 14, 1804, 504, 1444, 504, 1444, 554, 1375, 554, 1375, 594, 1323, 594)
 
-[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("6_tefeu")]
-visible = false
+[node name="DropDownPlatform" type="StaticBody2D" parent="."]
+position = Vector2(0, -3.0517578e-05)
+scale = Vector2(1, 1.0000001)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropDownPlatform"]
+position = Vector2(1, 2)
+polygon = PackedVector2Array(-13, 320, 213, 319, 213, 353, 489, 357, 489, 376, 194, 375, 194, 339, -12, 340)
+one_way_collision = true
+
+[node name="DropDownPlatform2" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropDownPlatform2"]
+polygon = PackedVector2Array(836, 625, 1055, 625, 1055, 638, 1113, 638, 1113, 673, 1158, 673, 1159, 689, 1195, 689, 1195, 702, 1147, 702, 1146, 687, 1098, 687, 1097, 652, 1035, 651, 1035, 641, 836, 639)
+one_way_collision = true
+
+[node name="DropDownPlatform3" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropDownPlatform3"]
+polygon = PackedVector2Array(723, 271, 723, 285, 895, 285, 895, 273)
+one_way_collision = true
+
+[node name="DropDownPlatform4" type="StaticBody2D" parent="."]
+position = Vector2(0, -3.0517578e-05)
+scale = Vector2(1, 1.0000001)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DropDownPlatform4"]
+polygon = PackedVector2Array(1049, 278, 1049, 291, 1392, 291, 1391, 338, 1431, 338, 1432, 373, 1477, 374, 1477, 361, 1444, 361, 1444, 325, 1407, 325, 1407, 279)
+one_way_collision = true
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Floor"]
+position = Vector2(512, 851)
+polygon = PackedVector2Array(-557, -20, -344, -21, -344, -73, -175, -73, -175, -238, 99, -237, 99, -326, 253, -326, 253, -291, 324, -291, 324, -210, 299, -210, 299, 57, 253, 57, 253, 172, 430, 172, 430, 113, 471, 113, 471, 80, 537, 80, 537, 49, 604, 49, 604, 16, 1144, 16, 1143, -20, 1329, -20, 1329, 313, -558, 288)
+
+[node name="Player" parent="." instance=ExtResource("2_sugp2")]
+position = Vector2(306, 326)
+scale = Vector2(-0.65993714, 0.4765042)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(3.03061, -1.50203705e-05)
+scale = Vector2(1.5152959, -2.0986176)
+zoom = Vector2(1.75, 1.75)
+position_smoothing_enabled = true
+script = ExtResource("3_jyhfs")
+bounds_path = NodePath("../../CameraBound")
+
+[node name="Dreamcatcher" type="Node2D" parent="Player"]
+script = ExtResource("4_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player/Dreamcatcher"]
+position = Vector2(-1.5258789e-05, -3.4332275e-05)
+scale = Vector2(0.21468806, 0.33131456)
+texture = ExtResource("5_tefeu")

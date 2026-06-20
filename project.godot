@@ -17,7 +17,7 @@ config/icon="res://assets/icon.svg"
 
 [autoload]
 
-CameraEffects="*res://camera_effects.gd"
+CameraEffects="*res://scripts/camera_effects.gd"
 
 [display]
 

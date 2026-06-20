@@ -2,18 +2,24 @@ extends CharacterBody2D
 
 # Base Attribute
 @export var hp : int = 5
-@export var speed : float = 500
+@export var speed : float = 300
 @export var jump : float = -500
 @export var gravity : float = 980 
 
 # Dash Attribute
 @export var dash_speed : float = 1200.0
-@export var dash_duration : float = 0.15
+@export var dash_duration : float = 0.07
 @export var dash_cooldown : float = 0.25 # Variabel bebas (boleh diganti angkanya kalo rasanya kelamaan)
 var dash_timer : float = 0.0 
 var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
+
+## Melee Attack Attributes (belum implement)
+#@export var combo_window_duration : float = 0.4 # window buat 2-hit
+#var is_attacking : bool = false
+#var combo_step : int = 0
+#var combo_window_timer : float = 0.0
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
