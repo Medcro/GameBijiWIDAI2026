@@ -81,10 +81,6 @@ func _physics_process(delta: float) -> void:
 		perform_attack()
 
 	if not is_on_floor():
-		if is_attacking:
-			# mid-air attack
-			velocity.y = 0 
-		else:
 			velocity.y += gravity * delta
 	else:
 		# can double jump
@@ -104,9 +100,6 @@ func _physics_process(delta: float) -> void:
 	if is_dashing:
 		velocity.x = facing_direction * dash_speed
 		velocity.y = 0 
-	elif is_attacking:
-		# biar ga gerak pas nyerang
-		velocity.x = 0 
 	else:
 		if direction:
 			velocity.x = direction * speed

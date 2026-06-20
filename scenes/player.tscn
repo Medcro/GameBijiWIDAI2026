@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=7 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="2_qhqgy"]
@@ -10,6 +10,9 @@ height = 126.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
 size = Vector2(85, 123.99997)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
+radius = 90.44335
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
@@ -35,3 +38,9 @@ texture = ExtResource("2_qhqgy")
 position = Vector2(-65, 0)
 shape = SubResource("RectangleShape2D_qhqgy")
 debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)
+
+[node name="ParryBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryBox"]
+z_index = 1
+shape = SubResource("CircleShape2D_qhqgy")
