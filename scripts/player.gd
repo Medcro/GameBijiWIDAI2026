@@ -9,17 +9,19 @@ extends CharacterBody2D
 # Dash Attribute
 @export var dash_speed : float = 1200.0
 @export var dash_duration : float = 0.07
-@export var dash_cooldown : float = 0.25 # Variabel bebas (boleh diganti angkanya kalo rasanya kelamaan)
+@export var dash_cooldown : float = 0.5 # Variabel bebas (boleh diganti angkanya kalo rasanya kelamaan)
 var dash_timer : float = 0.0 
 var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 
-## Melee Attack Attributes (belum implement)
-#@export var combo_window_duration : float = 0.4 # window buat 2-hit
-#var is_attacking : bool = false
-#var combo_step : int = 0
-#var combo_window_timer : float = 0.0
+# Melee Attack Attributes (belum implement)
+@export var combo_window_duration : float = 0.4 # window buat 2-hit
+@export var attack_cooldown : float = 0.35 # cooldown duh
+var attack_cooldown_timer : float = 0.0
+var is_attacking : bool = false
+var combo_step : int = 0
+var combo_window_timer : float = 0.0
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
@@ -28,14 +30,36 @@ var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 var is_invincible : bool = false 
 var can_double_jump : bool = false 
 
+# Nodes
+# @onready var animation_player = $AnimationPlayer 
+@onready var weapon_pet = $Dreamcatcher
+@onready var attack_hitbox = $AttackHitbox
+
+func _ready() -> void:
+	# no hitbox yet
+	_set_hitbox_active(false)
+	
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction != 0 and not is_dashing:
+	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
+		if attack_hitbox:
+			attack_hitbox.scale.x = facing_direction
 	
 	# Dash delay
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
+	
+	# Melee delay
+	if attack_cooldown_timer > 0:
+		attack_cooldown_timer -= delta
+	
+	if combo_window_timer > 0 and not is_attacking:
+		combo_window_timer -= delta
+		if combo_window_timer <= 0 or direction != 0:
+			combo_step = 0
+			combo_window_timer = 0.0
+			attack_cooldown_timer = attack_cooldown
 		
 	if is_dashing:
 		dash_timer -= delta
@@ -51,9 +75,17 @@ func _physics_process(delta: float) -> void:
 		if has_agility_essence:
 			is_invincible = true
 			pass # add visual later
+	
+	# Melee
+	if Input.is_action_just_pressed("Melee") and not is_dashing:
+		perform_attack()
 
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if is_attacking:
+			# mid-air attack
+			velocity.y = 0 
+		else:
+			velocity.y += gravity * delta
 	else:
 		# can double jump
 		can_double_jump = true
@@ -61,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_down") and is_on_floor():
 		position.y += 1.2
 		
-	if Input.is_action_just_pressed("Jump") and not is_dashing:
+	if Input.is_action_just_pressed("Jump") and not is_dashing and not is_attacking:
 		if is_on_floor():
 			velocity.y = jump
 		elif can_double_jump and has_flight_essence:
@@ -72,10 +104,73 @@ func _physics_process(delta: float) -> void:
 	if is_dashing:
 		velocity.x = facing_direction * dash_speed
 		velocity.y = 0 
+	elif is_attacking:
+		# biar ga gerak pas nyerang
+		velocity.x = 0 
 	else:
 		if direction:
 			velocity.x = direction * speed
 		else:
 			velocity.x = move_toward(velocity.x, 0, speed)
-			
+	
 	move_and_slide()
+
+func perform_attack() -> void:
+	# biar g bisa spam
+	if is_attacking or attack_cooldown_timer > 0:
+		return 
+		
+	# check lgi combo ke-brp (stage 0 first hit)
+	if combo_step == 0 or (combo_step == 1 and combo_window_timer > 0):
+		is_attacking = true
+		combo_step += 1
+		combo_window_timer = 0.0 # timernya mati pas masih attack
+		
+		# hilangin dreamcatcher dulu
+		if weapon_pet:
+			weapon_pet.hide_for_attack()
+		
+		# nyalain hitbox
+		_set_hitbox_active(true)
+		
+		# buat animasi, belum diimplement
+		# if combo_step == 1:
+		# 	animation_player.play("attack_1")
+		# elif combo_step == 2:
+		# 	animation_player.play("attack_2")
+		
+		# placeholder smpe ada animasi
+		var fake_anim = "attack_1" if combo_step == 1 else "attack_2"
+		_simulate_attack_delay(fake_anim)
+
+func _set_hitbox_active(active: bool) -> void:
+	if attack_hitbox:
+		for child in attack_hitbox.get_children():
+			if child is CollisionShape2D or child is CollisionPolygon2D:
+				child.set_deferred("disabled", not active)
+
+# placeholder smpe ada animasi
+func _simulate_attack_delay(anim_name: StringName) -> void:
+	await get_tree().create_timer(0.3).timeout
+	_on_animation_player_animation_finished(anim_name)
+
+# connect ke signal 'animation_finished' nya AnimationPlayer nanti
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	_set_hitbox_active(false)
+	
+	if anim_name == "attack_1":
+		is_attacking = false
+		combo_window_timer = combo_window_duration # mulai combo window
+		
+		# munculin lagi dreamcatchernya
+		if weapon_pet:
+			weapon_pet.show_after_attack()
+			
+	elif anim_name == "attack_2":
+		is_attacking = false
+		combo_step = 0 # balik step 0 beres combo
+		attack_cooldown_timer = attack_cooldown # start cooldown
+		
+		# munculin lagi dreamcatchernya
+		if weapon_pet:
+			weapon_pet.show_after_attack()
