@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfmfrxe1bgxai"]
+
+[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="1_7p1mj"]
+[ext_resource type="Script" uid="uid://dpgxsaaoc80c6" path="res://scripts/enemy.gd" id="1_md0e3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
+size = Vector2(123, 117)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
+size = Vector2(85, 123.99997)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_md0e3")
+chase_speed = 200
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.26666668, 0.29411766, 1)
+texture = ExtResource("1_7p1mj")
+
+[node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
+scale = Vector2(1, 5.4799995)
+target_position = Vector2(-220, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_md0e3")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(82, 0)
+shape = SubResource("RectangleShape2D_4ra3w")
+debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
