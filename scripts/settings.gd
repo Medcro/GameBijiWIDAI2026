@@ -14,16 +14,20 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_back_pressed() -> void:
+	$"../Click".play()
 	hide()
 
 func _on_apply_pressed() -> void:
+	$"../Click".play()
 	# masukin buat save config gitu2
 	hide()
 
 func _on_audio_set_pressed() -> void:
+	$"../Click".play()
 	audio_tab.show()
 	control_tab.hide()
 
 func _on_control_set_pressed() -> void:
+	$"../Click".play()
 	control_tab.show()
 	audio_tab.hide()

@@ -14,12 +14,18 @@ func _process(delta: float) -> void:
 	else:
 		button_box.show()
 
+
+
 func _on_start_pressed() -> void:
+	$Click.play()
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 func _on_settings_pressed() -> void:
+	$Click.play()
 	button_box.hide()
 	settings.show()
 
 func _on_exit_pressed() -> void:
+	$Click.play()
 	get_tree().quit()
+	
