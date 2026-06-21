@@ -72,8 +72,9 @@ position = Vector2(322, 323)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(1.7404556e-05, -185.99995)
+position = Vector2(2.0000153, -185.99994)
 scale = Vector2(1.5152959, -2.0986176)
+ignore_rotation = false
 zoom = Vector2(2.9, 2.9)
 position_smoothing_enabled = true
 script = ExtResource("3_jyhfs")

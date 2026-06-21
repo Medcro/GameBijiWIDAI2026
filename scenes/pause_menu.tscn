@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://breavhqoiq6ys"]
+[gd_scene load_steps=5 format=3 uid="uid://breavhqoiq6ys"]
 
 [ext_resource type="Script" uid="uid://cclqyc8f8ebps" path="res://scripts/pause_menu.gd" id="1_n87rw"]
 [ext_resource type="PackedScene" uid="uid://cnf6m2x8m58j4" path="res://scenes/settings.tscn" id="2_myx47"]
+[ext_resource type="AudioStream" uid="uid://ekpc1exakc30" path="res://assets/audio/click.ogg" id="3_kukqi"]
 
 [sub_resource type="Theme" id="Theme_myx47"]
 default_font_size = 20
@@ -87,6 +88,9 @@ ok_button_text = "Yes"
 dialog_text = "Are you sure you want to reset?
 This will bring you to the first dream."
 cancel_button_text = "No"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kukqi")
 
 [connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer/Reset" to="." method="_on_reset_pressed"]
