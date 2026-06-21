@@ -38,11 +38,20 @@ var parry_cooldown_timer : float = 0.0
 var is_invincible : bool = false 
 var can_double_jump : bool = false 
 
+# Player Resources
+@export var max_dream : int = 100
+var dream : int = 0:
+	set(value):
+		dream = clamp(value, 0, max_dream)
+		if dream_bar:
+			dream_bar.value = dream
+
 # Nodes
-# @onready var animation_player = $AnimationPlayer 
+@onready var _animated_sprite = $AnimatedSprite2D
 @onready var weapon_pet = $Dreamcatcher
 @onready var attack_hitbox = $AttackHitbox
 @onready var parry_box = $ParryBox
+@onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
 
 func _ready() -> void:
 	# no hitbox yet
@@ -51,12 +60,23 @@ func _ready() -> void:
 	
 	# signal buat parry
 	parry_box.area_entered.connect(_on_parry_box_area_entered)
+	
+	# initialize Dream Bar
+	if dream_bar:
+		dream_bar.max_value = max_dream
+		dream_bar.value = dream
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
+		_animated_sprite.play("walk")
+	else:
+		_animated_sprite.play("default")
+		
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
 		attack_hitbox.scale.x = facing_direction
+		_animated_sprite.scale.x = facing_direction * 0.564
 	
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
@@ -169,18 +189,18 @@ func perform_attack() -> void:
 		
 		# buat animasi, belum diimplement
 		# if combo_step == 1:
-		# 	animation_player.play("attack_1")
+		# 	_animated_sprite.play("attack_1")
 		# elif combo_step == 2:
-		# 	animation_player.play("attack_2")
+		# 	_animated_sprite.play("attack_2")
 		
 		# placeholder smpe ada animasi
 		var fake_anim = "attack_1" if combo_step == 1 else "attack_2"
+		$attack.play()
 		_simulate_attack_delay(fake_anim)
 
 func _set_hitbox_active(active: bool) -> void:
-	if attack_hitbox:
-		for child in attack_hitbox.get_children():
-				child.set_deferred("disabled", not active)
+	for child in attack_hitbox.get_children():
+			child.set_deferred("disabled", not active)
 
 # placeholder smpe ada animasi
 func _simulate_attack_delay(anim_name: StringName) -> void:
@@ -217,10 +237,10 @@ func _on_parry_box_area_entered(area: Area2D) -> void:
 	if not is_parrying:
 		return
 		
-	# Check if the colliding area is an enemy attack/projectile
+	# serangan musuh yg masuk group ini bisa diparry
 	if area.is_in_group("enemy_attack"):
 		
-		# Optional: check if the attack is specifically unparryable
+		# klo unparryable
 		if "is_unparryable" in area and area.is_unparryable:
 			return
 			
@@ -231,8 +251,8 @@ func trigger_parry_success() -> void:
 	_set_parry_box_active(false)
 	parry_cooldown_timer = 0.0 # instant parry reset (bisa mke lagI)
 	
-	# buat nambahin dream (belum implement)
-	#dream += 20
+	# buat nambahin dream
+	dream += 20
 	
 	# ksih iframe dikit habis parry
 	is_invincible = true
@@ -246,6 +266,8 @@ func trigger_parry_success() -> void:
 	Engine.time_scale = 0.05 
 	await get_tree().create_timer(0.1, true, false, true).timeout
 	Engine.time_scale = 1.0
+	
+	$parry.play()
 
 func _set_parry_box_active(active: bool) -> void:
 	if parry_box:
