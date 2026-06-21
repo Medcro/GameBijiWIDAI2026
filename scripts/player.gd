@@ -23,6 +23,14 @@ var is_attacking : bool = false
 var combo_step : int = 0
 var combo_window_timer : float = 0.0
 
+# Parry Attributes
+@export var parry_duration : float = 0.2 # parry frames
+@export var parry_cooldown : float = 1 # cooldown klo whiff
+var is_parrying : bool = false
+var parry_timer : float = 0.0
+var invincibility_timer : float = 0.0 # i-frames after parry
+var parry_cooldown_timer : float = 0.0
+
 # Essence Attributes
 @export var has_agility_essence : bool = false 
 @export var has_flight_essence : bool = true 
@@ -34,40 +42,39 @@ var can_double_jump : bool = false
 # @onready var animation_player = $AnimationPlayer 
 @onready var weapon_pet = $Dreamcatcher
 @onready var attack_hitbox = $AttackHitbox
+@onready var parry_box = $ParryBox
 
 func _ready() -> void:
 	# no hitbox yet
 	_set_hitbox_active(false)
+	_set_parry_box_active(false)
 	
+	# signal buat parry
+	parry_box.area_entered.connect(_on_parry_box_area_entered)
+
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
-		if attack_hitbox:
-			attack_hitbox.scale.x = facing_direction
+		attack_hitbox.scale.x = facing_direction
+	
+	# Invincibility delay (parry)
+	if invincibility_timer > 0:
+		invincibility_timer -= delta
+		if invincibility_timer <= 0 and not is_dashing:
+			is_invincible = false
 	
 	# Dash delay
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 	
-	# Melee delay
-	if attack_cooldown_timer > 0:
-		attack_cooldown_timer -= delta
-	
-	if combo_window_timer > 0 and not is_attacking:
-		combo_window_timer -= delta
-		if combo_window_timer <= 0 or direction != 0:
-			combo_step = 0
-			combo_window_timer = 0.0
-			attack_cooldown_timer = attack_cooldown
-		
 	if is_dashing:
 		dash_timer -= delta
 		if dash_timer <= 0:
 			is_dashing = false
 			is_invincible = false 
 			dash_cooldown_timer = dash_cooldown
-			
+	
 	if Input.is_action_just_pressed("Dash") and not is_dashing and dash_cooldown_timer <= 0:
 		is_dashing = true
 		dash_timer = dash_duration
@@ -76,9 +83,43 @@ func _physics_process(delta: float) -> void:
 			is_invincible = true
 			pass # add visual later
 	
-	# Melee
+	# Melee delay
+	if attack_cooldown_timer > 0:
+		attack_cooldown_timer -= delta
+	
+	# Combo window
+	if combo_window_timer > 0 and not is_attacking:
+		combo_window_timer -= delta
+		if combo_window_timer <= 0 or direction != 0:
+			combo_step = 0
+			combo_window_timer = 0.0
+			attack_cooldown_timer = attack_cooldown
+	
 	if Input.is_action_just_pressed("Melee") and not is_dashing:
 		perform_attack()
+		
+	# Parry cooldown delay
+	if parry_cooldown_timer > 0:
+		parry_cooldown_timer -= delta
+	
+	if is_parrying:
+		parry_timer -= delta
+		if parry_timer <= 0:
+			# whiff
+			is_parrying = false
+			_set_parry_box_active(false)
+			parry_cooldown_timer = parry_cooldown # cooldown parry
+	
+	if Input.is_action_just_pressed("Parry") and parry_cooldown_timer <= 0 and not is_dashing and not is_parrying:
+		# attack cancel with parry
+		if is_attacking:
+			is_attacking = false
+			combo_step = 0
+			_set_hitbox_active(false)
+			if weapon_pet:
+				weapon_pet.show_after_attack()
+				
+		perform_parry()
 
 	if not is_on_floor():
 			velocity.y += gravity * delta
@@ -166,3 +207,48 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		# munculin lagi dreamcatchernya
 		if weapon_pet:
 			weapon_pet.show_after_attack()
+
+func perform_parry() -> void:
+	is_parrying = true
+	parry_timer = parry_duration
+	_set_parry_box_active(true)
+	
+func _on_parry_box_area_entered(area: Area2D) -> void:
+	if not is_parrying:
+		return
+		
+	# Check if the colliding area is an enemy attack/projectile
+	if area.is_in_group("enemy_attack"):
+		
+		# Optional: check if the attack is specifically unparryable
+		if "is_unparryable" in area and area.is_unparryable:
+			return
+			
+		trigger_parry_success()
+
+func trigger_parry_success() -> void:
+	is_parrying = false
+	_set_parry_box_active(false)
+	parry_cooldown_timer = 0.0 # instant parry reset (bisa mke lagI)
+	
+	# buat nambahin dream (belum implement)
+	#dream += 20
+	
+	# ksih iframe dikit habis parry
+	is_invincible = true
+	invincibility_timer = 0.5 
+	
+	# camera shake after parry
+	if CameraEffects.has_method("shake"):
+		CameraEffects.shake(8.0, 0.2)
+		
+	# stopframe (i dotn reall know what this means so i just went with slow down)
+	Engine.time_scale = 0.05 
+	await get_tree().create_timer(0.1, true, false, true).timeout
+	Engine.time_scale = 1.0
+
+func _set_parry_box_active(active: bool) -> void:
+	if parry_box:
+		for child in parry_box.get_children():
+			if child is CollisionShape2D or child is CollisionPolygon2D:
+				child.set_deferred("disabled", not active)

@@ -44,3 +44,4 @@ debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ParryBox"]
 z_index = 1
 shape = SubResource("CircleShape2D_qhqgy")
+debug_color = Color(0, 0.6437439, 0.30010566, 0.41960785)
