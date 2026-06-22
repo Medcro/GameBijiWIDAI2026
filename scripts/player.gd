@@ -16,6 +16,7 @@ var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 var hearts_list : Array[TextureRect]
 var health = 5
+var alive : bool = true
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
@@ -53,6 +54,10 @@ func heal():
 	health += 1
 	update_heart_display()
 	#$node.play("heal")
+	
+func death():
+	health == 0
+	#trigger game over scene
 
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_axis("ui_left", "ui_right")
