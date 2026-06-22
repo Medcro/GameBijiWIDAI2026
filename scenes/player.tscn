@@ -97,3 +97,53 @@ bus = &"SFX"
 [node name="parry" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_jej6c")
 bus = &"SFX"
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="heart" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("3_qhqgy")
+
+[node name="heart2" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart2"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("3_qhqgy")
+
+[node name="heart3" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart3"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("3_qhqgy")
+
+[node name="heart4" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart4"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("3_qhqgy")
+
+[node name="heart5" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart5"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("3_qhqgy")
