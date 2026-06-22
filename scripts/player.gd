@@ -14,6 +14,8 @@ var dash_timer : float = 0.0
 var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
+var hearts_list : Array[TextureRect]
+var health = 5
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
@@ -21,6 +23,36 @@ var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
 
 var is_invincible : bool = false 
 var can_double_jump : bool = false 
+
+func _ready() -> void:
+	var hearts_parents= $CanvasLayer/HBoxContainer
+	for child in hearts_parents.get_children():
+		hearts_list.append(child)
+	print(hearts_list)
+	
+func take_damage():
+	if health>0:
+		health -=1
+		#$node.play("damage")
+		update_heart_display()
+		
+func update_heart_display():
+	for i in range(hearts_list.size()):
+		hearts_list[i].visible = i<health
+		
+	if health == 1:
+		hearts_list[0].get_child(0).play("")
+	elif health > 1:
+		hearts_list[0].get_child(0).play("")
+	if health <= 0:
+		alive = false
+		death()
+
+func heal():
+	# harusnya ada if dream bar disini si
+	health += 1
+	update_heart_display()
+	#$node.play("heal")
 
 func _physics_process(delta: float) -> void:
 	var direction = Input.get_axis("ui_left", "ui_right")
