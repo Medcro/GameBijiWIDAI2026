@@ -38,6 +38,7 @@ func _on_apply_pressed() -> void:
 		if events.size() > 0:
 			ConfigHandler.config.set_value("keybinding", action, events[0])
 	
+	ConfigHandler.config.save(ConfigHandler.SETTINGS_FILE_PATH)
 	hide()
 
 func _on_audio_set_pressed() -> void:
