@@ -12,14 +12,17 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("esc"):
-		if open:
-			if settings.visible:
-				settings.hide()
-			else:
-				close_menu()
-		else:
-			open_menu()
-			
+		var essenceTab = get_parent().find_child("SPEssence")
+		if essenceTab!= null:
+			if not essenceTab.visible:
+				if open:
+					if settings.visible:
+						settings.hide()
+					else:
+						close_menu()
+				else:
+					open_menu()
+					
 	if not settings.visible:
 		$Panel.show()
 		$Label.show()

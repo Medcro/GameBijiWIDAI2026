@@ -1,0 +1,131 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq77wbdm27fwa"]
+
+[ext_resource type="Script" uid="uid://bf5ngi1cvo20e" path="res://scripts/sp_essence.gd" id="1_2ywtw"]
+[ext_resource type="PackedScene" uid="uid://dpp0uh8wpeayp" path="res://scenes/essence_slot.tscn" id="2_6rbwk"]
+
+[node name="SPEssence" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2ywtw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -292.0
+offset_top = -295.0
+offset_right = 292.0
+offset_bottom = 295.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="slot1" parent="VBoxContainer" instance=ExtResource("2_6rbwk")]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="slot2" parent="VBoxContainer/Control/HBoxContainer" instance=ExtResource("2_6rbwk")]
+process_mode = 3
+layout_mode = 2
+allowed_type = 1
+
+[node name="slot3" parent="VBoxContainer/Control/HBoxContainer" instance=ExtResource("2_6rbwk")]
+layout_mode = 2
+
+[node name="inventoryPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -297.0
+offset_top = -177.0
+offset_right = 297.0
+offset_bottom = 177.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="inventoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="inventoryPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="inventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="VScrollBar" type="ScrollContainer" parent="inventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_right = NodePath("../HBoxContainer/close")
+focus_neighbor_bottom = NodePath("../HBoxContainer/close")
+focus_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="inventoryPanel/MarginContainer/VBoxContainer/VScrollBar"]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../HBoxContainer/close")
+focus_neighbor_bottom = NodePath("../../HBoxContainer/close")
+focus_mode = 2
+columns = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="inventoryPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="unequipButton" type="Button" parent="inventoryPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../VScrollBar/GridContainer")
+focus_neighbor_right = NodePath("../close")
+theme_override_font_sizes/font_size = 24
+text = "Unequip"
+
+[node name="Control" type="Control" parent="inventoryPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="close" type="Button" parent="inventoryPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+focus_neighbor_left = NodePath("../unequipButton")
+focus_neighbor_top = NodePath("../../VScrollBar/GridContainer")
+theme_override_font_sizes/font_size = 24
+text = "Close"
