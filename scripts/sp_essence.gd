@@ -16,7 +16,7 @@ var open = false
 var active_slot = null
 
 # Simulasi inventory pemain (Essence yang sudah didapatkan)
-var collected_essences: Array[EssenceData] = []
+@export var collected_essences: Array[EssenceData] = []
 
 func _ready() -> void:
 	hide()

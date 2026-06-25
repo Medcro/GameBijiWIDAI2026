@@ -55,6 +55,7 @@ var dream : int = 0:
 @onready var attack_hitbox = $AttackHitbox
 @onready var parry_box = $ParryBox
 @onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
+@onready var inventory = $Camera2D/CanvasLayer/SPEssence
 
 func _ready() -> void:
 	var hearts_parents= $CanvasLayer/HBoxContainer
@@ -287,8 +288,14 @@ func trigger_parry_success() -> void:
 	_set_parry_box_active(false)
 	parry_cooldown_timer = 0.0 # instant parry reset (bisa mke lagI)
 	
+	var dream_gain = 20
+	
+	# Menambahkan jumlah dream yang didapat jika sedang mengequipped essence radiance
+	if has_essence_equipped("Radiance"):
+		dream_gain *= 1.25
+	
 	# buat nambahin dream
-	dream += 20
+	dream += dream_gain
 	
 	# ksih iframe dikit habis parry
 	is_invincible = true
@@ -310,3 +317,15 @@ func _set_parry_box_active(active: bool) -> void:
 		for child in parry_box.get_children():
 			if child is CollisionShape2D or child is CollisionPolygon2D:
 				child.set_deferred("disabled", not active)
+
+# Fungsi untuk mengecek apakah ada nama essence tertentu yang sedang terequip
+func has_essence_equipped(essence_name: String) -> bool:
+	if inventory == null:
+		return false
+	var equipped_essences = inventory.get_all_equipped_essences()
+	
+	for essence in equipped_essences:
+		if essence != null and essence.name == essence_name:
+			return true
+			
+	return false
