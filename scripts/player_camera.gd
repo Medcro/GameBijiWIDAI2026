@@ -3,11 +3,31 @@ extends Camera2D
 
 @export var bounds_path: NodePath
 
+@export var lookahead_factor: float = 0.2
+@export var lookahead_speed: float = 3.0
+
+@onready var player: CharacterBody2D = get_parent() as CharacterBody2D
+
 func _ready() -> void:
 	if CameraEffects.has_method("register_camera"):
 		CameraEffects.register_camera(self)
 		
 	_apply_bounds()
+	
+	reset_smoothing()
+
+func _physics_process(delta: float) -> void:
+	_apply_lookahead(delta)
+
+func _apply_lookahead(delta: float) -> void:
+	if not player:
+		return
+		
+	# 1. Calculate how far ahead the camera should go based on player speed
+	var target_position: Vector2 = Vector2(player.velocity.x * lookahead_factor, 0.0)
+	
+	# 2. Smoothly move the camera's local position towards that target
+	position = position.lerp(target_position, lookahead_speed * delta)
 
 func _apply_bounds() -> void:
 	if bounds_path == null or bounds_path.is_empty():

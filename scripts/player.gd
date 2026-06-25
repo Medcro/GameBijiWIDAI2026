@@ -100,6 +100,7 @@ func heal():
 	
 func death():
 	health == 0
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 	#trigger game over scene
 
 func _physics_process(delta: float) -> void:
