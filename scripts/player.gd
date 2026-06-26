@@ -14,6 +14,9 @@ var dash_timer : float = 0.0
 var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
+var hearts_list : Array[TextureRect]
+var health = 5
+var alive : bool = true
 
 # Melee Attack Attributes (belum implement)
 @export var combo_window_duration : float = 0.4 # window buat 2-hit
@@ -54,6 +57,11 @@ var dream : int = 0:
 @onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
 
 func _ready() -> void:
+	var hearts_parents= $CanvasLayer/HBoxContainer
+	for child in hearts_parents.get_children():
+		hearts_list.append(child)
+	print(hearts_list)
+
 	# no hitbox yet
 	_set_hitbox_active(false)
 	_set_parry_box_active(false)
@@ -66,13 +74,41 @@ func _ready() -> void:
 		dream_bar.max_value = max_dream
 		dream_bar.value = dream
 
+func take_damage():
+	if health>0:
+		health -=1
+		#$node.play("damage")
+		update_heart_display()
+		
+func update_heart_display():
+	for i in range(hearts_list.size()):
+		hearts_list[i].visible = i<health
+		
+	if health == 1:
+		hearts_list[0].get_child(0).play("")
+	elif health > 1:
+		hearts_list[0].get_child(0).play("")
+	if health <= 0:
+		alive = false
+		death()
+
+func heal():
+	# harusnya ada if dream bar disini si
+	health += 1
+	update_heart_display()
+	#$node.play("heal")
+	
+func death():
+	health == 0
+	#trigger game over scene
+
 func _physics_process(delta: float) -> void:
-	if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
 		_animated_sprite.play("walk")
 	else:
 		_animated_sprite.play("default")
 		
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
 		attack_hitbox.scale.x = facing_direction
@@ -147,7 +183,7 @@ func _physics_process(delta: float) -> void:
 		# can double jump
 		can_double_jump = true
 		
-	if Input.is_action_just_pressed("ui_down") and is_on_floor():
+	if Input.is_action_just_pressed("move_down") and is_on_floor():
 		position.y += 1.2
 		
 	if Input.is_action_just_pressed("Jump") and not is_dashing and not is_attacking:

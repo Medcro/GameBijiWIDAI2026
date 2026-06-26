@@ -33,7 +33,7 @@ offset_bottom = -39.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 48
 text = "GAME OVER"
 
 [node name="quote" type="Label" parent="."]
@@ -50,6 +50,7 @@ offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
 text = "\"war is bad\" 
 -peepeepoopoo"
 horizontal_alignment = 1
@@ -68,4 +69,5 @@ offset_bottom = -85.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
 text = "*Press Any Button To Continue*"

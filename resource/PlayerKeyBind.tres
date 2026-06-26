@@ -1,0 +1,70 @@
+[gd_resource type="Resource" script_class="ControlSettings" load_steps=13 format=3 uid="uid://dpy5oq61c0sdq"]
+
+[ext_resource type="Script" uid="uid://b74kkawq017xu" path="res://resource/ControlSettings.gd" id="1_cf4mk"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_2d1li"]
+device = -1
+keycode = 90
+unicode = 122
+
+[sub_resource type="InputEventKey" id="InputEventKey_os4o5"]
+device = -1
+keycode = 4194322
+
+[sub_resource type="InputEventKey" id="InputEventKey_mneof"]
+device = -1
+keycode = 65
+unicode = 97
+
+[sub_resource type="InputEventKey" id="InputEventKey_lqoms"]
+device = -1
+keycode = 67
+unicode = 99
+
+[sub_resource type="InputEventKey" id="InputEventKey_cf4mk"]
+device = -1
+keycode = 4194319
+
+[sub_resource type="InputEventKey" id="InputEventKey_vy38i"]
+device = -1
+keycode = 88
+unicode = 120
+
+[sub_resource type="InputEventKey" id="InputEventKey_by7wu"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="InputEventKey" id="InputEventKey_x5xis"]
+device = -1
+keycode = 83
+unicode = 115
+
+[sub_resource type="InputEventKey" id="InputEventKey_w8wbt"]
+device = -1
+keycode = 4194321
+
+[sub_resource type="InputEventKey" id="InputEventKey_3r2s4"]
+device = -1
+keycode = 70
+unicode = 102
+
+[sub_resource type="InputEventKey" id="InputEventKey_gcmxn"]
+device = -1
+keycode = 68
+unicode = 100
+
+[resource]
+script = ExtResource("1_cf4mk")
+default_left = SubResource("InputEventKey_cf4mk")
+default_right = SubResource("InputEventKey_w8wbt")
+default_down = SubResource("InputEventKey_os4o5")
+default_jump = SubResource("InputEventKey_lqoms")
+default_melee = SubResource("InputEventKey_vy38i")
+default_ranged = SubResource("InputEventKey_x5xis")
+default_heal = SubResource("InputEventKey_mneof")
+default_sp1 = SubResource("InputEventKey_3r2s4")
+default_sp2 = SubResource("InputEventKey_gcmxn")
+default_parry = SubResource("InputEventKey_by7wu")
+default_dash = SubResource("InputEventKey_2d1li")
+metadata/_custom_type_script = "uid://b74kkawq017xu"

@@ -1,17 +1,23 @@
 extends Panel
 @onready var audio_tab: VBoxContainer = $audioTab
-@onready var control_tab: VBoxContainer = $controlTab
+@onready var control_tab: Control = $controlTab
+@onready var master_slider: HSlider = $audioTab/MasterSlider
+@onready var music_slider: HSlider = $audioTab/MusicSlider
+@onready var sfx_slider: HSlider = $audioTab/SFXSlider
 
+var masterVol
+var musicVol
+var sfxVol 	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	hide()
 	control_tab.hide()
 	audio_tab.show()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	
+	master_slider.value = ConfigHandler.config.get_value("audio", "master", 0.5)
+	music_slider.value = ConfigHandler.config.get_value("audio", "music", 0.5)
+	sfx_slider.value = ConfigHandler.config.get_value("audio", "sfx", 0.5)
 
 func _on_back_pressed() -> void:
 	$"../Click".play()
@@ -20,6 +26,19 @@ func _on_back_pressed() -> void:
 func _on_apply_pressed() -> void:
 	$"../Click".play()
 	# masukin buat save config gitu2
+	masterVol = master_slider.value
+	musicVol = music_slider.value
+	sfxVol = sfx_slider.value
+	ConfigHandler.config.set_value("audio", "master", masterVol)
+	ConfigHandler.config.set_value("audio", "music", musicVol)
+	ConfigHandler.config.set_value("audio", "sfx", sfxVol)
+	
+	for action in ControlSettings.input_actions.keys():
+		var events = InputMap.action_get_events(action)
+		if events.size() > 0:
+			ConfigHandler.config.set_value("keybinding", action, events[0])
+	
+	ConfigHandler.config.save(ConfigHandler.SETTINGS_FILE_PATH)
 	hide()
 
 func _on_audio_set_pressed() -> void:
