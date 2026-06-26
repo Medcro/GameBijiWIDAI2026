@@ -55,6 +55,8 @@ var dream : int = 0:
 @onready var attack_hitbox = $AttackHitbox
 @onready var parry_box = $ParryBox
 @onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
+@onready var anim_tree = $AnimationTree
+@onready var state_machine = anim_tree.get("parameters/playback")
 
 func _ready() -> void:
 	var hearts_parents= $CanvasLayer/HBoxContainer
@@ -104,16 +106,23 @@ func death():
 	#trigger game over scene
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
-		_animated_sprite.play("walk")
-	else:
-		_animated_sprite.play("default")
+	#if Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left"):
+		#_animated_sprite.play("walk")
+	#else:
+		#_animated_sprite.play("default")
 		
 	var direction = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
 		attack_hitbox.scale.x = facing_direction
-		_animated_sprite.scale.x = facing_direction * 0.564
+		_animated_sprite.scale.x = facing_direction * 0.249
+		
+	#if state_machine.get_current_node() == "fall":
+		#state_machine.travel("endFall")
+	if direction != 0:
+		state_machine.travel("run")
+	else:
+		state_machine.travel("Idle")
 	
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
@@ -179,7 +188,11 @@ func _physics_process(delta: float) -> void:
 		perform_parry()
 
 	if not is_on_floor():
-			velocity.y += gravity * delta
+		velocity.y += gravity * delta
+		if velocity.y < 0:
+			state_machine.travel("jump")
+		else:
+			state_machine.travel("fall")
 	else:
 		# can double jump
 		can_double_jump = true

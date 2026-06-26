@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=4 uid="uid://cxuhp20wvwv4k"]
 
-[ext_resource type="Texture2D" uid="uid://tiyg6wglcppr" path="res://minion_passive_1_3.png" id="1_ggttb"]
+[ext_resource type="Texture2D" uid="uid://tiyg6wglcppr" path="res://assets/minion_passive_1_3.png" id="1_ggttb"]
 [ext_resource type="TileSet" uid="uid://b6spie8cx4elg" path="res://assets/Tiles/Level1/plains_lvl1.tres" id="2_e6y2i"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="3_mxngp"]
 [ext_resource type="PackedScene" uid="uid://dye07ya70k6vp" path="res://scenes/camera_player.tscn" id="4_ig5md"]
