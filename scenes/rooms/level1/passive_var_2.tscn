@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://beqc8w34sjqim"]
+[gd_scene load_steps=5 format=4 uid="uid://beqc8w34sjqim"]
 
 [ext_resource type="Texture2D" uid="uid://nv3m17d33y24" path="res://minion_passive_1_2.png" id="1_t7l0y"]
 [ext_resource type="TileSet" uid="uid://b6spie8cx4elg" path="res://assets/Tiles/Level1/plains_lvl1.tres" id="2_3b1xq"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="3_6t4sc"]
-[ext_resource type="PackedScene" uid="uid://dye07ya70k6vp" path="res://scenes/camera_player.tscn" id="4_qixjg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ht83y"]
 size = Vector2(1495, 755)
@@ -33,7 +32,3 @@ tile_set = ExtResource("2_3b1xq")
 [node name="Player" parent="." instance=ExtResource("3_6t4sc")]
 position = Vector2(88, 214)
 scale = Vector2(0.5, 0.5)
-
-[node name="Camera2D" parent="Player" instance=ExtResource("4_qixjg")]
-position = Vector2(2.0000153, -185.99994)
-lookahead_speed = 5.0
