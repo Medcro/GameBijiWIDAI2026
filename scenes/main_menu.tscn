@@ -48,6 +48,7 @@ text = "START"
 [node name="continue" type="Button" parent="VBoxContainer"]
 visible = false
 layout_mode = 2
+size_flags_vertical = 3
 text = "CONTINUE"
 
 [node name="settings" type="Button" parent="VBoxContainer"]

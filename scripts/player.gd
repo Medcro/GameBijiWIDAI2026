@@ -68,6 +68,8 @@ func _ready() -> void:
 		if has_node("Camera2D"):
 			$Camera2D.reset_smoothing() 
 			$Camera2D.force_update_scroll()
+		if has_node("Dreamcatcher"):
+			$Dreamcatcher.snap_to_target()
 		
 	var hearts_parent = get_node_or_null("Camera2D/CanvasLayer/HBoxContainer")
 	if hearts_parent:

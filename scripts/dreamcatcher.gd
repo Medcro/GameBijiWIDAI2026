@@ -74,3 +74,14 @@ func show_after_attack() -> void:
 	visible = true
 	is_returning = true
 	is_attacking = false
+	
+func snap_to_target() -> void:
+	if player == null:
+		return
+		
+	var current_offset := base_offset
+	if "facing_direction" in player:
+		current_offset.x = base_offset.x * player.facing_direction
+		
+	# Langsung timpa posisi tanpa lerp
+	global_position = player.global_position + current_offset
