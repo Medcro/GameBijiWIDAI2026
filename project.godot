@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="BijiGame2026"
-run/main_scene="uid://bxl6xalo1mbod"
+run/main_scene="uid://e42digwwfb02"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
 [autoload]
 
 CameraEffects="*res://scripts/camera_effects.gd"
-LevelManager="res://scripts/level_manager.gd"
+LevelManager="*res://scripts/level_manager.gd"
 ConfigHandler="*res://resource/ConfigHandler.gd"
 SaveManager="*res://resource/SaveManager.gd"
 
