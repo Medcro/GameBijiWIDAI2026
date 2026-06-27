@@ -9,6 +9,7 @@ size = Vector2(1250, 783.5)
 [node name="BossVar1" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(2, 2)
 texture = ExtResource("1_k7u1f")
 
