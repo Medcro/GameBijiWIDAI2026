@@ -1,11 +1,12 @@
 extends Node
 
-const SAVE_FILE_PATH = "user:/savegame.dat"
+const SAVE_FILE_PATH = "user://savegame.dat"
 
 var	 game_data : Dictionary ={
 	"player_position": Vector2.ZERO,
+	"player_health" : 5,
 	"collected_essences": [],
-	"current_path": "res://scenes/main.tscn"
+	"current_scene_path": "res://scenes/main.tscn"
 }
 func save_game():
 	# Buka file dalam mode WRITE (Menulis/Menimpa)
@@ -33,3 +34,10 @@ func load_game() -> bool:
 				
 	print("Belum ada save data.")
 	return false
+
+func has_save() -> bool:
+	return FileAccess.file_exists(SAVE_FILE_PATH)
+
+func delete_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(SAVE_FILE_PATH)

@@ -62,6 +62,13 @@ var dream : int = 0:
 @onready var state_machine = anim_tree.get("parameters/playback")
 
 func _ready() -> void:
+	health = SaveManager.game_data.get("player_health", 5)
+	if SaveManager.game_data["player_position"] != Vector2.ZERO:
+		global_position = SaveManager.game_data["player_position"]
+		if has_node("Camera2D"):
+			$Camera2D.reset_smoothing() 
+			$Camera2D.force_update_scroll()
+		
 	var hearts_parent = get_node_or_null("Camera2D/CanvasLayer/HBoxContainer")
 	if hearts_parent:
 		for child in hearts_parent.get_children():
@@ -100,7 +107,7 @@ func take_damage(amount: int):
 			hit_flash()
 		else:
 			death()
-
+	print("HP: ", health)
 
 func hit_flash():
 	var tween = create_tween()

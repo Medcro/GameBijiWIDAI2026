@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://e42digwwfb02"]
+[gd_scene load_steps=7 format=3 uid="uid://e42digwwfb02"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_ekxnf"]
+[ext_resource type="Script" uid="uid://gc1ffdnagijs" path="res://scripts/main_menu.gd" id="1_ekxnf"]
 [ext_resource type="Texture2D" uid="uid://2s6kd06i17p8" path="res://assets/UI/placeholder.png" id="1_l6cm7"]
 [ext_resource type="PackedScene" uid="uid://cnf6m2x8m58j4" path="res://scenes/settings.tscn" id="3_bqqt6"]
 [ext_resource type="AudioStream" uid="uid://ddb4h5xmx1q3o" path="res://assets/audio/OSTs/menu.ogg" id="4_8ln24"]
 [ext_resource type="AudioStream" uid="uid://ekpc1exakc30" path="res://assets/audio/click.ogg" id="5_8ln24"]
+
+[sub_resource type="Theme" id="Theme_8ln24"]
+default_font_size = 20
 
 [node name="Main_menu" type="Control"]
 layout_mode = 3
@@ -14,6 +17,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ekxnf")
+default_position = Vector2(322, 323)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -41,6 +45,11 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "START"
 
+[node name="continue" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "CONTINUE"
+
 [node name="settings" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
@@ -67,6 +76,21 @@ parameters/looping = true
 stream = ExtResource("5_8ln24")
 bus = &"SFX"
 
+[node name="resetConfirm" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Warning!"
+initial_position = 1
+size = Vector2i(442, 139)
+always_on_top = true
+content_scale_aspect = 2
+theme = SubResource("Theme_8ln24")
+ok_button_text = "Yes"
+dialog_text = "Are you sure you want to reset?
+This will bring you to the first dream."
+cancel_button_text = "No"
+
 [connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="VBoxContainer/settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_exit_pressed"]
+[connection signal="confirmed" from="resetConfirm" to="." method="_on_reset_confirm_confirmed"]
