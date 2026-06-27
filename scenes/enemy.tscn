@@ -1,7 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfmfrxe1bgxai"]
+[gd_scene load_steps=7 format=3 uid="uid://dfmfrxe1bgxai"]
 
 [ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="1_7p1mj"]
 [ext_resource type="Script" uid="uid://dpgxsaaoc80c6" path="res://scripts/enemy.gd" id="1_md0e3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
+atlas = ExtResource("1_7p1mj")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4ra3w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md0e3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(123, 117)
@@ -13,9 +28,9 @@ size = Vector2(85, 123.99997)
 script = ExtResource("1_md0e3")
 chase_speed = 200
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 modulate = Color(1, 0.26666668, 0.29411766, 1)
-texture = ExtResource("1_7p1mj")
+sprite_frames = SubResource("SpriteFrames_4ra3w")
 
 [node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
 scale = Vector2(1, 5.4799995)

@@ -1,0 +1,140 @@
+[gd_scene load_steps=19 format=3 uid="uid://b7v14bydn4ky6"]
+
+[ext_resource type="Script" uid="uid://uhisi1i3wimt" path="res://scripts/malakos.gd" id="1_0wjb1"]
+[ext_resource type="PackedScene" uid="uid://cymcv8xmiw17j" path="res://scenes/projectile.tscn" id="2_xq4tj"]
+[ext_resource type="Texture2D" uid="uid://c4m18u8uu42mo" path="res://assets/boss/level1/flying idle.png" id="3_q46n1"]
+[ext_resource type="Texture2D" uid="uid://cumisu145pwbr" path="res://assets/boss/level1/moving left.png" id="4_o8fxd"]
+[ext_resource type="Texture2D" uid="uid://ima8y7loksy5" path="res://assets/boss/level1/moving right.png" id="5_qiu85"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu5xu"]
+atlas = ExtResource("3_q46n1")
+region = Rect2(200, 0, 1341, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v16a"]
+atlas = ExtResource("3_q46n1")
+region = Rect2(1541, 0, 1341, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5him"]
+atlas = ExtResource("3_q46n1")
+region = Rect2(2882, 0, 1341, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv7oi"]
+atlas = ExtResource("4_o8fxd")
+region = Rect2(0, 0, 1408, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kx3it"]
+atlas = ExtResource("4_o8fxd")
+region = Rect2(1408, 0, 1408, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0lnw"]
+atlas = ExtResource("4_o8fxd")
+region = Rect2(2816, 0, 1408, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nf02g"]
+atlas = ExtResource("5_qiu85")
+region = Rect2(0, 0, 1408, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sj310"]
+atlas = ExtResource("5_qiu85")
+region = Rect2(1408, 0, 1408, 1080)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h4lh"]
+atlas = ExtResource("5_qiu85")
+region = Rect2(2816, 0, 1408, 1080)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8urg6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pu5xu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4v16a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5him")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv7oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kx3it")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0lnw")
+}],
+"loop": false,
+"name": &"moving_left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nf02g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sj310")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h4lh")
+}],
+"loop": false,
+"name": &"moving_right",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldvwl"]
+size = Vector2(63.5, 65.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xq4tj"]
+size = Vector2(68.25, 159)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oo01x"]
+size = Vector2(225, 81)
+
+[node name="Malakos" type="CharacterBody2D"]
+script = ExtResource("1_0wjb1")
+projectile_scene = ExtResource("2_xq4tj")
+max_health = 100
+metadata/_custom_type_script = "uid://dpgxsaaoc80c6"
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(0.5529412, 0.33333334, 0.28235295, 1)
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_8urg6")
+animation = &"moving_right"
+frame_progress = 1.0
+
+[node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
+scale = Vector2(1, 5.4799995)
+target_position = Vector2(-220, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-38.5, -0.5)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_ldvwl")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+
+[node name="ChargeHitbox" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(61, -3.5)
+shape = SubResource("RectangleShape2D_xq4tj")
+debug_color = Color(0.9550229, 4.813075e-07, 0.5479201, 0.41960785)
+
+[node name="SpinHitbox" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(-38.5, -0.5)
+shape = SubResource("RectangleShape2D_oo01x")
+debug_color = Color(0.96389157, 1.540184e-06, 0.49888068, 0.41960785)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

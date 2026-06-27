@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player
+
 # Base Attribute
 @export var hp : int = 5
 @export var speed : float = 300
@@ -329,3 +331,7 @@ func has_essence_equipped(essence_name: String) -> bool:
 			return true
 			
 	return false
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if body == Enemy:
+		body.take_damage(20)

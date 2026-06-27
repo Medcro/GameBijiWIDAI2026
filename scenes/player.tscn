@@ -143,3 +143,5 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart5"]
 position = Vector2(9, 9.375)
 scale = Vector2(0.01639535, 0.027294306)
+
+[connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]

@@ -11,7 +11,7 @@ class_name Enemy
 @export var max_health : int = 1
 
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: AnimatedSprite2D = $Sprite2D
 @onready var ray_cast: RayCast2D = $Sprite2D/RayCast2D
 @onready var timer: Timer = $Timer
 @onready var current_health : int = max_health
