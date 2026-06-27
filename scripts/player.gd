@@ -14,11 +14,13 @@ var dash_timer : float = 0.0
 var dash_cooldown_timer : float = 0.0 # init
 var is_dashing : bool = false
 var facing_direction : float = 1.0 # positif -> kanan, negatif -> kiri
+
+# Health
 var hearts_list : Array[TextureRect]
 var health = 5
 var alive : bool = true
 
-# Melee Attack Attributes (belum implement)
+# Melee Attack Attributes
 @export var combo_window_duration : float = 0.4 # window buat 2-hit
 @export var attack_cooldown : float = 0.35 # cooldown duh
 var attack_cooldown_timer : float = 0.0
@@ -32,14 +34,15 @@ var combo_window_timer : float = 0.0
 var is_parrying : bool = false
 var parry_timer : float = 0.0
 var invincibility_timer : float = 0.0 # i-frames after parry
+var is_damage_iframes : bool = false
 var parry_cooldown_timer : float = 0.0
 
 # Essence Attributes
 @export var has_agility_essence : bool = false 
 @export var has_flight_essence : bool = true 
 
-var is_invincible : bool = false 
-var can_double_jump : bool = false 
+var is_invincible : bool = false
+var can_double_jump : bool = false
 
 # Player Resources
 @export var max_dream : int = 100
@@ -59,10 +62,12 @@ var dream : int = 0:
 @onready var state_machine = anim_tree.get("parameters/playback")
 
 func _ready() -> void:
-	var hearts_parents= $CanvasLayer/HBoxContainer
-	for child in hearts_parents.get_children():
-		hearts_list.append(child)
-	print(hearts_list)
+	var hearts_parent = get_node_or_null("Camera2D/CanvasLayer/HBoxContainer")
+	if hearts_parent:
+		for child in hearts_parent.get_children():
+			hearts_list.append(child)
+	
+	update_heart_display()
 
 	# no hitbox yet
 	_set_hitbox_active(false)
@@ -71,25 +76,45 @@ func _ready() -> void:
 	# signal buat parry
 	parry_box.area_entered.connect(_on_parry_box_area_entered)
 	
+	# signal buat hit enemy
+	if attack_hitbox is Area2D and not attack_hitbox.body_entered.is_connected(_on_attack_hitbox_body_entered):
+		attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
+	
 	# initialize Dream Bar
 	if dream_bar:
 		dream_bar.max_value = max_dream
 		dream_bar.value = dream
 
-func take_damage():
-	if health>0:
-		health -=1
-		#$node.play("damage")
-		update_heart_display()
-		
+func take_damage(amount: int):
+	if is_invincible or not alive or is_parrying:
+		return
+	else:
+		if health>0:
+			health -= amount
+			CameraEffects.shake(10.0, 0.1)
+			#$node.play("damage")
+			update_heart_display()
+			is_invincible = true
+			invincibility_timer = 1.5
+			is_damage_iframes = true
+			hit_flash()
+		else:
+			death()
+
+
+func hit_flash():
+	var tween = create_tween()
+	tween.tween_property(_animated_sprite, "modulate", Color(10, 10, 10, 1), 0.05)
+	tween.tween_property(_animated_sprite, "modulate", Color.WHITE, 0.05)
+
 func update_heart_display():
 	for i in range(hearts_list.size()):
 		hearts_list[i].visible = i<health
 		
-	if health == 1:
-		hearts_list[0].get_child(0).play("")
-	elif health > 1:
-		hearts_list[0].get_child(0).play("")
+	#if health == 1:
+		#hearts_list[0].get_child(0).play("")
+	#elif health > 1:
+		#hearts_list[0].get_child(0).play("")
 	if health <= 0:
 		alive = false
 		death()
@@ -127,8 +152,16 @@ func _physics_process(delta: float) -> void:
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
+		if is_damage_iframes:
+			if int(invincibility_timer * 15) % 2 == 0:
+				_animated_sprite.modulate.a = 0.3
+			else:
+				_animated_sprite.modulate.a = 1.0
+			
 		if invincibility_timer <= 0 and not is_dashing:
 			is_invincible = false
+			is_damage_iframes = false
+			_animated_sprite.modulate.a = 1.0
 	
 	# Dash delay
 	if dash_cooldown_timer > 0:
@@ -176,7 +209,7 @@ func _physics_process(delta: float) -> void:
 			_set_parry_box_active(false)
 			parry_cooldown_timer = parry_cooldown # cooldown parry
 	
-	if Input.is_action_just_pressed("Parry") and parry_cooldown_timer <= 0 and not is_dashing and not is_parrying:
+	if Input.is_action_just_pressed("Parry") and parry_cooldown_timer <= 0 and not is_dashing and not is_parrying and not is_damage_iframes:
 		# attack cancel with parry
 		if is_attacking:
 			is_attacking = false
@@ -252,6 +285,13 @@ func _set_hitbox_active(active: bool) -> void:
 	for child in attack_hitbox.get_children():
 			child.set_deferred("disabled", not active)
 
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if body == self:
+		return
+	elif body.has_method("take_damage"):
+		CameraEffects.shake(10.0, 0.05)
+		body.take_damage(5)
+
 # placeholder smpe ada animasi
 func _simulate_attack_delay(anim_name: StringName) -> void:
 	await get_tree().create_timer(0.3).timeout
@@ -308,9 +348,10 @@ func trigger_parry_success() -> void:
 	is_invincible = true
 	invincibility_timer = 0.5 
 	
+	is_damage_iframes = false 
+	
 	# camera shake after parry
-	if CameraEffects.has_method("shake"):
-		CameraEffects.shake(8.0, 0.2)
+	CameraEffects.shake(8.0, 0.2)
 		
 	# stopframe (i dotn reall know what this means so i just went with slow down)
 	Engine.time_scale = 0.05 

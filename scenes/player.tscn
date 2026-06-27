@@ -1,8 +1,8 @@
-[gd_scene load_steps=79 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=80 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="2_qhqgy"]
-[ext_resource type="Script" uid="uid://csn1sja5oanyq" path="res://scripts/dreamcatcher.gd" id="3_qhqgy"]
+[ext_resource type="Script" path="res://scripts/dreamcatcher.gd" id="3_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://jtcd3g7e2e5l" path="res://assets/characters/player/weapon_pet.png" id="4_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://oqvavws6rq66" path="res://assets/characters/player/idle B ( kedip).png" id="5_3v2ag"]
 [ext_resource type="Texture2D" uid="uid://2bnqj3wu04tf" path="res://assets/characters/player/running animation.png" id="6_smehm"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://sqvkea4jfry3" path="res://assets/characters/player/loncat dan terjun animation.png" id="8_d2wvv"]
 [ext_resource type="Texture2D" uid="uid://cs3mhjer5axut" path="res://assets/characters/player/transisi mau loncat animation.png" id="9_3v2ag"]
 [ext_resource type="AudioStream" uid="uid://7fu8m4ypag1s" path="res://assets/audio/characters/player/attack1.ogg" id="11_3v2ag"]
+[ext_resource type="PackedScene" uid="uid://dye07ya70k6vp" path="res://scenes/camera_player.tscn" id="12_3v2ag"]
 [ext_resource type="AudioStream" uid="uid://b4fhghrldp6hi" path="res://assets/audio/characters/player/parry.ogg" id="12_jej6c"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v2ag"]
@@ -133,6 +134,23 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_3v2ag"]
 length = 0.001
 
+[sub_resource type="Animation" id="Animation_4r5pv"]
+resource_name = "endFall"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"endFall", 1.0, false],
+"method": &"play"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_ur7pv"]
 resource_name = "endWalk"
 tracks/0/type = "method"
@@ -150,8 +168,8 @@ tracks/0/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_f1ej7"]
-resource_name = "run"
+[sub_resource type="Animation" id="Animation_60mlk"]
+resource_name = "fall"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -162,24 +180,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"walk", 1.0, false],
-"method": &"play"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_smehm"]
-resource_name = "startWalk"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"startWalk", 1.0, false],
+"args": [&"fall", 1.0, false],
 "method": &"play"
 }]
 }
@@ -201,23 +202,6 @@ tracks/0/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_qfm1y"]
-resource_name = "startJump"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"startJump", 1.0, false],
-"method": &"play"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_fulsm"]
 resource_name = "jumptoFall"
 tracks/0/type = "method"
@@ -235,8 +219,8 @@ tracks/0/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_4r5pv"]
-resource_name = "endFall"
+[sub_resource type="Animation" id="Animation_f1ej7"]
+resource_name = "run"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -247,13 +231,13 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"endFall", 1.0, false],
+"args": [&"walk", 1.0, false],
 "method": &"play"
 }]
 }
 
-[sub_resource type="Animation" id="Animation_60mlk"]
-resource_name = "fall"
+[sub_resource type="Animation" id="Animation_qfm1y"]
+resource_name = "startJump"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -264,7 +248,24 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"fall", 1.0, false],
+"args": [&"startJump", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_smehm"]
+resource_name = "startWalk"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"startWalk", 1.0, false],
 "method": &"play"
 }]
 }
@@ -590,48 +591,4 @@ bus = &"SFX"
 stream = ExtResource("12_jej6c")
 bus = &"SFX"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="heart" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart"]
-position = Vector2(9, 9.375)
-scale = Vector2(0.01639535, 0.027294306)
-
-[node name="heart2" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart2"]
-position = Vector2(9, 9.375)
-scale = Vector2(0.01639535, 0.027294306)
-
-[node name="heart3" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart3"]
-position = Vector2(9, 9.375)
-scale = Vector2(0.01639535, 0.027294306)
-
-[node name="heart4" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart4"]
-position = Vector2(9, 9.375)
-scale = Vector2(0.01639535, 0.027294306)
-
-[node name="heart5" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart5"]
-position = Vector2(9, 9.375)
-scale = Vector2(0.01639535, 0.027294306)
+[node name="Camera2D" parent="." instance=ExtResource("12_3v2ag")]
