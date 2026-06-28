@@ -117,4 +117,6 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	
 	if body.is_in_group("Player"):
+		if body.has_method("prepare_for_room_change"):
+			body.prepare_for_room_change()
 		_try_transition(self)

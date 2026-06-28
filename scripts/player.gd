@@ -62,7 +62,10 @@ var dream : int = 0:
 @onready var state_machine = anim_tree.get("parameters/playback")
 
 func _ready() -> void:
-	health = SaveManager.game_data.get("player_health", 5)
+	if "player_health" in SaveManager.game_data:
+		health = SaveManager.game_data["player_health"]
+	if "player_dream" in SaveManager.game_data:
+		dream = SaveManager.game_data["player_dream"]
 	if SaveManager.game_data["player_position"] != Vector2.ZERO:
 		global_position = SaveManager.game_data["player_position"]
 		if has_node("Camera2D"):
@@ -372,5 +375,12 @@ func trigger_parry_success() -> void:
 func _set_parry_box_active(active: bool) -> void:
 	if parry_box:
 		for child in parry_box.get_children():
-			if child is CollisionShape2D or child is CollisionPolygon2D:
+			if child is CollisionShape2D:
 				child.set_deferred("disabled", not active)
+
+func prepare_for_room_change() -> void:
+	SaveManager.game_data["player_health"] = health
+	SaveManager.game_data["player_dream"] = dream
+	
+	# Immediately lock the changes into memory/file
+	SaveManager.save_game()
