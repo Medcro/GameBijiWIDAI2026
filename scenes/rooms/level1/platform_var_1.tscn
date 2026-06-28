@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=4 uid="uid://dxaqr2fbbdkmn"]
+[gd_scene load_steps=11 format=4 uid="uid://dxaqr2fbbdkmn"]
 
+[ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_abtti"]
 [ext_resource type="Texture2D" uid="uid://yj8f4cyy82l3" path="res://assets/platform_room_1_1.png" id="1_cvkd0"]
 [ext_resource type="TileSet" uid="uid://b6spie8cx4elg" path="res://assets/Tiles/Level1/plains_lvl1.tres" id="2_c420k"]
+[ext_resource type="Script" uid="uid://dy88y4oy8akt2" path="res://scripts/door.gd" id="3_c420k"]
+[ext_resource type="Script" uid="uid://bdf0p52kkw5ia" path="res://scripts/void_zone.gd" id="4_m33o4"]
+[ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="5_jpwkj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvkd0"]
 size = Vector2(2028, 907)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m33o4"]
+size = Vector2(41, 170)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jpwkj"]
+size = Vector2(56, 916)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c420k"]
+size = Vector2(1334, 115)
+
 [node name="PlatformVar1" type="Node2D"]
+script = ExtResource("1_abtti")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
@@ -23,3 +37,74 @@ tile_set = ExtResource("2_c420k")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBound"]
 position = Vector2(0, -79.5)
 shape = SubResource("RectangleShape2D_cvkd0")
+
+[node name="RightDoor" type="Area2D" parent="."]
+position = Vector2(1091, -102)
+script = ExtResource("3_c420k")
+door_direction = 3
+metadata/_custom_type_script = "uid://dy88y4oy8akt2"
+
+[node name="DoorVisual" type="Sprite2D" parent="RightDoor"]
+
+[node name="WallVisual" type="TileMapLayer" parent="RightDoor"]
+position = Vector2(-22, -13)
+tile_map_data = PackedByteArray("AAD///7/AAABAAQAAAD/////AAABAAQAAAAAAP7/AAACAAQAAAABAP7/AAACAAQAAAABAP//AAACAAQAAAAAAP//AAACAAQAAAAAAAAAAAACAAQAAAABAAAAAAACAAQAAAAAAAEAAAACAAQAAAD///3/AQABAAQAAAD///z/AQABAAQAAAD///v/AQABAAQAAAD///r/AQABAAQAAAD///n/AQABAAQAAAD///j/AQABAAQAAAAAAP3/AQACAAQAAAAAAPz/AQACAAQAAAAAAPv/AQACAAQAAAAAAPr/AQACAAQAAAAAAPn/AQACAAQAAAAAAPj/AQACAAQAAAABAPj/AQACAAQAAAABAPn/AQACAAQAAAABAPr/AQACAAQAAAABAPv/AQACAAQAAAABAPz/AQACAAQAAAABAP3/AQACAAQAAAD//wAAAQABAAUAAAA=")
+tile_set = ExtResource("2_c420k")
+collision_enabled = false
+
+[node name="DoorTrigger" type="CollisionShape2D" parent="RightDoor"]
+position = Vector2(30.5, -11)
+shape = SubResource("RectangleShape2D_m33o4")
+
+[node name="WallPhysics" type="StaticBody2D" parent="RightDoor"]
+
+[node name="WallCollision" type="CollisionShape2D" parent="RightDoor/WallPhysics"]
+position = Vector2(-52, -253)
+shape = SubResource("RectangleShape2D_jpwkj")
+debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
+
+[node name="LeftDoor" type="Area2D" parent="."]
+position = Vector2(-1151, -104)
+script = ExtResource("3_c420k")
+door_direction = 2
+metadata/_custom_type_script = "uid://dy88y4oy8akt2"
+
+[node name="DoorVisual" type="Sprite2D" parent="LeftDoor"]
+
+[node name="WallVisual" type="TileMapLayer" parent="LeftDoor"]
+position = Vector2(88, -10)
+tile_map_data = PackedByteArray("AAAAAP7/AAADAAQAAAAAAP//AAADAAQAAAAAAAAAAAADAAQAAAAAAAEAAQADAAUAAAD///7/AAACAAQAAAD/////AAACAAQAAAD//wAAAAACAAQAAAD+/wAAAAACAAQAAAD+////AAACAAQAAAD+//7/AAACAAQAAAD//wEAAAACAAQAAAD+/wEAAAACAAQAAAAAAP3/AQADAAQAAAAAAPz/AQADAAQAAAAAAPv/AQADAAQAAAAAAPr/AQADAAQAAAAAAPn/AQADAAQAAAAAAPj/AQADAAQAAAA=")
+tile_set = ExtResource("2_c420k")
+collision_enabled = false
+
+[node name="DoorTrigger" type="CollisionShape2D" parent="LeftDoor"]
+position = Vector2(30.5, -11)
+shape = SubResource("RectangleShape2D_m33o4")
+
+[node name="WallPhysics" type="StaticBody2D" parent="LeftDoor"]
+
+[node name="WallCollision" type="CollisionShape2D" parent="LeftDoor/WallPhysics"]
+position = Vector2(112, -139)
+shape = SubResource("RectangleShape2D_jpwkj")
+debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
+
+[node name="VoidZone" type="Area2D" parent="." node_paths=PackedStringArray("safe_spawn")]
+script = ExtResource("4_m33o4")
+safe_spawn = NodePath("../FallRespawn")
+metadata/_custom_type_script = "uid://bdf0p52kkw5ia"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VoidZone"]
+position = Vector2(65, 508)
+shape = SubResource("RectangleShape2D_c420k")
+debug_color = Color(0.6685072, 0.31187713, 1, 0.41960785)
+
+[node name="FallRespawn" type="Marker2D" parent="."]
+position = Vector2(-649, -78)
+scale = Vector2(3, 3.554)
+
+[node name="Player" parent="." instance=ExtResource("5_jpwkj")]
+position = Vector2(-945, -121)
+scale = Vector2(0.5, 0.5)
+
+[connection signal="body_entered" from="RightDoor" to="RightDoor" method="_on_body_entered"]
+[connection signal="body_entered" from="LeftDoor" to="LeftDoor" method="_on_body_entered"]
