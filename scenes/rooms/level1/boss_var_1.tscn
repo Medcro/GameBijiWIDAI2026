@@ -1,12 +1,28 @@
-[gd_scene load_steps=4 format=4 uid="uid://cixckiuurdbtl"]
+[gd_scene load_steps=11 format=4 uid="uid://cixckiuurdbtl"]
 
 [ext_resource type="Texture2D" uid="uid://b7cc8s6wq3b6p" path="res://assets/boss_room_1.png" id="1_k7u1f"]
+[ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_wxb6v"]
 [ext_resource type="TileSet" uid="uid://b6spie8cx4elg" path="res://assets/Tiles/Level1/plains_lvl1.tres" id="2_1vfen"]
+[ext_resource type="Script" uid="uid://dy88y4oy8akt2" path="res://scripts/door.gd" id="3_1vfen"]
+[ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="5_52jls"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7u1f"]
 size = Vector2(1250, 783.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxb6v"]
+size = Vector2(65.5, 170)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52jls"]
+size = Vector2(56, 208)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vt6qy"]
+size = Vector2(80.25, 170)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pxnnk"]
+size = Vector2(56, 208)
+
 [node name="BossVar1" type="Node2D"]
+script = ExtResource("1_wxb6v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
@@ -22,3 +38,60 @@ tile_set = ExtResource("2_1vfen")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBound"]
 position = Vector2(-12, -36.75)
 shape = SubResource("RectangleShape2D_k7u1f")
+
+[node name="RightDoor" type="Area2D" parent="."]
+position = Vector2(860, 172)
+script = ExtResource("3_1vfen")
+door_direction = 3
+metadata/_custom_type_script = "uid://dy88y4oy8akt2"
+
+[node name="DoorVisual" type="Sprite2D" parent="RightDoor"]
+
+[node name="WallVisual" type="TileMapLayer" parent="RightDoor"]
+position = Vector2(-22, -13)
+tile_map_data = PackedByteArray("AAD///7/AAABAAQAAAD/////AAABAAQAAAAAAP7/AAACAAQAAAABAP7/AAACAAQAAAABAP//AAACAAQAAAAAAP//AAACAAQAAAABAAAAAAACAAQAAAAAAAAAAAACAAQAAAD//wAAAAAAAAQAAAA=")
+tile_set = ExtResource("2_1vfen")
+collision_enabled = false
+
+[node name="DoorTrigger" type="CollisionShape2D" parent="RightDoor"]
+position = Vector2(-17.25, -36)
+shape = SubResource("RectangleShape2D_wxb6v")
+
+[node name="WallPhysics" type="StaticBody2D" parent="RightDoor"]
+
+[node name="WallCollision" type="CollisionShape2D" parent="RightDoor/WallPhysics"]
+position = Vector2(-52, -21)
+shape = SubResource("RectangleShape2D_52jls")
+debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
+
+[node name="LeftDoor" type="Area2D" parent="."]
+position = Vector2(-922, 163)
+script = ExtResource("3_1vfen")
+door_direction = 2
+metadata/_custom_type_script = "uid://dy88y4oy8akt2"
+
+[node name="DoorVisual" type="Sprite2D" parent="LeftDoor"]
+
+[node name="WallVisual" type="TileMapLayer" parent="LeftDoor"]
+position = Vector2(88, -10)
+tile_map_data = PackedByteArray("AAAAAP7/AAADAAQAAAAAAP//AAADAAQAAAD///7/AAACAAQAAAD/////AAACAAQAAAD//wAAAAACAAQAAAAAAAAAAAAEAAQAAAA=")
+tile_set = ExtResource("2_1vfen")
+collision_enabled = false
+
+[node name="DoorTrigger" type="CollisionShape2D" parent="LeftDoor"]
+position = Vector2(77, -31)
+shape = SubResource("RectangleShape2D_vt6qy")
+
+[node name="WallPhysics" type="StaticBody2D" parent="LeftDoor"]
+
+[node name="WallCollision" type="CollisionShape2D" parent="LeftDoor/WallPhysics"]
+position = Vector2(112, -17)
+shape = SubResource("RectangleShape2D_pxnnk")
+debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
+
+[node name="Player" parent="." instance=ExtResource("5_52jls")]
+position = Vector2(-716, 153)
+scale = Vector2(0.5, 0.5)
+
+[connection signal="body_entered" from="RightDoor" to="RightDoor" method="_on_body_entered"]
+[connection signal="body_entered" from="LeftDoor" to="LeftDoor" method="_on_body_entered"]

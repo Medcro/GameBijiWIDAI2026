@@ -54,11 +54,14 @@ var current_map: Dictionary = {}
 # sistemnya basically kayak matriks, di kolom x row y ada room apa ditentuin nnti sama func _get_leveln_layoutz
 var current_room_coords: Vector2i = Vector2i.ZERO
 
+var target_entrance_vector: Vector2i = Vector2i.ZERO # ngasih tau arah pintu
+
 var current_level_num: int = 1
 var max_levels: int = 5 # woah 5 level yh
 
 func generate_new_level() -> void:
 	current_map.clear()
+	target_entrance_vector = Vector2i.ZERO
 	
 	var layouts = []
 	
@@ -134,7 +137,7 @@ func enter_room(coords: Vector2i) -> void:
 	
 	#map_updated.emit()
 	
-	get_tree().change_scene_to_file(room.scene_path)
+	get_tree().call_deferred("change_scene_to_file", room.scene_path)
 	print("Entered Room: ", RoomData.Type.keys()[room.type], " | Var: ", room.variation_id)
 
 # --- UPGRADE 2: Progression & Transition Logic ---
@@ -143,7 +146,6 @@ func complete_level() -> void:
 	
 	if current_level_num < max_levels:
 		# 1. Change to the cutscene instead of generating the level instantly
-		# Make sure you have a cutscene scene created!
 		print("Transitioning to cutscene...")
 		# get_tree().change_scene_to_file("res://scenes/cutscene.tscn")
 	else:
@@ -170,8 +172,8 @@ func _get_level1_layout_1() -> Dictionary:
 
 func _get_level1_layout_2() -> Dictionary:
 	return {
-		Vector2i(0, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN]},														   Vector2i(3, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.DOWN, Vector2i.RIGHT]}, Vector2i(4, -1): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(5, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.LEFT]}, 
-		Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(2, 0): {"type": RoomData.Type.PLATFORM, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(3, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(4, 0): {"type": RoomData.Type.PASSIVE, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]},
+		Vector2i(0, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN]},																															   Vector2i(3, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.DOWN, Vector2i.RIGHT]}, Vector2i(4, -1): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(5, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.LEFT]}, 
+		Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(2, 0): {"type": RoomData.Type.PLATFORM, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(3, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(4, 0): {"type": RoomData.Type.PASSIVE, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]},
 																																																																																																																					Vector2i(4, 1): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.UP, Vector2i.RIGHT]}, Vector2i(5, 1): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(6, -1): {"type": RoomData.Type.BOSS, "var": 1, "allowed_entrances": [Vector2i.LEFT]}
 	}
 

@@ -9,51 +9,64 @@ var is_valid_door: bool = false
 var is_room_locked: bool = false
 
 func _ready() -> void:
+	set_deferred("collision_mask", 2)
 	var target_vector = _get_target_room_vector()
 	
 	if target_vector == Vector2i.ZERO:
-		# NO ROOM FOUND (Or access blocked): Act as a wall
-		
-		# Since we now extend Area2D, we can call these directly!
+		# NO ROOM FOUND
 		set_deferred("monitoring", false)
 		set_deferred("monitorable", false)
 			
 		var wall_visual = get_node_or_null("WallVisual")
 		var door_visual = get_node_or_null("DoorVisual")
-		var wall_collision = get_node_or_null("WallCollision")
+		var wall_collision = get_node_or_null("WallPhysics/WallCollision")
 		
 		if wall_visual: wall_visual.visible = true
 		if door_visual: door_visual.visible = false
 		if wall_collision: wall_collision.set_deferred("disabled", false)
 	else:
-		# ROOM FOUND & ACCESSIBLE: Act as a normal door
+		# ROOM FOUND
+		is_valid_door = true
 		var wall_visual = get_node_or_null("WallVisual")
 		var door_visual = get_node_or_null("DoorVisual")
-		var wall_collision = get_node_or_null("WallCollision")
+		var wall_collision = get_node_or_null("WallPhysics/WallCollision")
 		
 		if wall_visual: wall_visual.visible = false
 		if door_visual: door_visual.visible = true
 		if wall_collision: wall_collision.set_deferred("disabled", true)
 
 func lock_room_door() -> void:
-	if not is_valid_door: return # Ignore if this is already a permanent wall
+	CameraEffects.shake(5.0, 0.8)
+	if not is_valid_door: return
 	
-	is_room_locked = true
-	var wall_collision = get_node_or_null("WallCollision")
+	var wall_visual = get_node_or_null("WallVisual")
 	var door_visual = get_node_or_null("DoorVisual")
+	var wall_collision = get_node_or_null("WallPhysics/WallCollision")
 	
-	if wall_collision: wall_collision.set_deferred("disabled", false) # Turn on physics
-	if door_visual: door_visual.modulate = Color(1.0, 0.4, 0.4) # Tint the door red!
+	if wall_visual: wall_visual.visible = true
+	if door_visual: door_visual.visible = false
+	if wall_collision: wall_collision.set_deferred("disabled", false)
 
 func unlock_room_door() -> void:
+	CameraEffects.shake(5.0, 0.8)
 	if not is_valid_door: return 
 	
 	is_room_locked = false
-	var wall_collision = get_node_or_null("WallCollision")
+	var wall_visual = get_node_or_null("WallVisual")
 	var door_visual = get_node_or_null("DoorVisual")
+	var wall_collision = get_node_or_null("WallPhysics/WallCollision")
 	
-	if wall_collision: wall_collision.set_deferred("disabled", true) # Turn off physics
-	if door_visual: door_visual.modulate = Color(1, 1, 1) # Return to normal color
+	if wall_visual: wall_visual.visible = false
+	if door_visual: door_visual.visible = true
+	if wall_collision: wall_collision.set_deferred("disabled", true)
+
+func get_direction_vector() -> Vector2i:
+	match door_direction:
+		Direction.UP: return Vector2i.UP
+		Direction.DOWN: return Vector2i.DOWN
+		Direction.LEFT: return Vector2i.LEFT
+		Direction.RIGHT: return Vector2i.RIGHT
+	return Vector2i.ZERO
 
 func _get_target_room_vector() -> Vector2i:
 	var dir_vector: Vector2i = Vector2i.ZERO
@@ -89,6 +102,8 @@ func _try_transition(owner_node: Node) -> void:
 	if final_jump_vector == Vector2i.ZERO:
 		push_warning("Door points to a blocked room or empty space!")
 		return
+	
+	LevelManager.target_entrance_vector = -final_jump_vector.sign()
 
 	owner_node.set_meta(META_USED, true)
 	LevelManager.move_to_room(final_jump_vector)
@@ -102,4 +117,6 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	
 	if body.is_in_group("Player"):
+		if body.has_method("prepare_for_room_change"):
+			body.prepare_for_room_change()
 		_try_transition(self)
