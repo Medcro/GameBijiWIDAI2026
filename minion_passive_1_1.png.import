@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v0a6iryt6yuj"
-path="res://.godot/imported/player005.png-3a36b7c10f18a3f1b3e2626a592f5cb9.ctex"
+uid="uid://74g4mg2ijb52"
+path="res://.godot/imported/minion_passive_1_1.png-7734da75d20120b54db8c6bea4a6c2a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/player/player005.png"
-dest_files=["res://.godot/imported/player005.png-3a36b7c10f18a3f1b3e2626a592f5cb9.ctex"]
+source_file="res://minion_passive_1_1.png"
+dest_files=["res://.godot/imported/minion_passive_1_1.png-7734da75d20120b54db8c6bea4a6c2a6.ctex"]
 
 [params]
 

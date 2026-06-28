@@ -8,9 +8,10 @@ var type: Type
 var variation_id: int
 var scene_path: String
 
-## buat minimap
-#var is_discovered: bool = false
-#var is_cleared: bool = false
+var is_discovered: bool = false
+var is_cleared: bool = false
+
+var allowed_entrances: Array = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
 func _init(pos: Vector2i, t: Type) -> void:
 	grid_position = pos

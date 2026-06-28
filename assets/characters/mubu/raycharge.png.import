@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bql4phs1acujg"
-path="res://.godot/imported/player000.png-994df0449bf88037801552ddd18c5105.ctex"
+uid="uid://c37ydvymoye8y"
+path="res://.godot/imported/raycharge.png-36235ae2f1e74149a1c34ae7fce7a639.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/player/player000.png"
-dest_files=["res://.godot/imported/player000.png-994df0449bf88037801552ddd18c5105.ctex"]
+source_file="res://assets/characters/mubu/raycharge.png"
+dest_files=["res://.godot/imported/raycharge.png-36235ae2f1e74149a1c34ae7fce7a639.ctex"]
 
 [params]
 

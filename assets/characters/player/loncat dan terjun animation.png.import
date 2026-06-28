@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8cyo0c3hl1q7"
-path="res://.godot/imported/player003.png-1016098cbf972ec388f50a06d38020c3.ctex"
+uid="uid://sqvkea4jfry3"
+path="res://.godot/imported/loncat dan terjun animation.png-1a6b979996e92262cff96c72bdd3fd9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/player/player003.png"
-dest_files=["res://.godot/imported/player003.png-1016098cbf972ec388f50a06d38020c3.ctex"]
+source_file="res://assets/characters/player/loncat dan terjun animation.png"
+dest_files=["res://.godot/imported/loncat dan terjun animation.png-1a6b979996e92262cff96c72bdd3fd9b.ctex"]
 
 [params]
 
