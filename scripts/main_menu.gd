@@ -4,6 +4,7 @@ extends Control
 @onready var continuebtn: Button = $VBoxContainer/continue
 @onready var startbtn: Button = $VBoxContainer/start
 @onready var reset_confirm: ConfirmationDialog = $resetConfirm
+@onready var title: Label = $Title
 
 @export var default_position: Vector2
 
@@ -21,8 +22,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if settings.visible:
 		button_box.hide()
+		title.hide()
 	else:
 		button_box.show()
+		title.show()
 
 func _on_start_pressed() -> void:
 	$Click.play()
@@ -35,6 +38,7 @@ func _on_settings_pressed() -> void:
 	$Click.play()
 	button_box.hide()
 	settings.show()
+	title.hide()
 
 func _on_exit_pressed() -> void:
 	$Click.play()

@@ -99,9 +99,12 @@ grow_vertical = 2
 script = ExtResource("5_gis3k")
 
 [node name="MarginContainer" type="MarginContainer" parent="controlTab"]
-layout_mode = 0
-offset_right = 613.0
-offset_bottom = 414.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
@@ -188,6 +191,10 @@ grow_vertical = 0
 text = "Apply
 "
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+initial_position = 1
+ok_button_text = "Yes"
+
 [connection signal="value_changed" from="audioTab/MasterSlider" to="audioTab/MasterSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioTab/MusicSlider" to="audioTab/MusicSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioTab/SFXSlider" to="audioTab/SFXSlider" method="_on_value_changed"]
@@ -196,3 +203,5 @@ text = "Apply
 [connection signal="pressed" from="VBoxContainer2/control set" to="." method="_on_control_set_pressed"]
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="apply" to="." method="_on_apply_pressed"]
+[connection signal="canceled" from="ConfirmationDialog" to="controlTab" method="_on_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="ConfirmationDialog" to="controlTab" method="_on_confirmation_dialog_confirmed"]

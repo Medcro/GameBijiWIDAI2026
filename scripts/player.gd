@@ -60,6 +60,7 @@ var dream : int = 0:
 @onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
 @onready var anim_tree = $AnimationTree
 @onready var state_machine = anim_tree.get("parameters/playback")
+@onready var floor_particle: GPUParticles2D = $floorParticle
 
 func _ready() -> void:
 	health = SaveManager.game_data.get("player_health", 5)
@@ -182,6 +183,11 @@ func _physics_process(delta: float) -> void:
 			is_dashing = false
 			is_invincible = false 
 			dash_cooldown_timer = dash_cooldown
+			
+	if is_on_floor() and velocity.x != 0:
+		floor_particle.emitting = true
+	else:
+		floor_particle.emitting = false
 	
 	if Input.is_action_just_pressed("Dash") and not is_dashing and dash_cooldown_timer <= 0:
 		is_dashing = true

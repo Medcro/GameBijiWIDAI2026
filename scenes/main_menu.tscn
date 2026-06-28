@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://e42digwwfb02"]
 
 [ext_resource type="Script" uid="uid://gc1ffdnagijs" path="res://scripts/main_menu.gd" id="1_ekxnf"]
-[ext_resource type="Texture2D" uid="uid://2s6kd06i17p8" path="res://assets/UI/placeholder.png" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://cvdhk8orgsemj" path="res://assets/background/Level 1/Anu nya.png" id="2_8ln24"]
 [ext_resource type="PackedScene" uid="uid://cnf6m2x8m58j4" path="res://scenes/settings.tscn" id="3_bqqt6"]
 [ext_resource type="AudioStream" uid="uid://ddb4h5xmx1q3o" path="res://assets/audio/OSTs/menu.ogg" id="4_8ln24"]
 [ext_resource type="AudioStream" uid="uid://ekpc1exakc30" path="res://assets/audio/click.ogg" id="5_8ln24"]
@@ -24,41 +24,48 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -2563.0
+offset_top = -142.0
+offset_right = 1277.0
+offset_bottom = 398.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_l6cm7")
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_8ln24")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 10.000001
 offset_top = -89.26471
-offset_right = 151.17648
-offset_bottom = 89.26471
+offset_right = 210.00002
+offset_bottom = 147.36157
 grow_vertical = 2
 scale = Vector2(1.7, 1.7)
 
 [node name="start" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
 text = "START"
 
 [node name="continue" type="Button" parent="VBoxContainer"]
 visible = false
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
 text = "CONTINUE"
 
 [node name="settings" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
 text = "SETTINGS"
 
 [node name="exit" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 3
 text = "EXIT"
@@ -89,6 +96,13 @@ ok_button_text = "Yes"
 dialog_text = "Are you sure you want to reset?
 This will bring you to the first dream."
 cancel_button_text = "No"
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_right = 286.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 72
+text = "[TITLE CARD]"
 
 [connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/continue" to="." method="_on_continue_pressed"]
