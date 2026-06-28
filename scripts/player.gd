@@ -61,6 +61,7 @@ var dream : int = 0:
 @onready var anim_tree = $AnimationTree
 @onready var state_machine = anim_tree.get("parameters/playback")
 @onready var floor_particle: GPUParticles2D = $floorParticle
+var _is_first_frame: bool = true
 
 func _ready() -> void:
 	if "player_health" in SaveManager.game_data:
@@ -69,11 +70,11 @@ func _ready() -> void:
 		dream = SaveManager.game_data["player_dream"]
 	if SaveManager.game_data["player_position"] != Vector2.ZERO:
 		global_position = SaveManager.game_data["player_position"]
-		if has_node("Camera2D"):
-			$Camera2D.reset_smoothing() 
-			$Camera2D.force_update_scroll()
-		if has_node("Dreamcatcher"):
-			$Dreamcatcher.snap_to_target()
+		#if has_node("Camera2D"):
+			#$Camera2D.reset_smoothing() 
+			#$Camera2D.force_update_scroll()
+		#if has_node("Dreamcatcher"):
+			#$Dreamcatcher.snap_to_target()
 		
 	var hearts_parent = get_node_or_null("Camera2D/CanvasLayer/HBoxContainer")
 	if hearts_parent:
@@ -97,6 +98,7 @@ func _ready() -> void:
 	if dream_bar:
 		dream_bar.max_value = max_dream
 		dream_bar.value = dream
+	#call_deferred("snap_camera_and_pet")
 
 func take_damage(amount: int):
 	if is_invincible or not alive or is_parrying:
@@ -148,6 +150,9 @@ func _physics_process(delta: float) -> void:
 		#_animated_sprite.play("walk")
 	#else:
 		#_animated_sprite.play("default")
+	if _is_first_frame:
+		snap_camera_and_pet()
+		_is_first_frame = false
 		
 	var direction = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_dashing and not is_attacking:
@@ -390,3 +395,14 @@ func prepare_for_room_change() -> void:
 	
 	# Immediately lock the changes into memory/file
 	SaveManager.save_game()
+
+func snap_camera_and_pet() -> void:
+	# 1. Paksa kamera berteleportasi secara bersih
+	if has_node("Camera2D"):
+		var cam = $Camera2D
+		cam.global_position = global_position
+		cam.reset_smoothing() 
+		cam.force_update_scroll()
+	# 2. Paksa Dreamcatcher berteleportasi
+	if has_node("Dreamcatcher"):
+		$Dreamcatcher.snap_to_target()

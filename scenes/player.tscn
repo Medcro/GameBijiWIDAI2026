@@ -627,7 +627,6 @@ emitting = false
 amount = 24
 texture = SubResource("GradientTexture2D_jej6c")
 lifetime = 1.5
-explosiveness = 0.4
 randomness = 0.3
 fixed_fps = 24
 process_material = SubResource("ParticleProcessMaterial_f1ej7")
