@@ -17,7 +17,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ekxnf")
-default_position = Vector2(322, 323)
+default_position = Vector2(-141, 156)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1

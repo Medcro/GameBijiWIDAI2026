@@ -65,16 +65,6 @@ func new_level() -> void:
 		"current_scene_path": FIRST_LEVEL_PATH
 	}
 	SaveManager.save_game() # Kunci data baru ini ke dalam memori
-	get_tree().change_scene_to_file(FIRST_LEVEL_PATH)
-	#LevelManager.current_level_num = 1
-	#LevelManager.generate_new_level()
-#
-	## 2. Get the room data for the spawn room
-	#var spawn_coords = LevelManager.current_room_coords
-	#var spawn_room = LevelManager.current_map[spawn_coords]
-#
-	## 3. Transition to the scene file chosen for the spawn room!
-	#if spawn_room and spawn_room.scene_path != "":
-		#get_tree().change_scene_to_file(spawn_room.scene_path)
-	#else:
-		#push_error("Failed to find a valid scene path for the Spawn room!")
+	#get_tree().change_scene_to_file(FIRST_LEVEL_PATH)
+	LevelManager.current_level_num = 1
+	LevelManager.generate_new_level()

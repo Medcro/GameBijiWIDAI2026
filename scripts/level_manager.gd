@@ -9,10 +9,10 @@ signal level_changed(new_level: int)
 const LEVEL_ROOM_SCENES = {
 	1: {
 		RoomData.Type.SPAWN: ["res://scenes/rooms/level1/spawn_var_1.tscn"],
-		RoomData.Type.PLATFORM: ["res://scenes/rooms/level1/platform_var_1.tscn"],
-		RoomData.Type.MINION: ["res://scenes/rooms/level1/minion_var_1.tscn"],
+		RoomData.Type.PLATFORM: ["res://scenes/rooms/level1/platform_var_1.tscn", "res://scenes/rooms/level1/platform_var_2.tscn"],
+		RoomData.Type.MINION: ["res://scenes/rooms/level1/minion_var_1.tscn", "res://scenes/rooms/level1/minion_var_2.tscn", "res://scenes/rooms/level1/minion_var_3.tscn"],
 		RoomData.Type.TREASURE: ["res://scenes/rooms/level1/treasure_var_1.tscn"],
-		RoomData.Type.PASSIVE: ["res://scenes/rooms/level1/passive_var_1.tscn"],
+		RoomData.Type.PASSIVE: ["res://scenes/rooms/level1/passive_var_1.tscn", "res://scenes/rooms/level1/passive_var_2.tscn"],
 		RoomData.Type.BOSS: ["res://scenes/rooms/level1/boss_var_1.tscn"]
 	},
 	2: { #beda sendiri cok i guess bro
@@ -57,9 +57,6 @@ var current_room_coords: Vector2i = Vector2i.ZERO
 var current_level_num: int = 1
 var max_levels: int = 5 # woah 5 level yh
 
-func _ready() -> void:
-	generate_new_level()
-
 func generate_new_level() -> void:
 	current_map.clear()
 	
@@ -68,9 +65,7 @@ func generate_new_level() -> void:
 	# inisialisasi layout level
 	if current_level_num == 1:
 		layouts = [
-			_get_level1_layout_1(), 
-			#_get_level1_layout_2(),
-			#_get_level1_layout_3()
+			_get_level1_layout_1(), _get_level1_layout_2(), _get_level1_layout_3()
 			]
 	#elif current_level_num == 2:
 		#layouts = [_get_level2_layout_1(), _get_level2_layout_2(), _get_level2_layout_3()]
@@ -97,31 +92,29 @@ func generate_new_level() -> void:
 		var available_scenes = level_pool[type]
 		var chosen_scene = ""
 		
-		# If the layout dictates a specific variation (e.g. Var 3 for a 3-way split), use it!
 		if typeof(layout_data) == TYPE_DICTIONARY and layout_data.has("var"):
 			var target_var = layout_data["var"]
-			
-			# Safety check: Ensure we actually have that variation loaded in the array
 			if target_var > 0 and target_var <= available_scenes.size():
 				room.variation_id = target_var
-				chosen_scene = available_scenes[target_var - 1] # Array is 0-indexed, Variation is 1-indexed
+				chosen_scene = available_scenes[target_var - 1]
 			else:
-				push_warning("Variation " + str(target_var) + " missing for " + str(RoomData.Type.keys()[type]) + ". Falling back to random.")
+				push_warning("Variation missing. Falling back to random.")
 				chosen_scene = available_scenes.pick_random()
 				room.variation_id = available_scenes.find(chosen_scene) + 1
 		else:
-			# Fallback to random if no specific variation was requested
 			chosen_scene = available_scenes.pick_random()
 			room.variation_id = available_scenes.find(chosen_scene) + 1 
 			
+		# check for allowed entrances
+		if typeof(layout_data) == TYPE_DICTIONARY and layout_data.has("allowed_entrances"):
+			room.allowed_entrances = layout_data["allowed_entrances"]
+			
 		room.scene_path = chosen_scene
 		current_map[coords] = room
+
 		
 		if type == RoomData.Type.SPAWN:
 			current_room_coords = coords
-
-	# 3. Enter the spawn room
-	enter_room(current_room_coords)
 
 	# 3. Enter the spawn room
 	enter_room(current_room_coords)
@@ -141,7 +134,7 @@ func enter_room(coords: Vector2i) -> void:
 	
 	#map_updated.emit()
 	
-	# get_tree().change_scene_to_file(room.scene_path)
+	get_tree().change_scene_to_file(room.scene_path)
 	print("Entered Room: ", RoomData.Type.keys()[room.type], " | Var: ", room.variation_id)
 
 # --- UPGRADE 2: Progression & Transition Logic ---
@@ -170,24 +163,25 @@ func start_next_level() -> void:
 # --- LEVEL 1 ---
 func _get_level1_layout_1() -> Dictionary:
 	return {
-		Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1},
-		Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 1},
-		Vector2i(2, 0): {"type": RoomData.Type.BOSS, "var": 1}
+		Vector2i(-3, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT]}, Vector2i(-2, 0): {"type": RoomData.Type.PASSIVE, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(-1, 0): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(2, 0): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.LEFT]},
+																   Vector2i(-2, 1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(-1, 1): {"type": RoomData.Type.PLATFORM, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]},																																					  Vector2i(1, 1): {"type": RoomData.Type.PASSIVE, "var": 2, "allowed_entrances": [Vector2i.UP, Vector2i.DOWN]},
+																   Vector2i(-2, 2): {"type": RoomData.Type.PLATFORM, "var": 2, "allowed_entrances": [Vector2i.RIGHT, Vector2i.UP]}, Vector2i(-1, 2): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(0, -2): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(1, 2): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]},  Vector2i(2, 2): {"type": RoomData.Type.BOSS, "var": 1, "allowed_entrances": [Vector2i.LEFT]}
 	}
 
-#func _get_level1_layout_2() -> Dictionary:
-	#return {
-		#Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1},
-		#Vector2i(1, 0): {"type": RoomData.Type.PLATFORM, "var": 1},
-		#Vector2i(2, 0): {"type": RoomData.Type.BOSS, "var": 1}
-	#}
-#
-#func _get_level1_layout_3() -> Dictionary:
-	#return {
-		#Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1},
-		#Vector2i(1, 0): {"type": RoomData.Type.TREASURE, "var": 1},
-		#Vector2i(2, 0): {"type": RoomData.Type.BOSS, "var": 1}
-	#}
+func _get_level1_layout_2() -> Dictionary:
+	return {
+		Vector2i(0, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN]},														   Vector2i(3, -1): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.DOWN, Vector2i.RIGHT]}, Vector2i(4, -1): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(5, -1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.LEFT]}, 
+		Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(2, 0): {"type": RoomData.Type.PLATFORM, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(3, 0): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(4, 0): {"type": RoomData.Type.PASSIVE, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]},
+																																																																																																																					Vector2i(4, 1): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.UP, Vector2i.RIGHT]}, Vector2i(5, 1): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(6, -1): {"type": RoomData.Type.BOSS, "var": 1, "allowed_entrances": [Vector2i.LEFT]}
+	}
+
+func _get_level1_layout_3() -> Dictionary:
+	return {
+																										   Vector2i(0, 0): {"type": RoomData.Type.SPAWN, "var": 1, "allowed_entrances": [Vector2i.RIGHT]},  Vector2i(1, 0): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(2, 0): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.DOWN]},
+																										   Vector2i(0, 1): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.DOWN]},
+		Vector2i(-1, 2): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.RIGHT]},  Vector2i(0, 2): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(1, 2): {"type": RoomData.Type.MINION, "var": 2, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]}, Vector2i(2, 2): {"type": RoomData.Type.PASSIVE, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(3, 2): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT]}, Vector2i(4, 2): {"type": RoomData.Type.TREASURE, "var": 1, "allowed_entrances": [Vector2i.LEFT]},
+																										   Vector2i(0, 3): {"type": RoomData.Type.BOSS, "var": 1, "allowed_entrances": [Vector2i.RIGHT]}, Vector2i(1, 3): {"type": RoomData.Type.MINION, "var": 1, "allowed_entrances": [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]}, Vector2i(2, 3): {"type": RoomData.Type.MINION, "var": 3, "allowed_entrances": [Vector2i.LEFT]}
+	}
 
 ## --- LEVEL 2 ---
 #func _get_level2_layout_1() -> Dictionary:
