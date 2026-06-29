@@ -89,6 +89,7 @@ shape = SubResource("RectangleShape2D_jpwkj")
 debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
 
 [node name="VoidZone" type="Area2D" parent="." node_paths=PackedStringArray("safe_spawn")]
+collision_mask = 3
 script = ExtResource("4_m33o4")
 safe_spawn = NodePath("../FallRespawn")
 metadata/_custom_type_script = "uid://bdf0p52kkw5ia"
