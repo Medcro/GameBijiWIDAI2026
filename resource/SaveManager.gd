@@ -5,9 +5,14 @@ const SAVE_FILE_PATH = "user://savegame.dat"
 var game_data : Dictionary = {
 	"player_position": Vector2.ZERO,
 	"player_health" : 5,
-	"player_dream" : 0.0,
+	"player_dream" : 0,
 	"collected_essences": [],
-	"current_scene_path": "res://scenes/main.tscn"
+	
+	"current_scene_path": "",
+	"current_level_num": 1,
+	"current_room_coords": Vector2i.ZERO,
+	"level_map_data": {},
+	"discovered_rooms": []
 }
 
 func save_game():

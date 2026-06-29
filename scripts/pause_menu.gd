@@ -49,9 +49,15 @@ func _on_exitmenu_pressed() -> void:
 		# (Sesuaikan "current_health" dengan nama variabel darah di skrip player kamu)
 		if "health" in player:
 			SaveManager.game_data["player_health"] = player.health 
-		# Simpan juga scene mana yang sedang dimainkan (misal Level 1 atau Level 2)
+		if "dream" in player:
+			SaveManager.game_data["player_dream"] = player.dream
+			
+		SaveManager.game_data["current_level_num"] = LevelManager.current_level_num
+		SaveManager.game_data["current_room_coords"] = LevelManager.current_room_coords
 		SaveManager.game_data["current_scene_path"] = get_tree().current_scene.scene_file_path
-		# 3. Eksekusi penulisan file ke dalam memori perangkat
+		
+		SaveManager.game_data["level_map_data"] = LevelManager.get_map_save_data()
+		
 		print(SaveManager.game_data["player_health"])
 		SaveManager.save_game()
 		print("Auto-save berhasil dilakukan!")

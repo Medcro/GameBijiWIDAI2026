@@ -46,12 +46,18 @@ func _on_exit_pressed() -> void:
 
 func _on_continue_pressed() -> void:
 	$Click.play()
-	if SaveManager.load_game():
-		# Ambil jalur scene yang tersimpan, jika tidak ada, pakai default level 1
-		var target_scene = SaveManager.game_data.get("current_scene_path", FIRST_LEVEL_PATH)
-		get_tree().change_scene_to_file(target_scene)
-
-
+	if not SaveManager.load_game():
+		print("tidak ada save yang terbaca")
+		return
+		
+	var saved_level = SaveManager.game_data["current_level_num"]
+	var saved_coords = SaveManager.game_data["current_room_coords"]
+	var saved_map = SaveManager.game_data["level_map_data"]
+	
+	# Peta dibangun ulang secara instan di latar belakang, 
+	# dan enter_room() akan langsung memindahkan scene ke room tersebut
+	LevelManager.load_map_from_save(saved_level, saved_coords, saved_map)
+	
 func _on_reset_confirm_confirmed() -> void:
 	if typeof(SaveManager) != TYPE_NIL:
 		SaveManager.delete_save()

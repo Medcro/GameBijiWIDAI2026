@@ -286,9 +286,8 @@ _data = {
 &"startWalk": SubResource("Animation_smehm")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
-radius = 22.0
-height = 126.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3v2ag"]
+size = Vector2(55, 107)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
 size = Vector2(85, 123.99997)
@@ -586,7 +585,8 @@ scale = Vector2(0.33593753, 1)
 texture = ExtResource("2_qhqgy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_dqkch")
+position = Vector2(0.5, 8.5)
+shape = SubResource("RectangleShape2D_3v2ag")
 
 [node name="AttackHitbox" type="Area2D" parent="."]
 collision_mask = 5
@@ -608,8 +608,8 @@ debug_color = Color(0, 0.6437439, 0.30010566, 0.41960785)
 position = Vector2(-9.88, -10.02)
 scale = Vector2(0.249, 0.249)
 sprite_frames = SubResource("SpriteFrames_jej6c")
-animation = &"walk"
-frame = 4
+frame = 2
+frame_progress = 0.8541335
 
 [node name="attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_3v2ag")

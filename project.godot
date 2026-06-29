@@ -21,6 +21,7 @@ CameraEffects="*res://scripts/camera_effects.gd"
 LevelManager="*res://scripts/level_manager.gd"
 ConfigHandler="*res://resource/ConfigHandler.gd"
 SaveManager="*res://resource/SaveManager.gd"
+Transition="*res://scenes/transition.tscn"
 
 [display]
 

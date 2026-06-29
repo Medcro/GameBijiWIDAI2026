@@ -43,6 +43,7 @@ var parry_cooldown_timer : float = 0.0
 
 var is_invincible : bool = false
 var can_double_jump : bool = false
+var collected_essences = []
 
 # Player Resources
 @export var max_dream : int = 100
@@ -61,6 +62,10 @@ var dream : int = 0:
 @onready var anim_tree = $AnimationTree
 @onready var state_machine = anim_tree.get("parameters/playback")
 @onready var floor_particle: GPUParticles2D = $floorParticle
+@onready var player_hitbox: CollisionShape2D = $CollisionShape2D
+
+var player_hitbox_run: float = -7.0
+var player_hitbox_idle: float = 0.5
 var _is_first_frame: bool = true
 
 func _ready() -> void:
@@ -70,6 +75,8 @@ func _ready() -> void:
 		dream = SaveManager.game_data["player_dream"]
 	if SaveManager.game_data["player_position"] != Vector2.ZERO:
 		global_position = SaveManager.game_data["player_position"]
+	if "collected_essences" in SaveManager.game_data:
+		collected_essences = SaveManager.game_data["collected_essences"]
 		#if has_node("Camera2D"):
 			#$Camera2D.reset_smoothing() 
 			#$Camera2D.force_update_scroll()
@@ -154,19 +161,35 @@ func _physics_process(delta: float) -> void:
 		snap_camera_and_pet()
 		_is_first_frame = false
 		
+	if Transition.is_transitioning:
+		velocity.x = move_toward(velocity.x, 0, speed) # Hentikan jalan secara mulus
+		
+		# Tetap terapkan gravitasi agar player tidak melayang aneh jika transisi terpicu saat melompat
+		if not is_on_floor():
+			velocity.y += gravity * delta
+			
+		move_and_slide()
+		state_machine.travel("Idle") # Paksa animasi diam
+		return # Keluar dari fungsi agar input di bawah tidak dibaca
+		
 	var direction = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
 		attack_hitbox.scale.x = facing_direction
 		_animated_sprite.scale.x = facing_direction * 0.249
+		_animated_sprite.position.x = facing_direction * -9.88
+		
 		
 	#if state_machine.get_current_node() == "fall":
 		#state_machine.travel("endFall")
 	if direction != 0:
 		state_machine.travel("run")
+		player_hitbox.shape.size.x = 70.0
+		player_hitbox.position.x = facing_direction * player_hitbox_run
 	else:
 		state_machine.travel("Idle")
-	
+		player_hitbox.shape.size.x = 55.0
+		player_hitbox.position.x = facing_direction * player_hitbox_idle
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
@@ -262,6 +285,7 @@ func _physics_process(delta: float) -> void:
 		elif can_double_jump and has_flight_essence:
 			velocity.y = jump
 			can_double_jump = false 
+			CameraEffects.shake(5.0, 0.3)
 
 	# Movement 
 	if is_dashing:
@@ -392,7 +416,13 @@ func _set_parry_box_active(active: bool) -> void:
 func prepare_for_room_change() -> void:
 	SaveManager.game_data["player_health"] = health
 	SaveManager.game_data["player_dream"] = dream
+	#SaveManager.game_data["player_position"] = global_position
 	
+	SaveManager.game_data["current_level_num"] = LevelManager.current_level_num
+	SaveManager.game_data["current_room_coords"] = LevelManager.current_room_coords
+	SaveManager.game_data["current_scene_path"] = get_tree().current_scene.scene_file_path
+	
+	SaveManager.game_data["level_map_data"] = LevelManager.get_map_save_data()
 	# Immediately lock the changes into memory/file
 	SaveManager.save_game()
 

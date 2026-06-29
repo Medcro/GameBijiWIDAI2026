@@ -158,6 +158,61 @@ func start_next_level() -> void:
 	level_changed.emit(current_level_num)
 	generate_new_level()
 
+func get_map_save_data() -> Dictionary:
+	var serialized_map = {}
+	
+	for coords in current_map:
+		var room = current_map[coords]
+		# Kita ubah koordinat Vector2i menjadi String "x,y" sebagai key karena
+		# Dictionary yang di-save ke file kadang bermasalah jika key-nya berupa Vector.
+		var coord_key = str(coords.x) + "," + str(coords.y)
+		
+		# Pecah properti RoomData menjadi tipe data primitif
+		serialized_map[coord_key] = {
+			"scene_path": room.scene_path,
+			"type": room.type,
+			"variation_id": room.variation_id,
+			"is_discovered": room.is_discovered,
+			"is_cleared": room.is_cleared,
+			"allowed_entrances": room.allowed_entrances
+		}
+		
+	return serialized_map
+
+func load_map_from_save(saved_level_num: int, saved_room_coords: Vector2i, saved_map_data: Dictionary) -> void:
+	# 1. Bersihkan peta lama dan setel variabel level saat ini
+	current_map.clear()
+	current_level_num = saved_level_num
+	current_room_coords = saved_room_coords
+	target_entrance_vector = Vector2i.ZERO
+	# Ambil kelas RoomData secara dinamis (sesuai cara inner-class kamu)
+	# Catatan: Jika RoomData adalah class_name tersendiri, kamu bisa langsung pakai RoomData
+	# 2. Lakukan perulangan untuk membangun ulang objek RoomData
+	for coord_string in saved_map_data:
+		# Kembalikan string "x,y" menjadi Vector2i
+		var parts = coord_string.split(",")
+		var coords = Vector2i(int(parts[0]), int(parts[1]))
+		
+		var data = saved_map_data[coord_string]
+		
+		# Buat ulang objek RoomData baru
+		var room = RoomData.new(coords, data["type"])
+		room.scene_path = data["scene_path"]
+		room.variation_id = data["variation_id"]
+		room.is_discovered = data["is_discovered"]
+		room.is_cleared = data["is_cleared"]
+		
+		# Kembalikan daftar arah pintu (karena Vector2i di-save otomatis oleh store_var)
+		room.allowed_entrances = data["allowed_entrances"]
+		
+		# Masukkan kembali ke dalam memory map aktif
+		current_map[coords] = room
+		
+	## 3. Beritahu UI/Minimap jika ada signal yang perlu di-update
+	#level_changed.emit(current_level_num)
+	# 4. Masuk ke room terakhir tempat player melakukan save
+	enter_room(current_room_coords)
+
 # ==========================================
 # --- LAYOUT LEVELS ---
 # ==========================================
