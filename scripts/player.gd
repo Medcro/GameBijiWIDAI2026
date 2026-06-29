@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player
+
 # Base Attribute
 @export var hp : int = 5
 @export var speed : float = 300
@@ -67,6 +69,7 @@ var dream : int = 0:
 var player_hitbox_run: float = -7.0
 var player_hitbox_idle: float = 0.5
 var _is_first_frame: bool = true
+@onready var inventory = $Camera2D/CanvasLayer/SPEssence
 
 func _ready() -> void:
 	if "player_health" in SaveManager.game_data:
@@ -388,8 +391,14 @@ func trigger_parry_success() -> void:
 	_set_parry_box_active(false)
 	parry_cooldown_timer = 0.0 # instant parry reset (bisa mke lagI)
 	
+	var dream_gain = 20
+	
+	# Menambahkan jumlah dream yang didapat jika sedang mengequipped essence radiance
+	if has_essence_equipped("Radiance"):
+		dream_gain *= 1.25
+	
 	# buat nambahin dream
-	dream += 20
+	dream += dream_gain
 	
 	# ksih iframe dikit habis parry
 	is_invincible = true
@@ -436,3 +445,18 @@ func snap_camera_and_pet() -> void:
 	# 2. Paksa Dreamcatcher berteleportasi
 	if has_node("Dreamcatcher"):
 		$Dreamcatcher.snap_to_target()
+# Fungsi untuk mengecek apakah ada nama essence tertentu yang sedang terequip
+func has_essence_equipped(essence_name: String) -> bool:
+	if inventory == null:
+		return false
+	var equipped_essences = inventory.get_all_equipped_essences()
+	
+	for essence in equipped_essences:
+		if essence != null and essence.name == essence_name:
+			return true
+			
+	return false
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if body == Enemy:
+		body.take_damage(20)
