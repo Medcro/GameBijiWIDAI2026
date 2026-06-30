@@ -59,6 +59,8 @@ var target_entrance_vector: Vector2i = Vector2i.ZERO # ngasih tau arah pintu
 var current_level_num: int = 1
 var max_levels: int = 5 # woah 5 level yh
 
+var target_cutscene: String = ""
+
 func generate_new_level() -> void:
 	current_map.clear()
 	target_entrance_vector = Vector2i.ZERO
@@ -145,12 +147,11 @@ func complete_level() -> void:
 	print("Boss defeated! Level ", current_level_num, " complete.")
 	
 	if current_level_num < max_levels:
-		# 1. Change to the cutscene instead of generating the level instantly
-		print("Transitioning to cutscene...")
-		# get_tree().change_scene_to_file("res://scenes/cutscene.tscn")
+		target_cutscene = "level_" + str(current_level_num) + "_end"
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/cutscene.tscn")
 	else:
-		print("Final Level Complete! You Win!")
-		# get_tree().change_scene_to_file("res://scenes/credits.tscn")
+		target_cutscene = "outro"
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/cutscene.tscn")
 
 # The Cutscene scene will call this function when it finishes playing
 func start_next_level() -> void:
@@ -212,6 +213,18 @@ func load_map_from_save(saved_level_num: int, saved_room_coords: Vector2i, saved
 	#level_changed.emit(current_level_num)
 	# 4. Masuk ke room terakhir tempat player melakukan save
 	enter_room(current_room_coords)
+func proceed_from_cutscene() -> void:
+	if target_cutscene == "outro":
+		# Game is completely over, return to main menu or credits!
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/main_menu.tscn")
+		return
+		
+	# If we just watched the intro, stay on level 1. Otherwise, move to the next level.
+	if target_cutscene != "intro":
+		current_level_num += 1
+		level_changed.emit(current_level_num)
+		
+	generate_new_level()
 
 # ==========================================
 # --- LAYOUT LEVELS ---

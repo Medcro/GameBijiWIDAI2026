@@ -370,6 +370,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func perform_parry() -> void:
 	is_parrying = true
+	$parrystart.play()
 	parry_timer = parry_duration
 	_set_parry_box_active(true)
 	

@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cs3mhjer5axut" path="res://assets/characters/player/transisi mau loncat animation.png" id="9_3v2ag"]
 [ext_resource type="AudioStream" uid="uid://7fu8m4ypag1s" path="res://assets/audio/characters/player/attack1.ogg" id="11_3v2ag"]
 [ext_resource type="PackedScene" uid="uid://dye07ya70k6vp" path="res://scenes/camera_player.tscn" id="12_3v2ag"]
+[ext_resource type="AudioStream" uid="uid://c8wd7e8llgiqo" path="res://assets/audio/characters/player/parrystart.ogg" id="12_f1ej7"]
 [ext_resource type="AudioStream" uid="uid://b4fhghrldp6hi" path="res://assets/audio/characters/player/parry.ogg" id="12_jej6c"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v2ag"]
@@ -617,6 +618,10 @@ bus = &"SFX"
 
 [node name="parry" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_jej6c")
+bus = &"SFX"
+
+[node name="parrystart" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_f1ej7")
 bus = &"SFX"
 
 [node name="Camera2D" parent="." instance=ExtResource("12_3v2ag")]
