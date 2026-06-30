@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://b4m5wmydw6mqb"]
+[gd_scene load_steps=20 format=4 uid="uid://b4m5wmydw6mqb"]
 
 [ext_resource type="Texture2D" uid="uid://tiyg6wglcppr" path="res://assets/minion_passive_1_3.png" id="1_2gs7a"]
 [ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_e0gfk"]
@@ -6,6 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="3_8ye62"]
 [ext_resource type="Script" uid="uid://dy88y4oy8akt2" path="res://scripts/door.gd" id="4_sus7v"]
 [ext_resource type="PackedScene" uid="uid://dxtycjeamtlp" path="res://scenes/enemies/level1/mubu.tscn" id="6_5tj3r"]
+[ext_resource type="Script" uid="uid://bjcjpj1hpe30l" path="res://scripts/parallaxmanager.gd" id="7_45ru3"]
+[ext_resource type="Texture2D" uid="uid://cp77kva2g8my4" path="res://assets/background/Level 1/Sky.png" id="8_8issa"]
+[ext_resource type="Texture2D" uid="uid://cr0opsyqrnuty" path="res://assets/background/Level 1/Background 1.png" id="9_1xvxs"]
+[ext_resource type="Texture2D" uid="uid://vvlx6q3cbt6h" path="res://assets/background/Level 1/Background 2.png" id="10_bqqdh"]
+[ext_resource type="Texture2D" uid="uid://dlufnsh5igg0f" path="res://assets/background/Level 1/Background 3.png" id="11_pekaw"]
+[ext_resource type="Texture2D" uid="uid://foyvawf0mxxx" path="res://assets/background/Level 1/Foreground.png" id="12_cnlki"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ht83y"]
 size = Vector2(1495, 755)
@@ -30,6 +36,66 @@ size = Vector2(1577, 43)
 
 [node name="MinionVar3" type="Node2D"]
 script = ExtResource("1_e0gfk")
+
+[node name="Background" type="Node" parent="."]
+script = ExtResource("7_45ru3")
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.05, 0.05)
+scroll_offset = Vector2(343, -133)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/Parallax2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_8issa")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D2" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.3, 0.2)
+scroll_offset = Vector2(-3113, -378)
+repeat_size = Vector2(3456, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D2"]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("9_1xvxs")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D3" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.4, 0.286)
+scroll_offset = Vector2(-4265, -569)
+repeat_size = Vector2(4608, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D3"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("10_bqqdh")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D4" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.5, 0.375)
+scroll_offset = Vector2(-5417, -725)
+repeat_size = Vector2(5760, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D4"]
+position = Vector2(0, -71)
+texture = ExtResource("11_pekaw")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D5" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(1.1, 1.1)
+scroll_offset = Vector2(-11177, -468)
+repeat_size = Vector2(11520, 0)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D5"]
+position = Vector2(0, -2138)
+scale = Vector2(2, 2)
+texture = ExtResource("12_cnlki")
+offset = Vector2(960, 800)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
@@ -72,7 +138,7 @@ tile_set = ExtResource("2_sus7v")
 collision_enabled = false
 
 [node name="DoorTrigger" type="CollisionShape2D" parent="RightDoor"]
-position = Vector2(39.75, 2)
+position = Vector2(87, 2)
 shape = SubResource("RectangleShape2D_8ye62")
 
 [node name="WallPhysics" type="StaticBody2D" parent="RightDoor"]
@@ -98,7 +164,7 @@ tile_set = ExtResource("2_sus7v")
 collision_enabled = false
 
 [node name="DoorTrigger" type="CollisionShape2D" parent="LeftDoor"]
-position = Vector2(-11, -14)
+position = Vector2(-78, -14)
 shape = SubResource("RectangleShape2D_5tj3r")
 
 [node name="WallPhysics" type="StaticBody2D" parent="LeftDoor"]
