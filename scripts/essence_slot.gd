@@ -24,7 +24,7 @@ func update_ui():
 		button.modulate = Color.WHITE
 	else:
 		# Jika kosong, beri warna transparan atau icon siluet
-		button.icon = preload("res://assets/icon.svg") 
+		button.icon = preload("res://assets/UI/EssenceMenu/dream essence.png") 
 		button.modulate = Color(1, 1, 1, 0.3)
 		
 	# Opsional: Beri warna bingkai berbeda berdasarkan tipe slot

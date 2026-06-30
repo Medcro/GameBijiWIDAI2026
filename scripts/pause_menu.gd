@@ -1,6 +1,7 @@
 extends Control
 @onready var settings: Panel = $Settings
 @onready var reset_confirm: ConfirmationDialog = $resetConfirm
+@onready var pause_bg: Control = $pauseBg
 
 var open := false
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +26,8 @@ func _process(delta: float) -> void:
 					
 	if not settings.visible:
 		$Panel.show()
-		$Label.show()
+		#$Label.show()
+		pause_bg.show()
 		$VBoxContainer.show()
 		
 func _on_resume_pressed() -> void:
@@ -37,7 +39,8 @@ func _on_reset_pressed() -> void:
 func _on_settings_pressed() -> void:
 	settings.show()
 	$Panel.hide()
-	$Label.hide()
+	#$Label.hide()
+	pause_bg.hide()
 	$VBoxContainer.hide()
 
 func _on_exitmenu_pressed() -> void:

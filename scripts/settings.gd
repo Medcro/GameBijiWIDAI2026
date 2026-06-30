@@ -5,6 +5,9 @@ extends Panel
 @onready var music_slider: HSlider = $VBoxContainer/MarginContainer/audioTab/MusicSlider
 @onready var sfx_slider: HSlider = $VBoxContainer/MarginContainer/audioTab/SFXSlider
 
+@export var styleBoxEmpty: StyleBoxEmpty = preload("res://assets/UI/styleboxEmpty.tres")
+@export var styleBoxNotPressed: StyleBoxFlat = preload("res://assets/UI/styleboxNotPressed.tres")
+
 var masterVol
 var musicVol
 var sfxVol 	
@@ -45,8 +48,12 @@ func _on_audio_set_pressed() -> void:
 	$"../Click".play()
 	audio_tab.show()
 	control_tab.hide()
+	$"VBoxContainer/tabButtons/Audio set".add_theme_stylebox_override("normal", styleBoxEmpty) 
+	$"VBoxContainer/tabButtons/control set".add_theme_stylebox_override("normal", styleBoxNotPressed)
 
 func _on_control_set_pressed() -> void:
 	$"../Click".play()
 	control_tab.show()
 	audio_tab.hide()
+	$"VBoxContainer/tabButtons/control set".add_theme_stylebox_override("normal", styleBoxEmpty) 
+	$"VBoxContainer/tabButtons/Audio set".add_theme_stylebox_override("normal", styleBoxNotPressed)

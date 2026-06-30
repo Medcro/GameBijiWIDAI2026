@@ -9,6 +9,9 @@ extends Control
 @onready var grid_container: GridContainer = $inventoryPanel/MarginContainer/VBoxContainer/VScrollBar/GridContainer
 @onready var unequip_button: Button = $inventoryPanel/MarginContainer/VBoxContainer/HBoxContainer/unequipButton
 @onready var slots_container: VBoxContainer = $VBoxContainer
+@onready var inventory_dream_catcher: TextureRect = $inventoryDreamCatcher
+@onready var right_point: Control = $rightPoint
+@onready var left_point: Control = $leftPoint
 
 var open = false
 
@@ -17,11 +20,13 @@ var active_slot = null
 
 # Simulasi inventory pemain (Essence yang sudah didapatkan)
 @export var collected_essences: Array[EssenceData] = []
+@export var inventoryLeft: Texture2D
+@export var inventoryRight: Texture2D
 
 func _ready() -> void:
 	hide()
 	inventory_panel.hide()
-	
+	inventory_dream_catcher.hide()
 	
 	# Sambungkan sinyal slot_clicked dari masing-masing slot ke fungsi open_inventory
 	slot1.slot_clicked.connect(open_inventory)
@@ -79,14 +84,18 @@ func close_menu() -> void:
 func open_inventory(slot_reference, allowed_type):
 	active_slot = slot_reference
 	
-	if active_slot == slot1:
-		inventory_panel.global_position = active_slot.global_position + Vector2(400, -100)
+	if active_slot == slot1 || active_slot == slot3:
+		inventory_panel.global_position = right_point.global_position - inventory_panel.size/2
+		inventory_dream_catcher.texture = inventoryRight
 	elif active_slot == slot2:
-		inventory_panel.global_position = active_slot.global_position + Vector2(-550, 100)
-	elif active_slot == slot3:
-		inventory_panel.global_position = active_slot.global_position + Vector2(250, 100)
+		inventory_panel.global_position = left_point.global_position - inventory_panel.size/2
+		inventory_dream_catcher.texture = inventoryLeft
+	#elif active_slot == slot3:
+		#inventory_panel.global_position = active_slot.global_position + Vector2(250, 100)
+		#inventory_dream_catcher.texture = inventoryRight
 	
 	inventory_panel.show()
+	inventory_dream_catcher.show()
 	
 	if active_slot.current_essence != null:
 		unequip_button.show() # Munculkan jika slot ada isinya
@@ -156,6 +165,7 @@ func _on_item_selected(essence_data: EssenceData):
 
 func close_inventory():
 	inventory_panel.hide()
+	inventory_dream_catcher.hide()
 	if active_slot != null:
 		active_slot.button.grab_focus()
 	active_slot = null
