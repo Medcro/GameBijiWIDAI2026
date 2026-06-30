@@ -181,6 +181,7 @@ func _physics_process(delta: float) -> void:
 		attack_hitbox.scale.x = facing_direction
 		_animated_sprite.scale.x = facing_direction * 0.249
 		_animated_sprite.position.x = facing_direction * -9.88
+		floor_particle.position.x = facing_direction * -53.0
 		
 		
 	#if state_machine.get_current_node() == "fall":
