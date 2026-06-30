@@ -1,0 +1,39 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://c8i2bj4l3d625"]
+
+[ext_resource type="Texture2D" uid="uid://bmdk356vwpwh4" path="res://assets/UI/audio adjust.png" id="1_v6q6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjs24"]
+atlas = ExtResource("1_v6q6x")
+region = Rect2(1560, 1047, 38, 38)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_am25x"]
+load_path = "res://.godot/imported/audio adjust.png-ae259060fe567dbdab423eb917178493.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ppmf"]
+atlas = SubResource("CompressedTexture2D_am25x")
+region = Rect2(1458, 743, 688, 10)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uhhto"]
+texture = SubResource("AtlasTexture_4ppmf")
+texture_margin_top = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(1456.015, 743, 688, 10)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1g033"]
+load_path = "res://.godot/imported/audio adjust.png-ae259060fe567dbdab423eb917178493.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01roj"]
+atlas = SubResource("CompressedTexture2D_1g033")
+region = Rect2(1458, 903, 688, 10)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wqwn7"]
+texture = SubResource("AtlasTexture_01roj")
+texture_margin_top = 4.0
+texture_margin_bottom = 4.0
+
+[resource]
+HSlider/icons/grabber = SubResource("AtlasTexture_gjs24")
+HSlider/icons/grabber_highlight = SubResource("AtlasTexture_gjs24")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_uhhto")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_uhhto")
+HSlider/styles/slider = SubResource("StyleBoxTexture_wqwn7")

@@ -1,9 +1,9 @@
 extends Panel
-@onready var audio_tab: VBoxContainer = $audioTab
-@onready var control_tab: Control = $controlTab
-@onready var master_slider: HSlider = $audioTab/MasterSlider
-@onready var music_slider: HSlider = $audioTab/MusicSlider
-@onready var sfx_slider: HSlider = $audioTab/SFXSlider
+@onready var audio_tab: MarginContainer = $VBoxContainer/MarginContainer
+@onready var control_tab: Control = $VBoxContainer/controlTab
+@onready var master_slider: HSlider = $VBoxContainer/MarginContainer/audioTab/MasterSlider
+@onready var music_slider: HSlider = $VBoxContainer/MarginContainer/audioTab/MusicSlider
+@onready var sfx_slider: HSlider = $VBoxContainer/MarginContainer/audioTab/SFXSlider
 
 var masterVol
 var musicVol

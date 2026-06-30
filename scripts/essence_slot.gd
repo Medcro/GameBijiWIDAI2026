@@ -28,7 +28,7 @@ func update_ui():
 		button.modulate = Color(1, 1, 1, 0.3)
 		
 	# Opsional: Beri warna bingkai berbeda berdasarkan tipe slot
-	if allowed_type == EssenceData.Type.ATTACK:
+	if allowed_type == EssenceData.Type.ACTIVE:
 		button.self_modulate = Color.INDIAN_RED # Merah untuk Attack
 	else:
 		button.self_modulate = Color.CORNFLOWER_BLUE # Biru untuk Movement

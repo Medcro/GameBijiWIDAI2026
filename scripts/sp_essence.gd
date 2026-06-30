@@ -32,19 +32,21 @@ func _ready() -> void:
 	close_button.pressed.connect(close_inventory)
 	unequip_button.pressed.connect(_on_unequip_pressed)
 	
-	# --- CONTOH DATA: Ceritanya pemain sudah ngumpulin 3 item ini ---
-	var pedang = EssenceData.new()
-	pedang.name = "Super Sword"; pedang.type = EssenceData.Type.ATTACK
-	pedang.icon = preload("res://assets/icon.svg")
-	
-	var api = EssenceData.new()
-	api.name = "Fireball"; api.type = EssenceData.Type.ATTACK
-	
-	var sepatu = EssenceData.new()
-	sepatu.name = "Dash Boots"; sepatu.type = EssenceData.Type.MOVEMENT
-	
-	collected_essences.append_array([pedang, api, sepatu])
+	## --- CONTOH DATA: Ceritanya pemain sudah ngumpulin 3 item ini ---
+	#var pedang = EssenceData.new()
+	#pedang.name = "Super Sword"; pedang.type = EssenceData.Type.ACTIVE
+	#pedang.icon = preload("res://assets/icon.svg")
+	#
+	#var api = EssenceData.new()
+	#api.name = "Fireball"; api.type = EssenceData.Type.ACTIVE
+	#
+	#var sepatu = EssenceData.new()
+	#sepatu.name = "Dash Boots"; sepatu.type = EssenceData.Type.PASSIVE
+	#
+	#collected_essences.append_array([pedang, api, sepatu])
 	# ----------------------------------------------------------------
+	#if "collected_essences" in SaveManager.game_data:
+		#collected_essences.append_array(SaveManager.game_data["collected_essences"])
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("EssenceTab"):
@@ -96,14 +98,14 @@ func open_inventory(slot_reference, allowed_type):
 		
 	# 1. AMBIL DAFTAR ESSENCE YANG SEDANG DIPAKAI DI SLOT LAIN
 	var equipped_essences = get_all_equipped_essences()
-		
-	for essence in collected_essences:
-		if essence.type == allowed_type:
-			# 2. Cek apakah essence ini sudah ada di salah satu slot
-			var is_already_equipped = essence in equipped_essences
-			
-			create_inventory_button(essence, is_already_equipped)
-			
+	if equipped_essences != []:
+		for essence in collected_essences:
+			if essence.type == allowed_type:
+				# 2. Cek apakah essence ini sudah ada di salah satu slot
+				var is_already_equipped = essence in equipped_essences
+				
+				create_inventory_button(essence, is_already_equipped)
+				
 	await get_tree().process_frame 
 	
 	if grid_container.get_child_count() > 0:

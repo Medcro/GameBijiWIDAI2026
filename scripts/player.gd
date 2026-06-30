@@ -78,8 +78,8 @@ func _ready() -> void:
 		dream = SaveManager.game_data["player_dream"]
 	if SaveManager.game_data["player_position"] != Vector2.ZERO:
 		global_position = SaveManager.game_data["player_position"]
-	if "collected_essences" in SaveManager.game_data:
-		collected_essences = SaveManager.game_data["collected_essences"]
+	#if "collected_essences" in SaveManager.game_data:
+		#collected_essences = SaveManager.game_data["collected_essences"]
 		#if has_node("Camera2D"):
 			#$Camera2D.reset_smoothing() 
 			#$Camera2D.force_update_scroll()
@@ -456,7 +456,3 @@ func has_essence_equipped(essence_name: String) -> bool:
 			return true
 			
 	return false
-
-func _on_attack_hitbox_body_entered(body: Node2D) -> void:
-	if body == Enemy:
-		body.take_damage(20)

@@ -1,11 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://cnf6m2x8m58j4"]
+[gd_scene load_steps=10 format=3 uid="uid://cnf6m2x8m58j4"]
 
 [ext_resource type="Script" uid="uid://cxpxn81buvy8n" path="res://scripts/settings.gd" id="1_5p8wc"]
+[ext_resource type="Texture2D" uid="uid://bmdk356vwpwh4" path="res://assets/UI/audio adjust.png" id="2_83j8s"]
+[ext_resource type="Theme" uid="uid://c8i2bj4l3d625" path="res://assets/UI/UI_theme.tres" id="2_gjs24"]
 [ext_resource type="Script" uid="uid://bhaica5lawsto" path="res://scripts/master_slider.gd" id="2_r6d6q"]
 [ext_resource type="Script" uid="uid://4h6pmk1pninm" path="res://scripts/music_slider.gd" id="3_6wm04"]
 [ext_resource type="Script" uid="uid://e31002rpfg7i" path="res://scripts/sfx_slider.gd" id="4_f4mfi"]
 [ext_resource type="PackedScene" uid="uid://bbv1ab788e2yn" path="res://scenes/input_bind_button.tscn" id="5_es4n0"]
 [ext_resource type="Script" uid="uid://c4ci56tyvc264" path="res://scripts/control_tab.gd" id="5_gis3k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_am25x"]
+atlas = ExtResource("2_83j8s")
+region = Rect2(1397, 879, 809, 56)
 
 [node name="Settings" type="Panel"]
 anchors_preset = 15
@@ -25,140 +31,8 @@ offset_top = 45.0
 offset_right = 74.0
 offset_bottom = 90.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 54
 text = "SETTINGS"
-
-[node name="audioTab" type="VBoxContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -221.0
-offset_top = -205.0
-offset_right = 392.0
-offset_bottom = 209.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
-
-[node name="master" type="Label" parent="audioTab"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Master"
-
-[node name="MasterSlider" type="HSlider" parent="audioTab"]
-layout_mode = 2
-max_value = 1.0
-step = 0.02
-value = 1.0
-script = ExtResource("2_r6d6q")
-audio_bus_name = "Master"
-
-[node name="Music" type="Label" parent="audioTab"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Music"
-
-[node name="MusicSlider" type="HSlider" parent="audioTab"]
-layout_mode = 2
-max_value = 1.0
-step = 0.02
-value = 1.0
-script = ExtResource("3_6wm04")
-audio_bus_name = "Music"
-
-[node name="SFX" type="Label" parent="audioTab"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "SFX"
-
-[node name="SFXSlider" type="HSlider" parent="audioTab"]
-layout_mode = 2
-max_value = 1.0
-step = 0.02
-value = 1.0
-script = ExtResource("4_f4mfi")
-audio_bus_name = "SFX"
-
-[node name="controlTab" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -221.0
-offset_top = -205.0
-offset_right = 392.0
-offset_bottom = 209.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_gis3k")
-
-[node name="MarginContainer" type="MarginContainer" parent="controlTab"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
-
-[node name="VBoxContainer" type="VBoxContainer" parent="controlTab/MarginContainer"]
-layout_mode = 2
-
-[node name="Container" type="Control" parent="controlTab/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ActionList" type="GridContainer" parent="controlTab/MarginContainer/VBoxContainer/Container"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
-columns = 2
-
-[node name="inputButton" parent="controlTab/MarginContainer/VBoxContainer/Container/ActionList" instance=ExtResource("5_es4n0")]
-layout_mode = 2
-
-[node name="ResetButton" type="Button" parent="controlTab/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 36)
-layout_mode = 2
-focus_mode = 0
-text = "Reset Controls"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -505.0
-offset_top = -212.0
-offset_right = -265.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Audio set" type="Button" parent="VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Audio Settings"
-
-[node name="control set" type="Button" parent="VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Control Settings"
 
 [node name="back" type="Button" parent="."]
 layout_mode = 1
@@ -195,13 +69,182 @@ text = "Apply
 initial_position = 1
 ok_button_text = "Yes"
 
-[connection signal="value_changed" from="audioTab/MasterSlider" to="audioTab/MasterSlider" method="_on_value_changed"]
-[connection signal="value_changed" from="audioTab/MusicSlider" to="audioTab/MusicSlider" method="_on_value_changed"]
-[connection signal="value_changed" from="audioTab/SFXSlider" to="audioTab/SFXSlider" method="_on_value_changed"]
-[connection signal="pressed" from="controlTab/MarginContainer/VBoxContainer/ResetButton" to="controlTab" method="_on_reset_button_pressed"]
-[connection signal="pressed" from="VBoxContainer2/Audio set" to="." method="_on_audio_set_pressed"]
-[connection signal="pressed" from="VBoxContainer2/control set" to="." method="_on_control_set_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -418.0
+offset_top = -293.0
+offset_right = 418.0
+offset_bottom = 293.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="tabButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Audio set" type="Button" parent="VBoxContainer/tabButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "Audio Settings"
+
+[node name="control set" type="Button" parent="VBoxContainer/tabButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "Control Settings"
+
+[node name="controlTab" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_gis3k")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/controlTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/controlTab/MarginContainer"]
+layout_mode = 2
+
+[node name="Container" type="Control" parent="VBoxContainer/controlTab/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="GridContainer" parent="VBoxContainer/controlTab/MarginContainer/VBoxContainer/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="inputButton" parent="VBoxContainer/controlTab/MarginContainer/VBoxContainer/Container/ActionList" instance=ExtResource("5_es4n0")]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="VBoxContainer/controlTab/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+focus_mode = 0
+text = "Reset Controls"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 20
+
+[node name="audioTab" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="master" type="Label" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Master"
+
+[node name="MasterSlider" type="HSlider" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme = ExtResource("2_gjs24")
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("2_r6d6q")
+audio_bus_name = "Master"
+
+[node name="TextureRect" type="NinePatchRect" parent="VBoxContainer/MarginContainer/audioTab/MasterSlider"]
+show_behind_parent = true
+custom_minimum_size = Vector2(832, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = -6.0
+offset_right = 18.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_am25x")
+region_rect = Rect2(0, 0, 809, 56)
+
+[node name="Music" type="Label" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme = ExtResource("2_gjs24")
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("3_6wm04")
+audio_bus_name = "Music"
+
+[node name="TextureRect" type="NinePatchRect" parent="VBoxContainer/MarginContainer/audioTab/MusicSlider"]
+show_behind_parent = true
+custom_minimum_size = Vector2(832, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_am25x")
+region_rect = Rect2(0, 0, 809, 56)
+
+[node name="SFX" type="Label" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "SFX"
+
+[node name="SFXSlider" type="HSlider" parent="VBoxContainer/MarginContainer/audioTab"]
+layout_mode = 2
+theme = ExtResource("2_gjs24")
+max_value = 1.0
+step = 0.02
+value = 1.0
+script = ExtResource("4_f4mfi")
+audio_bus_name = "SFX"
+
+[node name="TextureRect" type="NinePatchRect" parent="VBoxContainer/MarginContainer/audioTab/SFXSlider"]
+show_behind_parent = true
+custom_minimum_size = Vector2(832, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_am25x")
+region_rect = Rect2(0, 0, 809, 56)
+
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="apply" to="." method="_on_apply_pressed"]
-[connection signal="canceled" from="ConfirmationDialog" to="controlTab" method="_on_confirmation_dialog_canceled"]
-[connection signal="confirmed" from="ConfirmationDialog" to="controlTab" method="_on_confirmation_dialog_confirmed"]
+[connection signal="canceled" from="ConfirmationDialog" to="VBoxContainer/controlTab" method="_on_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="ConfirmationDialog" to="VBoxContainer/controlTab" method="_on_confirmation_dialog_confirmed"]
+[connection signal="pressed" from="VBoxContainer/tabButtons/Audio set" to="." method="_on_audio_set_pressed"]
+[connection signal="pressed" from="VBoxContainer/tabButtons/control set" to="." method="_on_control_set_pressed"]
+[connection signal="pressed" from="VBoxContainer/controlTab/MarginContainer/VBoxContainer/ResetButton" to="VBoxContainer/controlTab" method="_on_reset_button_pressed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/audioTab/MasterSlider" to="VBoxContainer/MarginContainer/audioTab/MasterSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/audioTab/MusicSlider" to="VBoxContainer/MarginContainer/audioTab/MusicSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/audioTab/SFXSlider" to="VBoxContainer/MarginContainer/audioTab/SFXSlider" method="_on_value_changed"]
