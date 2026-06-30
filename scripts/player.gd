@@ -3,7 +3,7 @@ extends CharacterBody2D
 # Base Attribute
 @export var hp : int = 5
 @export var speed : float = 300
-@export var jump : float = -500
+@export var jump : float = -610
 @export var gravity : float = 980 
 
 # Dash Attribute
@@ -38,8 +38,11 @@ var is_damage_iframes : bool = false
 var parry_cooldown_timer : float = 0.0
 
 # Essence Attributes
-@export var has_agility_essence : bool = false 
-@export var has_flight_essence : bool = true 
+@export var has_agility_essence : bool = false # nyalain pas equip special essence i frame dash
+@export var has_flight_essence : bool = false # nyalain pas equip special essence double jump 
+@export var has_radiance_essence : bool = false # nyalain pas equip special essence yg banyakin dream bar per parry
+@export var has_heart_essence : bool = false # nyalain pas equip special essence instaheal
+@export var has_shield_essence : bool = false # nyalain pas equip special essence shield
 
 var is_invincible : bool = false
 var can_double_jump : bool = false
