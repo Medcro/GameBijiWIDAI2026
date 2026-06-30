@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cq77wbdm27fwa"]
+[gd_scene load_steps=3 format=3 uid="uid://cq77wbdm27fwa"]
 
 [ext_resource type="Script" uid="uid://bf5ngi1cvo20e" path="res://scripts/sp_essence.gd" id="1_2ywtw"]
 [ext_resource type="PackedScene" uid="uid://dpp0uh8wpeayp" path="res://scenes/essence_slot.tscn" id="2_6rbwk"]
-[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_nmcmq"]
-[ext_resource type="Resource" uid="uid://rpvl2b0rwrul" path="res://resource/essences/Radiance.tres" id="3_yjvo5"]
 
 [node name="SPEssence" type="Control"]
 process_mode = 3
@@ -14,7 +12,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2ywtw")
-collected_essences = Array[ExtResource("2_nmcmq")]([ExtResource("3_yjvo5"), null, null, null, null, null, null])
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
