@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://88e85mmpv6yl"]
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://wgq2fc11sjby"]
 
 [ext_resource type="Texture2D" uid="uid://c0qjjsw4fdcxn" path="res://assets/essences/efficiency.png" id="1_3sgih"]
 [ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_kunvc"]

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://bntsnticcmwi2"]
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://x4yfrcvy11dw"]
 
 [ext_resource type="Texture2D" uid="uid://cji6pa0jh0iue" path="res://assets/essences/the golem.png" id="1_pnb3s"]
 [ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_g31fu"]

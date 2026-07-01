@@ -10,7 +10,7 @@ var is_room_locked: bool = false
 
 func _ready() -> void:
 	set_deferred("collision_mask", 2)
-	print("Peta saat ini berisi: ", LevelManager.current_map)
+	#print("Peta saat ini berisi: ", LevelManager.current_map)
 	var target_vector = _get_target_room_vector()
 	
 	if target_vector == Vector2i.ZERO:

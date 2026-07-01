@@ -14,7 +14,7 @@ enum level {ONE, TWO}
 @onready var essence: Sprite2D = $Area2D/Essence
 
 func _ready() -> void:
-	essence.texture = load(current_essence.icon)
+	essence.texture = current_essence.icon
 
 func pick_random_essence(current_level : level):
 	match current_level:
