@@ -6,9 +6,6 @@ extends Control
 @onready var reset_confirm: ConfirmationDialog = $resetConfirm
 @onready var title: Label = $Title
 
-@export var default_position: Vector2
-
-const FIRST_LEVEL_PATH = "res://scenes/rooms/level1/spawn_var_1.tscn"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	settings.hide()
@@ -32,7 +29,7 @@ func _on_start_pressed() -> void:
 	if typeof(SaveManager) != TYPE_NIL and SaveManager.has_save():
 		reset_confirm.popup_centered()
 	else:
-		new_level()
+		SaveManager.reset_level()
 
 func _on_settings_pressed() -> void:
 	$Click.play()
@@ -62,19 +59,7 @@ func _on_reset_confirm_confirmed() -> void:
 	if typeof(SaveManager) != TYPE_NIL:
 		SaveManager.delete_save()
 	
-	new_level()
+	SaveManager.reset_level()
 
 func _on_reset_confirm_canceled() -> void:
 	reset_confirm.hide()
-
-func new_level() -> void:
-	SaveManager.game_data = {
-		"player_position": default_position, 
-		"player_health": 5, # Darah maksimal awal
-		"collected_essences": [],
-		"current_scene_path": FIRST_LEVEL_PATH
-	}
-	SaveManager.save_game() # Kunci data baru ini ke dalam memori
-	#get_tree().change_scene_to_file(FIRST_LEVEL_PATH)
-	LevelManager.current_level_num = 1
-	LevelManager.generate_new_level()

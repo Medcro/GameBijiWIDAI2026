@@ -26,4 +26,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			SaveManager.game_data["collected_essences"] = []
 		SaveManager.game_data["collected_essences"].append(current_essence)
 		
+		if SaveManager.game_data.has("has_collected_first_essence") and SaveManager.game_data["has_collected_first_essence"] == false:
+			# Langsung ubah jadi true agar tutorial tidak muncul lagi di item berikutnya
+			SaveManager.game_data["has_collected_first_essence"] = true
+			
+			# PANGGIL FUNGSI TUTORIALMU DI SINI
+			print("TUTORIAL MUNCUL: Selamat! Kamu mendapatkan Essence pertama. Tekan R untuk membuka menu.")
+			# (Contoh jika kamu punya node TutorialManager: )
+			# var tutorial = get_tree().get_first_node_in_group("TutorialManager")
+			# if tutorial: tutorial.show_essence_tutorial()
+		SaveManager.save_game()
 		queue_free()

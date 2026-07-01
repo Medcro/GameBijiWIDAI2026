@@ -87,19 +87,7 @@ func close_menu() -> void:
 	hide()
 
 func _on_reset_confirm_confirmed() -> void:
-	new_level()
+	SaveManager.reset_level()
 
 func _on_reset_confirm_canceled() -> void:
 	reset_confirm.hide()
-
-func new_level() -> void:
-	SaveManager.game_data = {
-		"player_position": default_position, 
-		"player_health": 5, # Darah maksimal awal
-		"collected_essences": [],
-		"current_scene_path": FIRST_LEVEL_PATH
-	}
-	SaveManager.save_game() # Kunci data baru ini ke dalam memori
-	#get_tree().change_scene_to_file(FIRST_LEVEL_PATH)
-	LevelManager.current_level_num = 1
-	LevelManager.generate_new_level()

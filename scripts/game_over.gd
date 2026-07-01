@@ -21,7 +21,7 @@ func _input(event: InputEvent) -> void:
 			continue_next()
 			
 func continue_next() -> void:
-	new_level()
+	SaveManager.reset_level()
 	
 func start_pulse() -> void:
 	if pressany == null: 
@@ -37,15 +37,3 @@ func start_pulse() -> void:
 	
 	# Fade back down to 0.2 opacity over 1.5 seconds
 	tween.tween_property(pressany, "modulate:a", 0.2, 1.5).set_trans(Tween.TRANS_SINE)
-
-func new_level() -> void:
-	SaveManager.game_data = {
-		"player_position": default_position, 
-		"player_health": 5, # Darah maksimal awal
-		"collected_essences": [],
-		"current_scene_path": FIRST_LEVEL_PATH
-	}
-	SaveManager.save_game() # Kunci data baru ini ke dalam memori
-	#get_tree().change_scene_to_file(FIRST_LEVEL_PATH)
-	LevelManager.current_level_num = 1
-	LevelManager.generate_new_level()
