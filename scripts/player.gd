@@ -66,10 +66,17 @@ var dream : int = 0:
 @onready var floor_particle: GPUParticles2D = $floorParticle
 @onready var player_hitbox: CollisionShape2D = $CollisionShape2D
 
+
 var player_hitbox_run: float = -7.0
 var player_hitbox_idle: float = 0.5
 var _is_first_frame: bool = true
 @onready var inventory = $Camera2D/CanvasLayer/SPEssence
+
+#audio steps
+@export var step_sounds: AudioStream
+# Tentukan frame ke-berapa kaki menyentuh tanah (contoh: frame 1 dan 4)
+@export var step_frames_walk: Array[int] = [1, 4] 
+@onready var step_audio: AudioStreamPlayer2D = $stepAudio
 
 func _ready() -> void:
 	if "player_health" in SaveManager.game_data:
@@ -186,14 +193,7 @@ func _physics_process(delta: float) -> void:
 		
 	#if state_machine.get_current_node() == "fall":
 		#state_machine.travel("endFall")
-	if direction != 0:
-		state_machine.travel("run")
-		player_hitbox.shape.size.x = 70.0
-		player_hitbox.position.x = facing_direction * player_hitbox_run
-	else:
-		state_machine.travel("Idle")
-		player_hitbox.shape.size.x = 55.0
-		player_hitbox.position.x = facing_direction * player_hitbox_idle
+
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
@@ -270,15 +270,24 @@ func _physics_process(delta: float) -> void:
 				
 		perform_parry()
 
-	if not is_on_floor():
+	if is_on_floor():
+		if direction != 0:
+			state_machine.travel("run")
+			player_hitbox.shape.size.x = 70.0
+			player_hitbox.position.x = facing_direction * player_hitbox_run
+			_play_step_sound()
+		else:
+			state_machine.travel("Idle")
+			player_hitbox.shape.size.x = 55.0
+			player_hitbox.position.x = facing_direction * player_hitbox_idle
+		can_double_jump = true
+	else:
 		velocity.y += gravity * delta
 		if velocity.y < 0:
 			state_machine.travel("jump")
 		else:
 			state_machine.travel("fall")
-	else:
-		# can double jump
-		can_double_jump = true
+		
 		
 	if Input.is_action_just_pressed("move_down") and is_on_floor():
 		position.y += 1.2
@@ -458,3 +467,11 @@ func has_essence_equipped(essence_name: String) -> bool:
 			return true
 			
 	return false
+
+func _play_step_sound() -> void:
+	if (not step_sounds) or step_audio == null:
+		return
+	# Tambahkan pengecekan ini:
+	if not step_audio.playing:
+		step_audio.pitch_scale = randf_range(0.9, 1.2)
+		step_audio.play()
