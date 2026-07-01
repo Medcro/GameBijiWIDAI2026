@@ -173,5 +173,16 @@ scale = Vector2(2, 2)
 texture = ExtResource("12_0uj5h")
 offset = Vector2(960, 800)
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.83497655, 0.8506794, 0.90251106, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+rotation = -0.38397244
+color = Color(0.8567511, 0.52654487, 0.48130792, 1)
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.5
+
 [connection signal="body_entered" from="RightDoor" to="RightDoor" method="_on_body_entered"]
 [connection signal="body_entered" from="LeftDoor" to="LeftDoor" method="_on_body_entered"]

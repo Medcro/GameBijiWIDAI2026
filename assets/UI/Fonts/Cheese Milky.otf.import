@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://ccniu87u2j5ar"
-path="res://.godot/imported/Cheese Milky.otf-9c8e7197afa9ea43628bc65f018eda8d.fontdata"
+path="res://.godot/imported/Cheese Milky.otf-59997836e60b30f243b9066386a4b02d.fontdata"
 
 [deps]
 
-source_file="res://assets/UI/Fonts/Cheese Milky.otf"
-dest_files=["res://.godot/imported/Cheese Milky.otf-9c8e7197afa9ea43628bc65f018eda8d.fontdata"]
+source_file="res://assets/UI/fonts/Cheese Milky.otf"
+dest_files=["res://.godot/imported/Cheese Milky.otf-59997836e60b30f243b9066386a4b02d.fontdata"]
 
 [params]
 

@@ -77,8 +77,3 @@ func reset_and_delete_save() -> void:
 		"discovered_rooms": [] 
 	}
 	print("Save data dihapus dan memori game_data telah di-reset!")
-
-func reset_level() -> void:
-	reset_and_delete_save()
-	LevelManager.current_level_num = 1
-	LevelManager.generate_new_level()

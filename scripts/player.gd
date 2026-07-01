@@ -147,7 +147,7 @@ func hit_flash():
 
 func update_heart_display():
 	for i in range(hearts_list.size()):
-		hearts_list[i].visible = i<health
+		hearts_list[i].find_child("Sprite2D").visible = i<health
 		
 	#if health == 1:
 		#hearts_list[0].get_child(0).play("")

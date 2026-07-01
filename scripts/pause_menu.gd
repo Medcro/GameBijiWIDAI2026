@@ -5,10 +5,6 @@ extends Control
 
 var open := false
 
-@export var default_position: Vector2
-
-const FIRST_LEVEL_PATH = "res://scenes/rooms/level1/spawn_var_1.tscn"
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	hide()
@@ -87,7 +83,9 @@ func close_menu() -> void:
 	hide()
 
 func _on_reset_confirm_confirmed() -> void:
-	SaveManager.reset_level()
+	SaveManager.reset_and_delete_save()
+	LevelManager.current_level_num = 1
+	LevelManager.generate_new_level()
 
 func _on_reset_confirm_canceled() -> void:
 	reset_confirm.hide()
