@@ -30,6 +30,7 @@ var charge_direction : Vector2 = Vector2.ZERO
 var ghost_spawn_time : float = 0.04
 var ghost_timer : float = 0.0
 
+const Essence = preload("res://scenes/collectible.tscn")
 
 func _ready() -> void:
 	# Save the Y height it spawned at so it knows where to return to
@@ -250,6 +251,9 @@ func hit_flash():
 	tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.05)
 
 func die():
+	var newEssence = Essence.instantiate()
+	newEssence.global_position = global_position
+	get_tree().current_scene.add_child(newEssence)
 	current_state = States.DEATH
 
 	collision.set_deferred("disabled", true)

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=2 format=3 uid="uid://bf8xpvg0pv7xp"]
+
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_bcuwr"]
+
+[resource]
+script = ExtResource("1_bcuwr")
+name = "Flight"
+type = 1
+description = "You can double jump"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

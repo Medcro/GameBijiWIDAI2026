@@ -75,11 +75,14 @@ var player_hitbox_idle: float = 0.5
 var _is_first_frame: bool = true
 @onready var inventory = $Camera2D/CanvasLayer/SPEssence
 
-#audio steps
+#audio
 @export var step_sounds: AudioStream
 # Tentukan frame ke-berapa kaki menyentuh tanah (contoh: frame 1 dan 4)
 @export var step_frames_walk: Array[int] = [1, 4] 
 @onready var step_audio: AudioStreamPlayer2D = $stepAudio
+@onready var dash_audio: AudioStreamPlayer2D = $dashAudio
+@onready var jump_audio: AudioStreamPlayer2D = $jumpAudio
+@onready var land_audio: AudioStreamPlayer2D = $landAudio
 
 func _ready() -> void:
 	if "player_health" in SaveManager.game_data:
@@ -230,6 +233,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Dash") and not is_dashing and dash_cooldown_timer <= 0:
 		is_dashing = true
 		dash_timer = dash_duration
+		dash_audio.play()
 		
 		if has_agility_essence:
 			is_invincible = true
@@ -291,17 +295,18 @@ func _physics_process(delta: float) -> void:
 		else:
 			state_machine.travel("fall")
 		
-		
 	if Input.is_action_just_pressed("move_down") and is_on_floor():
 		position.y += 1.2
 		
 	if Input.is_action_just_pressed("Jump") and not is_dashing and not is_attacking:
 		if is_on_floor():
 			velocity.y = jump
+			jump_audio.play()
 		elif can_double_jump and has_flight_essence:
 			velocity.y = jump
 			can_double_jump = false 
 			CameraEffects.shake(5.0, 0.3)
+			jump_audio.play()
 
 	# Movement 
 	if is_dashing:
@@ -478,3 +483,26 @@ func _play_step_sound() -> void:
 	if not step_audio.playing:
 		step_audio.pitch_scale = randf_range(0.9, 1.2)
 		step_audio.play()
+		
+func update_active_essences(equipped_essences: Array[EssenceData]) -> void:
+	# 1. Matikan semua power-up dulu (reset)
+	has_flight_essence = false
+	has_agility_essence = false
+	has_radiance_essence = false
+	has_heart_essence = false
+	has_shield_essence = false
+	# (Tambahkan boolean essence lain di sini jika ada)
+
+	# 2. Nyalakan power-up yang ada di dalam tas (slot)
+	for essence in equipped_essences:
+		# PENTING: Pastikan teks di bawah sama PERSIS dengan isi kolom "Name" di file .tres kamu
+		if essence.name == "Flight": 
+			has_flight_essence = true
+			print("Player sekarang bisa Double Jump!")
+			
+		elif essence.name == "Agility":
+			has_agility_essence = true
+			print("Player sekarang Invincible saat Dash!")
+		elif essence.name == "Radiance":
+			has_radiance_essence = true
+			print(essence.description)

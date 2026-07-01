@@ -19,7 +19,7 @@ func _ready() -> void:
 		continuebtn.hide()
 		startbtn.text = "DREAM"
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if settings.visible:
 		button_box.hide()
 		title.hide()

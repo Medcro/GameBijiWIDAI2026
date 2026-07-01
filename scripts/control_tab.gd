@@ -2,7 +2,7 @@ extends Control
 
 @onready var input_button_scn = preload("res://scenes/input_bind_button.tscn")
 @onready var action_list: GridContainer = $MarginContainer/VBoxContainer/Container/ActionList
-@onready var confirmation_dialog: ConfirmationDialog = $"../ConfirmationDialog"
+@onready var confirmation_dialog: ConfirmationDialog = %ConfirmationDialog
 
 var is_remapping = false
 var action_to_remap = null

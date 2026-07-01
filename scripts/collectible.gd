@@ -12,8 +12,9 @@ func pick_random_essence():
 	return collectible_essence[randi_range(0,collectible_essence.size()-1)]
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	print("entered: ", body.name)
 	if body is Player:
-
+		print("player entered")
 		for check_essence in sp_essence.collected_essences:
 			if check_essence == current_essence:
 				queue_free()
@@ -21,5 +22,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		
 		sp_essence.collected_essences.append(current_essence)
 		print("Player has collected " + current_essence.name)
+		if not SaveManager.game_data.has("collected_essences"):
+			SaveManager.game_data["collected_essences"] = []
+		SaveManager.game_data["collected_essences"].append(current_essence)
 		
 		queue_free()

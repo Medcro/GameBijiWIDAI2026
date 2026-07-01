@@ -8,6 +8,10 @@ var game_data : Dictionary = {
 	"player_dream" : 0,
 	"collected_essences": [],
 	
+	"equipped_slot1": null,
+	"equipped_slot2": null,
+	"equipped_slot3": null,
+	
 	"current_scene_path": "",
 	"current_level_num": 1,
 	"current_room_coords": Vector2i.ZERO,
@@ -19,7 +23,7 @@ func save_game():
 	# Buka file dalam mode WRITE (Menulis/Menimpa)
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	if file:
-		file.store_var(game_data)
+		file.store_var(game_data, true)
 		print("Game berhasil di-save!")
 	else:
 		print("Gagal nge-save game!")
@@ -31,7 +35,7 @@ func load_game() -> bool:
 		var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 		if file:
 			# Tarik datanya dan timpa keranjang game_data kita
-			var loaded_data = file.get_var()
+			var loaded_data = file.get_var(true)
 			
 			# Validasi opsional: pastikan data yang di-load bukan null
 			if loaded_data != null:

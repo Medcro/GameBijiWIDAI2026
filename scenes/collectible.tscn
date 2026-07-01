@@ -1,22 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://npumkxl11hei"]
+[gd_scene load_steps=7 format=3 uid="uid://b564y8nhbyjo0"]
 
 [ext_resource type="Script" uid="uid://cnyrf82mu86p2" path="res://scripts/collectible.gd" id="1_bkg8t"]
-[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="2_1pg6c"]
 [ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_ga2k0"]
 [ext_resource type="Resource" uid="uid://rpvl2b0rwrul" path="res://resource/essences/Radiance.tres" id="3_6gns2"]
+[ext_resource type="Resource" uid="uid://bf8xpvg0pv7xp" path="res://resource/essences/Flight.tres" id="4_6gns2"]
+[ext_resource type="Texture2D" uid="uid://sx2ngus3en5g" path="res://assets/UI/EssenceMenu/dream essence.png" id="4_ga2k0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_61c27"]
 radius = 65.0
 
 [node name="collectible" type="Node2D"]
 script = ExtResource("1_bkg8t")
-collectible_essence = Array[ExtResource("2_ga2k0")]([ExtResource("3_6gns2")])
+collectible_essence = Array[ExtResource("2_ga2k0")]([ExtResource("3_6gns2"), ExtResource("4_6gns2")])
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.4, 0.4)
+collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-texture = ExtResource("2_1pg6c")
+texture = ExtResource("4_ga2k0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_61c27")

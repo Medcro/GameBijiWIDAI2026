@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=120 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://jlte8yf857w7" path="res://assets/audio/characters/player/Walking.ogg" id="2_qfm1y"]
@@ -17,6 +17,9 @@
 [ext_resource type="AudioStream" uid="uid://c8wd7e8llgiqo" path="res://assets/audio/characters/player/parrystart.ogg" id="12_f1ej7"]
 [ext_resource type="AudioStream" uid="uid://b4fhghrldp6hi" path="res://assets/audio/characters/player/parry.ogg" id="12_jej6c"]
 [ext_resource type="Texture2D" uid="uid://bhl1d563rsa0p" path="res://assets/characters/player/running particle.png" id="14_f1ej7"]
+[ext_resource type="AudioStream" uid="uid://dxau8wp4ouf0j" path="res://assets/audio/characters/player/Dash.ogg" id="18_fulsm"]
+[ext_resource type="AudioStream" uid="uid://r8ph33uw30m1" path="res://assets/audio/characters/player/Jump.ogg" id="19_4r5pv"]
+[ext_resource type="AudioStream" uid="uid://t2y31gua54ki" path="res://assets/audio/characters/player/Landing.ogg" id="20_60mlk"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v2ag"]
 animation = &"Idle"
@@ -552,7 +555,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"endFall",
-"speed": 12.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -563,7 +566,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"endWalk",
-"speed": 12.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -599,7 +602,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"jumptoFall",
-"speed": 12.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -698,7 +701,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"startJump",
-"speed": 12.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -709,7 +712,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"startWalk",
-"speed": 12.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -818,7 +821,7 @@ debug_color = Color(0, 0.6437439, 0.30010566, 0.41960785)
 position = Vector2(-9.88, -10.02)
 scale = Vector2(0.249, 0.249)
 sprite_frames = SubResource("SpriteFrames_jej6c")
-animation = &"walk"
+animation = &"endFall"
 
 [node name="attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_3v2ag")
@@ -846,5 +849,23 @@ process_material = SubResource("ParticleProcessMaterial_f1ej7")
 [node name="stepAudio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(0, 55)
 stream = ExtResource("2_qfm1y")
-volume_db = 16.0
+volume_db = 15.0
+bus = &"SFX"
+
+[node name="dashAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 55)
+stream = ExtResource("18_fulsm")
+volume_db = 18.0
+bus = &"SFX"
+
+[node name="jumpAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 55)
+stream = ExtResource("19_4r5pv")
+volume_db = 3.0
+bus = &"SFX"
+
+[node name="landAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 55)
+stream = ExtResource("20_60mlk")
+volume_db = 15.0
 bus = &"SFX"

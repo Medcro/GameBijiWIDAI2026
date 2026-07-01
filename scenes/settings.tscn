@@ -75,6 +75,7 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_am25x")
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
 initial_position = 1
 ok_button_text = "Yes"
 

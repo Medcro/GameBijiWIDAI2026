@@ -19,6 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n87rw")
+default_position = Vector2(-141, 156)
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
