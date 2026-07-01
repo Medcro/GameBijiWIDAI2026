@@ -563,6 +563,8 @@ one_shot = true
 one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="SpinHitbox" type="CollisionShape2D" parent="AttackHitbox"]
 position = Vector2(2.000001, -10)
