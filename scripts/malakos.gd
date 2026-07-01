@@ -15,6 +15,8 @@ extends Enemy
 
 func _ready() -> void:
 	super._ready()
+	
+	print(player.global_position)
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -171,6 +173,9 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 
 func die():
 	super.die()
-	# Add level transition in here
+	await get_tree().create_timer(1.0).timeout 
+	LevelManager.complete_level() 
+	
+	queue_free()
 	
 	
