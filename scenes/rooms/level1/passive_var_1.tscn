@@ -1,10 +1,16 @@
-[gd_scene load_steps=13 format=4 uid="uid://73damnxeh55x"]
+[gd_scene load_steps=19 format=4 uid="uid://73damnxeh55x"]
 
 [ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_33ykf"]
 [ext_resource type="Texture2D" uid="uid://74g4mg2ijb52" path="res://minion_passive_1_1.png" id="1_ht83y"]
 [ext_resource type="TileSet" uid="uid://b6spie8cx4elg" path="res://assets/Tiles/Level1/plains_lvl1.tres" id="1_ywysq"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="3_33ykf"]
 [ext_resource type="Script" uid="uid://dy88y4oy8akt2" path="res://scripts/door.gd" id="4_ht83y"]
+[ext_resource type="Script" uid="uid://bjcjpj1hpe30l" path="res://scripts/parallaxmanager.gd" id="6_neg40"]
+[ext_resource type="Texture2D" uid="uid://cp77kva2g8my4" path="res://assets/background/Level 1/Sky.png" id="7_qp1se"]
+[ext_resource type="Texture2D" uid="uid://cr0opsyqrnuty" path="res://assets/background/Level 1/Background 1.png" id="8_gcs1w"]
+[ext_resource type="Texture2D" uid="uid://vvlx6q3cbt6h" path="res://assets/background/Level 1/Background 2.png" id="9_5ofl6"]
+[ext_resource type="Texture2D" uid="uid://dlufnsh5igg0f" path="res://assets/background/Level 1/Background 3.png" id="10_lmqlx"]
+[ext_resource type="Texture2D" uid="uid://foyvawf0mxxx" path="res://assets/background/Level 1/Foreground.png" id="11_6lit1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ht83y"]
 size = Vector2(1472, 768)
@@ -29,6 +35,66 @@ size = Vector2(1667, 43)
 
 [node name="PassiveVar1" type="Node2D"]
 script = ExtResource("1_33ykf")
+
+[node name="Background" type="Node" parent="."]
+script = ExtResource("6_neg40")
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.05, 0.05)
+scroll_offset = Vector2(288, -239)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/Parallax2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_qp1se")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D2" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.3, 0.2)
+scroll_offset = Vector2(-3168, -239)
+repeat_size = Vector2(3456, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D2"]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("8_gcs1w")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D3" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.4, 0.286)
+scroll_offset = Vector2(-4320, -440)
+repeat_size = Vector2(4608, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D3"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_5ofl6")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D4" type="Parallax2D" parent="Background"]
+z_index = -1
+scroll_scale = Vector2(0.5, 0.375)
+scroll_offset = Vector2(-5472, -752)
+repeat_size = Vector2(5760, 0)
+repeat_times = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D4"]
+position = Vector2(0, -71)
+texture = ExtResource("10_lmqlx")
+offset = Vector2(960, 800)
+
+[node name="Parallax2D5" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(1.1, 1.1)
+scroll_offset = Vector2(-11232, -394)
+repeat_size = Vector2(11520, 0)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/Parallax2D5"]
+position = Vector2(0, -2138)
+scale = Vector2(2, 2)
+texture = ExtResource("11_6lit1")
+offset = Vector2(960, 800)
 
 [node name="CameraBound" type="Area2D" parent="."]
 
