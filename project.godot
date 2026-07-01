@@ -11,22 +11,27 @@ config_version=5
 [application]
 
 config/name="BijiGame2026"
-run/main_scene="uid://e42digwwfb02"
+run/main_scene="uid://pl87dfuqdvre"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
 [autoload]
 
 CameraEffects="*res://scripts/camera_effects.gd"
-LevelManager="res://scripts/level_manager.gd"
+LevelManager="*res://scripts/level_manager.gd"
 ConfigHandler="*res://resource/ConfigHandler.gd"
 SaveManager="*res://resource/SaveManager.gd"
+Transition="*res://scenes/transition.tscn"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
+
+[global_group]
+
+Player=""
 
 [input]
 
@@ -77,15 +82,18 @@ esc={
 }
 move_left={
 "deadzone": 0.2,
-"events": []
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194319,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
 }
 move_right={
 "deadzone": 0.2,
-"events": []
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
 }
 move_down={
 "deadzone": 0.2,
-"events": []
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194322,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
 }
 EssenceTab={
 "deadzone": 0.2,

@@ -38,18 +38,27 @@ enum States {
 var current_state = States.WANDER
 
 func _ready() -> void:
+	#  ledge check biar ga jatuh - kaiser
 	ledge_check = RayCast2D.new()
-	# INCREASED length from 30 to 100 to guarantee it reaches the floor
 	ledge_check.target_position = Vector2(0, 100)
 	add_child(ledge_check)
-	
 	ray_cast.add_exception(self)
 	ledge_check.add_exception(self)
-	
+
+	# hitbox
 	if attack_hitbox:
 		attack_hitbox.add_to_group("enemy_attack") # parryable
 		_set_hitbox_active(false)
 		
+		# deal damage
+		if not attack_hitbox.body_entered.is_connected(_on_attack_hitbox_body_entered):
+			attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	# kena damage
+	if body == player and body.has_method("take_damage"):
+		body.take_damage(1)
+
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
 	
@@ -159,8 +168,10 @@ func execute_random_attack():
 func perform_attack_one():
 	print("Attack 1")
 	
+	await get_tree().create_timer(0.4).timeout # ganti dengan animasi attack 1
+	if current_state == States.DEATH: return
 	_set_hitbox_active(true) 
-	await get_tree().create_timer(0.5).timeout # ganti dengan animasi attack 1
+	await get_tree().create_timer(0.1).timeout # puncak animasinya di sini
 	if current_state == States.DEATH: return
 	_set_hitbox_active(false)
 	await get_tree().create_timer(1.5).timeout
@@ -171,8 +182,10 @@ func perform_attack_one():
 func perform_attack_two():
 	print("Attack 2")
 	
-	_set_hitbox_active(true)
-	await get_tree().create_timer(0.5).timeout # ganti dengan animasi attack 2
+	await get_tree().create_timer(0.4).timeout # ganti dengan animasi attack 2 (aku ganti jdi wind up dlu - kaiser)
+	if current_state == States.DEATH: return
+	_set_hitbox_active(true) 
+	await get_tree().create_timer(0.1).timeout # puncak animasinya di sini - kaiser
 	if current_state == States.DEATH: return
 	_set_hitbox_active(false)
 	await get_tree().create_timer(1.5).timeout
@@ -183,8 +196,10 @@ func perform_attack_two():
 func perform_attack_three():
 	print("Attack 3")
 	
-	_set_hitbox_active(true)
-	await get_tree().create_timer(0.5).timeout # ganti dengan animasi attack 3
+	await get_tree().create_timer(0.4).timeout # ganti dengan animasi attack 3
+	if current_state == States.DEATH: return
+	_set_hitbox_active(true) 
+	await get_tree().create_timer(0.1).timeout # puncak animasinya di sini
 	if current_state == States.DEATH: return
 	_set_hitbox_active(false)
 	await get_tree().create_timer(1.5).timeout

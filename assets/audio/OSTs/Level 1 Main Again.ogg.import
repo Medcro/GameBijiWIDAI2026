@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b7qyk407kmuk2"
+path="res://.godot/imported/Level 1 Main Again.ogg-1af1eb8a21a08da12c7ac01b9f98498b.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/OSTs/Level 1 Main Again.ogg"
+dest_files=["res://.godot/imported/Level 1 Main Again.ogg-1af1eb8a21a08da12c7ac01b9f98498b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

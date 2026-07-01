@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://dye07ya70k6vp"]
+
+[ext_resource type="Script" uid="uid://dy244eryhu1w6" path="res://scripts/player_camera.gd" id="1_17qk0"]
+[ext_resource type="PackedScene" uid="uid://breavhqoiq6ys" path="res://scenes/pause_menu.tscn" id="2_ns58j"]
+[ext_resource type="PackedScene" uid="uid://cq77wbdm27fwa" path="res://scenes/sp_essence.tscn" id="3_hry2a"]
+[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="4_ns58j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35wtq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eocm1"]
+bg_color = Color(1, 0.627451, 0, 1)
+
+[node name="Camera2D" type="Camera2D"]
+ignore_rotation = false
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+script = ExtResource("1_17qk0")
+bounds_path = NodePath("../../CameraBound")
+lookahead_factor = 1.1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DreamBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 80.0
+offset_right = 115.0
+offset_bottom = 88.0
+scale = Vector2(3, 3)
+theme_override_styles/background = SubResource("StyleBoxFlat_35wtq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_eocm1")
+show_percentage = false
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("2_ns58j")]
+visible = false
+
+[node name="SPEssence" parent="CanvasLayer" instance=ExtResource("3_hry2a")]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 32.0
+offset_top = 40.0
+offset_right = 148.0
+offset_bottom = 80.0
+scale = Vector2(2, 2)
+
+[node name="heart" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("4_ns58j")
+
+[node name="heart2" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart2"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("4_ns58j")
+
+[node name="heart3" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart3"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("4_ns58j")
+
+[node name="heart4" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart4"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("4_ns58j")
+
+[node name="heart5" type="TextureRect" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/HBoxContainer/heart5"]
+position = Vector2(9, 9.375)
+scale = Vector2(0.01639535, 0.027294306)
+texture = ExtResource("4_ns58j")

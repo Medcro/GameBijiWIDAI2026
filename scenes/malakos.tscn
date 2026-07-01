@@ -532,7 +532,6 @@ max_health = 100
 metadata/_custom_type_script = "uid://dpgxsaaoc80c6"
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-self_modulate = Color(0.5529412, 0.33333334, 0.28235295, 1)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_8urg6")
 animation = &"attack_two"

@@ -1,12 +1,20 @@
 extends Node
 
-const SAVE_FILE_PATH = "user:/savegame.dat"
+const SAVE_FILE_PATH = "user://savegame.dat"
 
-var	 game_data : Dictionary ={
+var game_data : Dictionary = {
 	"player_position": Vector2.ZERO,
+	"player_health" : 5,
+	"player_dream" : 0,
 	"collected_essences": [],
-	"current_path": "res://scenes/main.tscn"
+	
+	"current_scene_path": "",
+	"current_level_num": 1,
+	"current_room_coords": Vector2i.ZERO,
+	"level_map_data": {},
+	"discovered_rooms": []
 }
+
 func save_game():
 	# Buka file dalam mode WRITE (Menulis/Menimpa)
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
@@ -33,3 +41,11 @@ func load_game() -> bool:
 				
 	print("Belum ada save data.")
 	return false
+
+func has_save() -> bool:
+	return FileAccess.file_exists(SAVE_FILE_PATH)
+
+func delete_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(SAVE_FILE_PATH)
+		print("Save file berhasil dihapus!")

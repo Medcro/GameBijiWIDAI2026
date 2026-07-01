@@ -1,6 +1,7 @@
 extends Control
 @onready var settings: Panel = $Settings
 @onready var reset_confirm: ConfirmationDialog = $resetConfirm
+@onready var pause_bg: Control = $pauseBg
 
 var open := false
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +26,8 @@ func _process(delta: float) -> void:
 					
 	if not settings.visible:
 		$Panel.show()
-		$Label.show()
+		#$Label.show()
+		pause_bg.show()
 		$VBoxContainer.show()
 		
 func _on_resume_pressed() -> void:
@@ -37,10 +39,35 @@ func _on_reset_pressed() -> void:
 func _on_settings_pressed() -> void:
 	settings.show()
 	$Panel.hide()
-	$Label.hide()
+	#$Label.hide()
+	pause_bg.hide()
 	$VBoxContainer.hide()
 
 func _on_exitmenu_pressed() -> void:
+	var player = get_tree().get_first_node_in_group("Player")
+	print("Node yang ditangkap untuk di-save adalah: ", player.name, " | Class: ", player.get_class())
+	if player != null:
+		# 2. Tarik data terbaru dari player dan masukkan ke "keranjang" SaveManager
+		SaveManager.game_data["player_position"] = player.global_position
+		# (Sesuaikan "current_health" dengan nama variabel darah di skrip player kamu)
+		if "health" in player:
+			SaveManager.game_data["player_health"] = player.health 
+		if "dream" in player:
+			SaveManager.game_data["player_dream"] = player.dream
+			
+		SaveManager.game_data["current_level_num"] = LevelManager.current_level_num
+		SaveManager.game_data["current_room_coords"] = LevelManager.current_room_coords
+		SaveManager.game_data["current_scene_path"] = get_tree().current_scene.scene_file_path
+		
+		SaveManager.game_data["level_map_data"] = LevelManager.get_map_save_data()
+		
+		print(SaveManager.game_data["player_health"])
+		SaveManager.save_game()
+		print("Auto-save berhasil dilakukan!")
+		
+	else:
+		push_warning("Gagal auto-save: Node Player tidak ditemukan di dalam scene!")
+		
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
