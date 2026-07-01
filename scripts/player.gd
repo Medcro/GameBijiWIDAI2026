@@ -39,6 +39,11 @@ var invincibility_timer : float = 0.0 # i-frames after parry
 var is_damage_iframes : bool = false
 var parry_cooldown_timer : float = 0.0
 
+var can_heal : bool = true
+var is_shielded: bool = false
+var is_golem_active: bool = false
+var golden_idol_used: bool = false # Mencegah revive berkali-kali
+
 # Essence Attributes
 @export var has_agility_essence : bool = false # nyalain pas equip special essence i frame dash
 @export var has_flight_essence : bool = false # nyalain pas equip special essence double jump 
@@ -68,7 +73,8 @@ var dream : int = 0:
 @onready var state_machine = anim_tree.get("parameters/playback")
 @onready var floor_particle: GPUParticles2D = $floorParticle
 @onready var player_hitbox: CollisionShape2D = $CollisionShape2D
-
+@onready var sp_essence = $Camera2D/CanvasLayer/SPEssence
+@onready var golem_hitbox: Area2D = $GolemHitbox
 
 var player_hitbox_run: float = -7.0
 var player_hitbox_idle: float = 0.5
@@ -123,18 +129,44 @@ func _ready() -> void:
 func take_damage(amount: int):
 	if is_invincible or not alive or is_parrying:
 		return
+		
+	if is_golem_active:
+		trigger_golem_shockwave()
+		
+	if is_shielded:
+		is_shielded = false
+		_animated_sprite.modulate.a = 1.0 
+		is_invincible = true
+		invincibility_timer = 1.0 
+		hit_flash() 
+		return 
+	
+	if health > amount:
+		health -= amount
+		CameraEffects.shake(10.0, 0.1)
+		update_heart_display()
+		is_invincible = true
+		invincibility_timer = 1.5
+		is_damage_iframes = true
+		hit_flash()
 	else:
-		if health>0:
-			health -= amount
-			CameraEffects.shake(10.0, 0.1)
-			#$node.play("damage")
+		if has_essence_equipped("The Golden Idol") and not golden_idol_used:
+			golden_idol_used = true
+			health = 1 
 			update_heart_display()
+			
 			is_invincible = true
-			invincibility_timer = 1.5
+			invincibility_timer = 3.0 
 			is_damage_iframes = true
+			
 			hit_flash()
-		else:
-			death()
+			CameraEffects.shake(15.0, 0.3)
+			return 
+		
+		health = 0
+		update_heart_display()
+		death()
+		
 	print("HP: ", health)
 
 func hit_flash():
@@ -159,6 +191,11 @@ func heal():
 	health += 1
 	update_heart_display()
 	#$node.play("heal")
+
+func start_heal_cooldown():
+	can_heal = false 
+	await get_tree().create_timer(60.0).timeout 
+	can_heal = true 
 	
 func death():
 	health == 0
@@ -298,11 +335,28 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Jump") and not is_dashing and not is_attacking:
 		if is_on_floor():
 			velocity.y = jump
-		elif can_double_jump and has_flight_essence:
+		elif can_double_jump and has_essence_equipped("Flight"):
 			velocity.y = jump
 			can_double_jump = false 
 			CameraEffects.shake(5.0, 0.3)
-
+	
+	if Input.is_action_just_pressed("Heal") and has_essence_equipped("The Heart"):
+		if health >= 5:
+			return
+		
+		if dream >= 30:
+			dream -= 30
+			heal()
+			start_heal_cooldown()
+	
+	if Input.is_action_just_pressed("SP1"):
+		if sp_essence.slot1.current_essence != null:
+			use_active_essence(sp_essence.slot1.current_essence.name)
+	
+	if Input.is_action_just_pressed("SP2"):
+		if sp_essence.slot3.current_essence != null:
+			use_active_essence(sp_essence.slot3.current_essence.name)
+		
 	# Movement 
 	if is_dashing:
 		velocity.x = facing_direction * dash_speed
@@ -478,3 +532,44 @@ func _play_step_sound() -> void:
 	if not step_audio.playing:
 		step_audio.pitch_scale = randf_range(0.9, 1.2)
 		step_audio.play()
+
+func use_active_essence(essence_name : String):
+	match essence_name:
+		"Shielding":
+			shield()
+		"The Golem":
+			golem_stance()
+
+func shield():
+	# Jika sudah pakai shield, jangan kurangi dream lagi
+	if is_shielded:
+		return
+		
+	if dream >= 30:
+		dream -= 30
+		is_shielded = true
+		_animated_sprite.modulate.a = 0.5
+
+func golem_stance():
+	if is_golem_active:
+		return
+		
+	if dream >= 25:
+		dream -= 25
+		is_golem_active = true
+		
+		_animated_sprite.modulate = Color(0.8, 0.6, 0.2, _animated_sprite.modulate.a)
+		
+		await get_tree().create_timer(3.5).timeout
+		
+		is_golem_active = false
+		_animated_sprite.modulate = Color.WHITE
+
+func trigger_golem_shockwave():
+	CameraEffects.shake(12.0, 0.2)
+	
+	var hit_targets = golem_hitbox.get_overlapping_bodies()
+	
+	for body in hit_targets:
+		if body == Enemy:
+			body.take_damage(25) 

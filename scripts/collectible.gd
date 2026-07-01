@@ -11,6 +11,10 @@ enum level {ONE, TWO}
 
 @onready var current_essence = pick_random_essence(current_level)
 @onready var sp_essence: Control = $"../Player/Camera2D/CanvasLayer/SPEssence"
+@onready var essence: Sprite2D = $Area2D/Essence
+
+func _ready() -> void:
+	essence.texture = load(current_essence.icon)
 
 func pick_random_essence(current_level : level):
 	match current_level:
