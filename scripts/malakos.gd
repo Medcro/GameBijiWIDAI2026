@@ -15,6 +15,8 @@ extends Enemy
 
 func _ready() -> void:
 	super._ready()
+	
+	print(player.global_position)
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
@@ -140,3 +142,40 @@ func shoot_projectile():
 		
 		var dir = global_position.direction_to(player.global_position)
 		proj.set_direction(dir)
+		
+func take_damage(amount: int):
+	if current_state == States.DEATH:
+		return
+		
+	current_health -= amount
+	hit_flash()
+	
+	if current_health <= 0:
+		die()
+	else:
+		if current_state == States.WANDER:
+			chase_player()
+
+func hit_flash():
+	var tween = create_tween()
+	tween.tween_property(anim, "modulate", Color(10, 10, 10, 1), 0.05)
+	tween.tween_property(anim, "modulate", Color.WHITE, 0.05)
+	
+	if tentacle.visible:
+		var tentacle_tween = create_tween()
+		tentacle_tween.tween_property(tentacle, "modulate", Color(10, 10, 10, 1), 0.05)
+		tentacle_tween.tween_property(tentacle, "modulate", Color.WHITE, 0.05)
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if body == player or body.is_in_group("Player"):
+		if body.has_method("take_damage"):
+			body.take_damage(1)
+
+func die():
+	super.die()
+	await get_tree().create_timer(1.0).timeout 
+	LevelManager.complete_level() 
+	
+	queue_free()
+	
+	

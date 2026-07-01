@@ -526,6 +526,7 @@ radius = 17.029375
 height = 103.94263
 
 [node name="Malakos" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_0wjb1")
 projectile_scene = ExtResource("2_xq4tj")
 max_health = 100
@@ -540,6 +541,7 @@ frame_progress = 0.31602648
 [node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
 scale = Vector2(1, 5.4799995)
 target_position = Vector2(-220, 0)
+collision_mask = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sprite2D"]
 visible = false
@@ -563,6 +565,7 @@ one_shot = true
 one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="SpinHitbox" type="CollisionShape2D" parent="AttackHitbox"]
 position = Vector2(2.000001, -10)

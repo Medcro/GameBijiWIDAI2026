@@ -19,6 +19,9 @@ func _on_button_pressed():
 	slot_clicked.emit(self, allowed_type)
 
 func update_ui():
+	# Memaksa gambar sebesar apapun untuk menyusut seukuran tombol
+	button.expand_icon = true 
+
 	if current_essence:
 		button.icon = current_essence.icon
 		button.modulate = Color.WHITE

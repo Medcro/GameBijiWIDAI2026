@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cixckiuurdbtl"]
+[gd_scene load_steps=18 format=4 uid="uid://cixckiuurdbtl"]
 
 [ext_resource type="Texture2D" uid="uid://b7cc8s6wq3b6p" path="res://assets/boss_room_1.png" id="1_k7u1f"]
 [ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_wxb6v"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="5_52jls"]
 [ext_resource type="Texture2D" uid="uid://dlufnsh5igg0f" path="res://assets/background/Level 1/Background 3.png" id="6_3ca6k"]
 [ext_resource type="Texture2D" uid="uid://foyvawf0mxxx" path="res://assets/background/Level 1/Foreground.png" id="7_jvamq"]
+[ext_resource type="PackedScene" uid="uid://b7v14bydn4ky6" path="res://scenes/malakos.tscn" id="12_fw82l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7u1f"]
 size = Vector2(1250, 783.5)
@@ -162,6 +163,11 @@ debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
 [node name="Player" parent="." instance=ExtResource("5_52jls")]
 position = Vector2(-716, 153)
 scale = Vector2(0.5, 0.5)
+
+[node name="Malakos" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_fw82l")]
+position = Vector2(-37, -81)
+player = NodePath("../Player")
+max_health = 5
 
 [connection signal="body_entered" from="RightDoor" to="RightDoor" method="_on_body_entered"]
 [connection signal="body_entered" from="LeftDoor" to="LeftDoor" method="_on_body_entered"]

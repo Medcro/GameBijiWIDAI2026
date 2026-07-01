@@ -7,6 +7,8 @@
 radius = 11.0
 
 [node name="Projectile" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_c8fcr")
 speed = 10.0
 spin_speed = 1000.0

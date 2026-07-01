@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://da50tsp2r5vcv"]
+
+[ext_resource type="Texture2D" uid="uid://67gv6n28f8i5" path="res://assets/essences/the golden idol.png" id="1_7ks4p"]
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_axh0i"]
+
+[resource]
+script = ExtResource("2_axh0i")
+name = "The Golden Idol"
+icon = ExtResource("1_7ks4p")
+type = 1
+description = "On death, revive self with one heart left and become immune for 3 seconds (once every level)"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

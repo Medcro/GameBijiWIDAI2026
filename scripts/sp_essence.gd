@@ -12,7 +12,7 @@ extends Control
 @onready var inventory_dream_catcher: TextureRect = $inventoryDreamCatcher
 @onready var right_point: Control = $rightPoint
 @onready var left_point: Control = $leftPoint
-
+	
 var open = false
 
 # Variabel untuk menyimpan slot mana yang sedang mau diisi
@@ -107,13 +107,16 @@ func open_inventory(slot_reference, allowed_type):
 		
 	# 1. AMBIL DAFTAR ESSENCE YANG SEDANG DIPAKAI DI SLOT LAIN
 	var equipped_essences = get_all_equipped_essences()
-	if equipped_essences != []:
-		for essence in collected_essences:
-			if essence.type == allowed_type:
-				# 2. Cek apakah essence ini sudah ada di salah satu slot
-				var is_already_equipped = essence in equipped_essences
-				
-				create_inventory_button(essence, is_already_equipped)
+	
+	for essence in collected_essences:
+		if essence == null:
+			continue
+			
+		if essence.type == allowed_type:
+			# 2. Cek apakah essence ini sudah ada di salah satu slot
+			var is_already_equipped = essence in equipped_essences
+			
+			create_inventory_button(essence, is_already_equipped)
 				
 	await get_tree().process_frame 
 	

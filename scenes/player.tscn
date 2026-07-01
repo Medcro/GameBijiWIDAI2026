@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=118 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://jlte8yf857w7" path="res://assets/audio/characters/player/Walking.ogg" id="2_qfm1y"]
@@ -296,6 +296,9 @@ size = Vector2(55, 107)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
 size = Vector2(85, 123.99997)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qfm1y"]
+radius = 202.48457
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
 radius = 90.44335
@@ -805,6 +808,13 @@ collision_mask = 5
 position = Vector2(82, 0)
 shape = SubResource("RectangleShape2D_qhqgy")
 debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)
+
+[node name="GolemHitbox" type="Area2D" parent="."]
+collision_mask = 5
+
+[node name="ShocwaveCollision" type="CollisionShape2D" parent="GolemHitbox"]
+shape = SubResource("CircleShape2D_qfm1y")
+debug_color = Color(0.9833787, 0, 0.35790488, 0.41960785)
 
 [node name="ParryBox" type="Area2D" parent="."]
 collision_mask = 5
