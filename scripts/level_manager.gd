@@ -136,11 +136,12 @@ func enter_room(coords: Vector2i) -> void:
 	current_room_coords = coords
 	var room: RoomData = current_map[coords]
 	room.is_discovered = true
-	
+	await Transition.play_transition()
 	#map_updated.emit()
 	
 	get_tree().call_deferred("change_scene_to_file", room.scene_path)
 	print("Entered Room: ", RoomData.Type.keys()[room.type], " | Var: ", room.variation_id)
+	await Transition.play_transition_backwards()
 
 # --- UPGRADE 2: Progression & Transition Logic ---
 func complete_level() -> void:

@@ -14,7 +14,7 @@ func play_transition() -> void:
 	animation_player.play("fade")
 	await animation_player.animation_finished
 
-func play_transistion_backwards() -> void:
+func play_transition_backwards() -> void:
 	animation_player.play_backwards("fade")
 	await  animation_player.animation_finished
 	is_transitioning = false

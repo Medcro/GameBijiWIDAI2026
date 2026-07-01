@@ -8,7 +8,7 @@ extends Control
 
 @export var default_position: Vector2
 
-const FIRST_LEVEL_PATH = "res://scenes/main.tscn"
+const FIRST_LEVEL_PATH = "res://scenes/rooms/level1/spawn_var_1.tscn"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	settings.hide()
