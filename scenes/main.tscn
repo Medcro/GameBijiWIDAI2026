@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b37h730lit766" path="res://platform room.jpg" id="1_tefeu"]
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="2_sugp2"]
-[ext_resource type="PackedScene" uid="uid://dx66b0sx7tfxp" path="res://scenes/enemy.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://dfmfrxe1bgxai" path="res://scenes/enemy.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dxtycjeamtlp" path="res://scenes/enemies/level1/mubu.tscn" id="5_tefeu"]
 [ext_resource type="AudioStream" uid="uid://c7fcc7pb2u54" path="res://assets/audio/OSTs/level.ogg" id="6_o6xl0"]
 
