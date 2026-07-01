@@ -99,6 +99,8 @@ show_percentage = false
 visible = false
 
 [node name="SPEssence" parent="Player/Camera2D/CanvasLayer" instance=ExtResource("5_o6xl0")]
+offset_left = 1.0
+offset_right = 1.0
 collected_essences = Array[ExtResource("6_85g3d")]([ExtResource("7_choun")])
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("5_tbgi4")]
