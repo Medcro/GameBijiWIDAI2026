@@ -569,7 +569,7 @@ func trigger_golem_shockwave():
 	CameraEffects.shake(12.0, 0.2)
 	
 	var hit_targets = golem_hitbox.get_overlapping_bodies()
-	
+
 	for body in hit_targets:
-		if body == Enemy:
-			body.take_damage(25) 
+		if body != self and body.has_method("take_damage"):
+			body.take_damage(25)
