@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dpp0uh8wpeayp"]
 
 [ext_resource type="Script" uid="uid://cv8q654qexbet" path="res://scripts/essence_slot.gd" id="1_5qjnr"]
-[ext_resource type="Texture2D" uid="uid://5w0yxw8w6x31" path="res://assets/icon.svg" id="1_ukcfa"]
+[ext_resource type="Texture2D" uid="uid://sx2ngus3en5g" path="res://assets/UI/EssenceMenu/dream essence.png" id="2_5qjnr"]
 
 [node name="essenceSlot" type="Control"]
 layout_mode = 3
@@ -28,4 +28,4 @@ offset_right = 39.0
 offset_bottom = 38.0
 grow_horizontal = 2
 grow_vertical = 2
-icon = ExtResource("1_ukcfa")
+icon = ExtResource("2_5qjnr")

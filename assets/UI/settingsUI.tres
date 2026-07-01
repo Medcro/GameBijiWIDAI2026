@@ -1,0 +1,64 @@
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://b5xdk21udomnq"]
+
+[ext_resource type="Texture2D" uid="uid://druj2bejoubbf" path="res://assets/UI/settingssssss poloss bner smoga.png" id="1_4v1ih"]
+[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/fonts/LondrinaSolid-Black.ttf" id="1_7lqca"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7lqca"]
+load_path = "res://.godot/imported/settingssssss poloss bner smoga.png-af2180b6537785e067ba7731ebf787fe.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0yjwv"]
+atlas = SubResource("CompressedTexture2D_7lqca")
+region = Rect2(306, 986, 299, 103)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a3huj"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+texture = SubResource("AtlasTexture_0yjwv")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(0.4922372, 0.49223727, 0.49223727, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g033"]
+atlas = ExtResource("1_4v1ih")
+region = Rect2(306, 986, 299, 103)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_01roj"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+texture = SubResource("AtlasTexture_1g033")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lpjha"]
+load_path = "res://.godot/imported/settingssssss poloss bner smoga.png-af2180b6537785e067ba7731ebf787fe.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3giu3"]
+atlas = SubResource("CompressedTexture2D_lpjha")
+region = Rect2(306, 986, 299, 103)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_plbs3"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+texture = SubResource("AtlasTexture_3giu3")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(2.1168277, 2.1168277, 2.1168277, 1)
+
+[resource]
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_7lqca")
+Button/styles/hover = SubResource("StyleBoxTexture_a3huj")
+Button/styles/normal = SubResource("StyleBoxTexture_01roj")
+Button/styles/pressed = SubResource("StyleBoxTexture_plbs3")

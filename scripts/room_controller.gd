@@ -15,44 +15,44 @@ func _ready() -> void:
 	# search the room for doors and enemies
 	_scan_room_nodes(self)
 
+	_spawn_player()
+	
 	if room_data.is_cleared:
 		for enemy in enemies_in_room:
 			if is_instance_valid(enemy):
 				enemy.queue_free()
 		enemies_in_room.clear()
 	else:
-		# If this is a fresh room with enemies, lock the doors!
+		# kunci pintu dlu yh klo ada musuh
 		if enemies_in_room.size() > 0:
 			for door in doors_in_room:
 				door.lock_room_door()
 				
-			# Attach a signal to every enemy so we know when they die/despawn
+			# ksih signal buat musuh biar tau fungsi di sini tau kapan matinya
 			for enemy in enemies_in_room:
 				enemy.tree_exited.connect(_check_enemies)
 		else:
-			# If there are no enemies (e.g. passive room, spawn room), instantly mark it cleared
 			room_data.is_cleared = true
 
-# Recursively crawls through all children in the scene looking for specific nodes
+# fungsi rekursif nyari node yg musuh
 func _scan_room_nodes(node: Node) -> void:
 	for child in node.get_children():
 		if child is DoorBehavior:
 			doors_in_room.append(child)
 			
-		# Identify enemies based on the fact that they have health/damage logic 
-		# (We exclude the player just in case they spawned in early)
-		elif child.has_method("take_damage") and not child.is_in_group("player"):
+		# klo bisa take_damage dia enemy, exclude player dari enemy
+		elif child.has_method("take_damage") and not child.is_in_group("Player"):
 			enemies_in_room.append(child)
 			
-		# Check this child's children too
 		_scan_room_nodes(child)
 
-# Called automatically whenever any enemy leaves the scene tree (via queue_free)
 func _check_enemies() -> void:
-	# Wait one frame to ensure the dead enemy is fully removed from memory
+	if not is_inside_tree() or get_tree() == null:
+		return
+	
 	await get_tree().process_frame
 	
-	# Verify if ANY enemies are still alive
+	# cek kehidupam
 	var still_alive = false
 	for enemy in enemies_in_room:
 		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
@@ -62,10 +62,24 @@ func _check_enemies() -> void:
 	var room_data: RoomData = LevelManager.current_map.get(LevelManager.current_room_coords)
 	if not room_data: return
 
-	# If everyone is dead and the room isn't already cleared...
 	if not still_alive and not room_data.is_cleared:
-		room_data.is_cleared = true # Update the minimap/save data
+		room_data.is_cleared = true # update shi
 		
 		# FREEDOM!
 		for door in doors_in_room:
 			door.unlock_room_door()
+
+func _spawn_player() -> void:
+	# ZERO artinya dari menu
+	if LevelManager.target_entrance_vector == Vector2i.ZERO:
+		return
+
+	var player = get_tree().get_first_node_in_group("Player") as Node2D
+	if not is_instance_valid(player):
+		return
+
+	for door in doors_in_room:
+		if door.get_direction_vector() == LevelManager.target_entrance_vector:
+			var offset_into_room = -door.get_direction_vector() * 120.0 #spawn player dengan offset 60 ke kiri/kanan/atas/bawah tergantung arah masuk
+			player.global_position = door.global_position + Vector2(offset_into_room)
+			break

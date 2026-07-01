@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
+class_name Player
+
 # Base Attribute
 @export var hp : int = 5
 @export var speed : float = 300
-@export var jump : float = -500
+@export var jump : float = -610
 @export var gravity : float = 980 
 
 # Dash Attribute
@@ -38,11 +40,15 @@ var is_damage_iframes : bool = false
 var parry_cooldown_timer : float = 0.0
 
 # Essence Attributes
-@export var has_agility_essence : bool = false 
-@export var has_flight_essence : bool = true 
+@export var has_agility_essence : bool = false # nyalain pas equip special essence i frame dash
+@export var has_flight_essence : bool = false # nyalain pas equip special essence double jump 
+@export var has_radiance_essence : bool = false # nyalain pas equip special essence yg banyakin dream bar per parry
+@export var has_heart_essence : bool = false # nyalain pas equip special essence instaheal
+@export var has_shield_essence : bool = false # nyalain pas equip special essence shield
 
 var is_invincible : bool = false
 var can_double_jump : bool = false
+var collected_essences = []
 
 # Player Resources
 @export var max_dream : int = 100
@@ -60,16 +66,38 @@ var dream : int = 0:
 @onready var dream_bar = $Camera2D/CanvasLayer/DreamBar
 @onready var anim_tree = $AnimationTree
 @onready var state_machine = anim_tree.get("parameters/playback")
+@onready var floor_particle: GPUParticles2D = $floorParticle
+@onready var player_hitbox: CollisionShape2D = $CollisionShape2D
+
+
+var player_hitbox_run: float = -7.0
+var player_hitbox_idle: float = 0.5
+var _is_first_frame: bool = true
+@onready var inventory = $Camera2D/CanvasLayer/SPEssence
+
+#audio
+@export var step_sounds: AudioStream
+# Tentukan frame ke-berapa kaki menyentuh tanah (contoh: frame 1 dan 4)
+@export var step_frames_walk: Array[int] = [1, 4] 
+@onready var step_audio: AudioStreamPlayer2D = $stepAudio
+@onready var dash_audio: AudioStreamPlayer2D = $dashAudio
+@onready var jump_audio: AudioStreamPlayer2D = $jumpAudio
+@onready var land_audio: AudioStreamPlayer2D = $landAudio
 
 func _ready() -> void:
-	health = SaveManager.game_data.get("player_health", 5)
+	if "player_health" in SaveManager.game_data:
+		health = SaveManager.game_data["player_health"]
+	if "player_dream" in SaveManager.game_data:
+		dream = SaveManager.game_data["player_dream"]
 	if SaveManager.game_data["player_position"] != Vector2.ZERO:
 		global_position = SaveManager.game_data["player_position"]
-		if has_node("Camera2D"):
-			$Camera2D.reset_smoothing() 
-			$Camera2D.force_update_scroll()
-		if has_node("Dreamcatcher"):
-			$Dreamcatcher.snap_to_target()
+	#if "collected_essences" in SaveManager.game_data:
+		#collected_essences = SaveManager.game_data["collected_essences"]
+		#if has_node("Camera2D"):
+			#$Camera2D.reset_smoothing() 
+			#$Camera2D.force_update_scroll()
+		#if has_node("Dreamcatcher"):
+			#$Dreamcatcher.snap_to_target()
 		
 	var hearts_parent = get_node_or_null("Camera2D/CanvasLayer/HBoxContainer")
 	if hearts_parent:
@@ -93,6 +121,7 @@ func _ready() -> void:
 	if dream_bar:
 		dream_bar.max_value = max_dream
 		dream_bar.value = dream
+	#call_deferred("snap_camera_and_pet")
 
 func take_damage(amount: int):
 	if is_invincible or not alive or is_parrying:
@@ -144,20 +173,33 @@ func _physics_process(delta: float) -> void:
 		#_animated_sprite.play("walk")
 	#else:
 		#_animated_sprite.play("default")
+	if _is_first_frame:
+		snap_camera_and_pet()
+		_is_first_frame = false
+		
+	if Transition.is_transitioning:
+		velocity.x = move_toward(velocity.x, 0, speed) # Hentikan jalan secara mulus
+		
+		# Tetap terapkan gravitasi agar player tidak melayang aneh jika transisi terpicu saat melompat
+		if not is_on_floor():
+			velocity.y += gravity * delta
+			
+		move_and_slide()
+		state_machine.travel("Idle") # Paksa animasi diam
+		return # Keluar dari fungsi agar input di bawah tidak dibaca
 		
 	var direction = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_dashing and not is_attacking:
 		facing_direction = sign(direction)
 		attack_hitbox.scale.x = facing_direction
 		_animated_sprite.scale.x = facing_direction * 0.249
+		_animated_sprite.position.x = facing_direction * -9.88
+		floor_particle.position.x = facing_direction * -53.0
+		
 		
 	#if state_machine.get_current_node() == "fall":
 		#state_machine.travel("endFall")
-	if direction != 0:
-		state_machine.travel("run")
-	else:
-		state_machine.travel("Idle")
-	
+
 	# Invincibility delay (parry)
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
@@ -182,10 +224,16 @@ func _physics_process(delta: float) -> void:
 			is_dashing = false
 			is_invincible = false 
 			dash_cooldown_timer = dash_cooldown
+			
+	if is_on_floor() and velocity.x != 0:
+		floor_particle.emitting = true
+	else:
+		floor_particle.emitting = false
 	
 	if Input.is_action_just_pressed("Dash") and not is_dashing and dash_cooldown_timer <= 0:
 		is_dashing = true
 		dash_timer = dash_duration
+		dash_audio.play()
 		
 		if has_agility_essence:
 			is_invincible = true
@@ -229,15 +277,23 @@ func _physics_process(delta: float) -> void:
 				
 		perform_parry()
 
-	if not is_on_floor():
+	if is_on_floor():
+		if direction != 0:
+			state_machine.travel("run")
+			player_hitbox.shape.size.x = 70.0
+			player_hitbox.position.x = facing_direction * player_hitbox_run
+			_play_step_sound()
+		else:
+			state_machine.travel("Idle")
+			player_hitbox.shape.size.x = 55.0
+			player_hitbox.position.x = facing_direction * player_hitbox_idle
+		can_double_jump = true
+	else:
 		velocity.y += gravity * delta
 		if velocity.y < 0:
 			state_machine.travel("jump")
 		else:
 			state_machine.travel("fall")
-	else:
-		# can double jump
-		can_double_jump = true
 		
 	if Input.is_action_just_pressed("move_down") and is_on_floor():
 		position.y += 1.2
@@ -245,9 +301,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Jump") and not is_dashing and not is_attacking:
 		if is_on_floor():
 			velocity.y = jump
+			jump_audio.play()
 		elif can_double_jump and has_flight_essence:
 			velocity.y = jump
 			can_double_jump = false 
+			CameraEffects.shake(5.0, 0.3)
+			jump_audio.play()
 
 	# Movement 
 	if is_dashing:
@@ -329,6 +388,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func perform_parry() -> void:
 	is_parrying = true
+	$parrystart.play()
 	parry_timer = parry_duration
 	_set_parry_box_active(true)
 	
@@ -350,8 +410,14 @@ func trigger_parry_success() -> void:
 	_set_parry_box_active(false)
 	parry_cooldown_timer = 0.0 # instant parry reset (bisa mke lagI)
 	
+	var dream_gain = 20
+	
+	# Menambahkan jumlah dream yang didapat jika sedang mengequipped essence radiance
+	if has_essence_equipped("Radiance"):
+		dream_gain *= 1.25
+	
 	# buat nambahin dream
-	dream += 20
+	dream += dream_gain
 	
 	# ksih iframe dikit habis parry
 	is_invincible = true
@@ -372,5 +438,71 @@ func trigger_parry_success() -> void:
 func _set_parry_box_active(active: bool) -> void:
 	if parry_box:
 		for child in parry_box.get_children():
-			if child is CollisionShape2D or child is CollisionPolygon2D:
+			if child is CollisionShape2D:
 				child.set_deferred("disabled", not active)
+
+func prepare_for_room_change() -> void:
+	SaveManager.game_data["player_health"] = health
+	SaveManager.game_data["player_dream"] = dream
+	#SaveManager.game_data["player_position"] = global_position
+	
+	SaveManager.game_data["current_level_num"] = LevelManager.current_level_num
+	SaveManager.game_data["current_room_coords"] = LevelManager.current_room_coords
+	SaveManager.game_data["current_scene_path"] = get_tree().current_scene.scene_file_path
+	
+	SaveManager.game_data["level_map_data"] = LevelManager.get_map_save_data()
+	# Immediately lock the changes into memory/file
+	SaveManager.save_game()
+
+func snap_camera_and_pet() -> void:
+	# 1. Paksa kamera berteleportasi secara bersih
+	if has_node("Camera2D"):
+		var cam = $Camera2D
+		cam.global_position = global_position
+		cam.reset_smoothing() 
+		cam.force_update_scroll()
+	# 2. Paksa Dreamcatcher berteleportasi
+	if has_node("Dreamcatcher"):
+		$Dreamcatcher.snap_to_target()
+# Fungsi untuk mengecek apakah ada nama essence tertentu yang sedang terequip
+func has_essence_equipped(essence_name: String) -> bool:
+	if inventory == null:
+		return false
+	var equipped_essences = inventory.get_all_equipped_essences()
+	
+	for essence in equipped_essences:
+		if essence != null and essence.name == essence_name:
+			return true
+			
+	return false
+
+func _play_step_sound() -> void:
+	if (not step_sounds) or step_audio == null:
+		return
+	# Tambahkan pengecekan ini:
+	if not step_audio.playing:
+		step_audio.pitch_scale = randf_range(0.9, 1.2)
+		step_audio.play()
+		
+func update_active_essences(equipped_essences: Array[EssenceData]) -> void:
+	# 1. Matikan semua power-up dulu (reset)
+	has_flight_essence = false
+	has_agility_essence = false
+	has_radiance_essence = false
+	has_heart_essence = false
+	has_shield_essence = false
+	# (Tambahkan boolean essence lain di sini jika ada)
+
+	# 2. Nyalakan power-up yang ada di dalam tas (slot)
+	for essence in equipped_essences:
+		# PENTING: Pastikan teks di bawah sama PERSIS dengan isi kolom "Name" di file .tres kamu
+		if essence.name == "Flight": 
+			has_flight_essence = true
+			print("Player sekarang bisa Double Jump!")
+			
+		elif essence.name == "Agility":
+			has_agility_essence = true
+			print("Player sekarang Invincible saat Dash!")
+		elif essence.name == "Radiance":
+			has_radiance_essence = true
+			print(essence.description)

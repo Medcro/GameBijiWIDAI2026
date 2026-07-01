@@ -139,11 +139,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_esdb2"]
-radius = 68.45473
-height = 265.21585
+[sub_resource type="CircleShape2D" id="CircleShape2D_mc4ow"]
 
 [node name="Mubu" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_vr4y2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -162,11 +161,13 @@ animation = &"during_charge"
 frame_progress = 0.35680783
 
 [node name="AttackHitbox" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
-position = Vector2(104, 73.00001)
-rotation = -1.1626827
-shape = SubResource("CapsuleShape2D_esdb2")
+position = Vector2(71.999985, 52.999992)
+scale = Vector2(15.23818, 11.178859)
+shape = SubResource("CircleShape2D_mc4ow")
 debug_color = Color(0.9818997, 0.13531008, 5.7756904e-07, 0.41960785)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 3

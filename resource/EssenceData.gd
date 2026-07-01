@@ -2,7 +2,7 @@
 class_name EssenceData
 extends Resource
 
-enum Type { ATTACK, MOVEMENT }
+enum Type { ACTIVE, PASSIVE }
 
 @export var name: String
 @export var icon: Texture2D

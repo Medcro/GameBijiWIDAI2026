@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cymcv8xmiw17j"]
+
+[ext_resource type="Script" uid="uid://vj1ujx2uev46" path="res://scripts/projectile.gd" id="1_c8fcr"]
+[ext_resource type="Texture2D" uid="uid://clhyihg4y2r0e" path="res://assets/boss/level1/spinning black blade.png" id="2_q3m7n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_softn"]
+radius = 11.0
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_c8fcr")
+speed = 10.0
+spin_speed = 1000.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("2_q3m7n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_softn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

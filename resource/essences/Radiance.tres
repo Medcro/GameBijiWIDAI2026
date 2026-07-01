@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=2 format=3 uid="uid://rpvl2b0rwrul"]
+
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_d1xi3"]
+
+[resource]
+script = ExtResource("1_d1xi3")
+name = "Radiance"
+type = 1
+description = "Parrying fills your Dream Bar by 1.25 times more"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"
