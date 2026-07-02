@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bkthkkvjdflxc"
-path="res://.godot/imported/LondrinaSolid-Black.ttf-c47e1c1dfd1c112494c95a8c533e7058.fontdata"
+path="res://.godot/imported/LondrinaSolid-Black.ttf-af33bcce3b47ff09fce65fc41718011a.fontdata"
 
 [deps]
 
-source_file="res://assets/UI/fonts/LondrinaSolid-Black.ttf"
-dest_files=["res://.godot/imported/LondrinaSolid-Black.ttf-c47e1c1dfd1c112494c95a8c533e7058.fontdata"]
+source_file="res://assets/UI/Fonts/LondrinaSolid-Black.ttf"
+dest_files=["res://.godot/imported/LondrinaSolid-Black.ttf-af33bcce3b47ff09fce65fc41718011a.fontdata"]
 
 [params]
 

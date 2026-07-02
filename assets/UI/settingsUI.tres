@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=11 format=3 uid="uid://b5xdk21udomnq"]
 
 [ext_resource type="Texture2D" uid="uid://druj2bejoubbf" path="res://assets/UI/settingssssss poloss bner smoga.png" id="1_4v1ih"]
-[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/fonts/LondrinaSolid-Black.ttf" id="1_7lqca"]
+[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/Fonts/LondrinaSolid-Black.ttf" id="1_7lqca"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7lqca"]
 load_path = "res://.godot/imported/settingssssss poloss bner smoga.png-af2180b6537785e067ba7731ebf787fe.ctex"

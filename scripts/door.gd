@@ -9,6 +9,8 @@ var is_valid_door: bool = false
 var is_room_locked: bool = false
 
 func _ready() -> void:
+	add_to_group("Doors")
+	
 	set_deferred("collision_mask", 2)
 	var target_vector = _get_target_room_vector()
 	

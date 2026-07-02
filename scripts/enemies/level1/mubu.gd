@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name FlyingEnemy
 
 @export var player : CharacterBody2D
+@export var is_on_tuto : bool = false # check if its tutorial
 @export var charge_speed : float = 900.0
 @export var return_speed : float = 150.0
 @export var lock_on_duration : float = 5.0 # How long it telegraphs before charging
@@ -80,8 +81,9 @@ func idle_behavior(delta: float):
 
 	# Make sure sprite is centered (resetting from lock-on shake)
 	animated_sprite.position = Vector2.ZERO
-
-	look_for_player()
+	
+	if not is_on_tuto:
+		look_for_player()
 
 
 func look_for_player():

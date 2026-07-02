@@ -29,6 +29,7 @@ func _on_start_pressed() -> void:
 	if typeof(SaveManager) != TYPE_NIL and SaveManager.has_save():
 		reset_confirm.popup_centered()
 	else:
+		DialogueBox.tutorial1()
 		SaveManager.reset_level()
 
 func _on_settings_pressed() -> void:

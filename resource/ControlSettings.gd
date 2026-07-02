@@ -28,3 +28,17 @@ const input_actions = {
 	PARRY: "Parry",
 	ESSENCETAB: "Essence Menu"
 }
+
+# Get keybind function
+static func get_keybind(target_title: String) -> String:
+	for action in ControlSettings.input_actions:
+		if ControlSettings.input_actions[action] == target_title:
+			var events = InputMap.action_get_events(action)
+			
+			# Standard if/else block for readability
+			if events.size() > 0:
+				return events[0].as_text().trim_suffix(" (Physical)")
+			else:
+				return ""
+				
+	return ""
