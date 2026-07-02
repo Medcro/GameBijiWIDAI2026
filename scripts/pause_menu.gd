@@ -1,8 +1,10 @@
 extends Control
 @onready var settings: Panel = $Settings
 @onready var reset_confirm: ConfirmationDialog = $resetConfirm
+@onready var pause_bg: Control = $pauseBg
 
 var open := false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	hide()
@@ -25,7 +27,8 @@ func _process(delta: float) -> void:
 					
 	if not settings.visible:
 		$Panel.show()
-		$Label.show()
+		#$Label.show()
+		pause_bg.show()
 		$VBoxContainer.show()
 		
 func _on_resume_pressed() -> void:
@@ -37,7 +40,8 @@ func _on_reset_pressed() -> void:
 func _on_settings_pressed() -> void:
 	settings.show()
 	$Panel.hide()
-	$Label.hide()
+	#$Label.hide()
+	pause_bg.hide()
 	$VBoxContainer.hide()
 
 func _on_exitmenu_pressed() -> void:
@@ -49,9 +53,15 @@ func _on_exitmenu_pressed() -> void:
 		# (Sesuaikan "current_health" dengan nama variabel darah di skrip player kamu)
 		if "health" in player:
 			SaveManager.game_data["player_health"] = player.health 
-		# Simpan juga scene mana yang sedang dimainkan (misal Level 1 atau Level 2)
+		if "dream" in player:
+			SaveManager.game_data["player_dream"] = player.dream
+			
+		SaveManager.game_data["current_level_num"] = LevelManager.current_level_num
+		SaveManager.game_data["current_room_coords"] = LevelManager.current_room_coords
 		SaveManager.game_data["current_scene_path"] = get_tree().current_scene.scene_file_path
-		# 3. Eksekusi penulisan file ke dalam memori perangkat
+		
+		SaveManager.game_data["level_map_data"] = LevelManager.get_map_save_data()
+		
 		print(SaveManager.game_data["player_health"])
 		SaveManager.save_game()
 		print("Auto-save berhasil dilakukan!")
@@ -73,7 +83,9 @@ func close_menu() -> void:
 	hide()
 
 func _on_reset_confirm_confirmed() -> void:
-	get_tree().reload_current_scene() #klo mau balik ke lvel paling awal tinggal ubah
+	SaveManager.reset_and_delete_save()
+	LevelManager.current_level_num = 1
+	LevelManager.generate_new_level()
 
 func _on_reset_confirm_canceled() -> void:
 	reset_confirm.hide()

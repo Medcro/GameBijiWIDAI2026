@@ -4,8 +4,12 @@ var is_continuing: bool = false
 @onready var pressany: Label = $pressany
 @onready var quote: Label = $quote
 
+@export var default_position: Vector2
+
+const FIRST_LEVEL_PATH = "res://scenes/rooms/level1/spawn_var_1.tscn"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	await Transition.play_transition_backwards()
 	start_pulse()
 
 func _input(event: InputEvent) -> void:
@@ -17,7 +21,7 @@ func _input(event: InputEvent) -> void:
 			continue_next()
 			
 func continue_next() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn") #bebas nih diubah kemana
+	SaveManager.reset_level()
 	
 func start_pulse() -> void:
 	if pressany == null: 

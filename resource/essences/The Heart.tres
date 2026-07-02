@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://ddodj5px27nnh"]
+
+[ext_resource type="Texture2D" uid="uid://l4vvlge5ywat" path="res://assets/essences/the heart.png" id="1_2po6o"]
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_mrrnw"]
+
+[resource]
+script = ExtResource("1_mrrnw")
+name = "The Heart"
+icon = ExtResource("1_2po6o")
+description = "On use, instantly restore 1 health (1 minute cooldown)Use 30 dream"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqpn76elo7xy3"]
+
+[ext_resource type="Texture2D" uid="uid://c7780u05lixga" path="res://assets/UI/Tutorial/DC dialogue v2.png" id="1_3ukpy"]
+[ext_resource type="Script" uid="uid://ban0vc7imx60j" path="res://assets/UI/Tutorial/dialogue_box.gd" id="1_5ek4s"]
+[ext_resource type="FontFile" uid="uid://ccniu87u2j5ar" path="res://assets/UI/Fonts/Cheese Milky.otf" id="2_5ek4s"]
+
+[node name="DialogueBox" type="MarginContainer"]
+offset_right = 2088.0
+offset_bottom = 1548.0
+script = ExtResource("1_5ek4s")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_3ukpy")
+region_rect = Rect2(1960.0001, 961.13574, 3080, 3078.1272)
+patch_margin_left = 1048
+patch_margin_top = 736
+patch_margin_right = 1040
+patch_margin_bottom = 812
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 600
+theme_override_constants/margin_top = 500
+theme_override_constants/margin_right = 600
+theme_override_constants/margin_bottom = 500
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5ek4s")
+theme_override_font_sizes/font_size = 500
+horizontal_alignment = 1
+vertical_alignment = 1

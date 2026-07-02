@@ -12,18 +12,7 @@ const SP1 : String = "SP1"
 const SP2 : String = "SP2"
 const PARRY : String = "Parry"
 const DASH : String = "Dash"
-
-@export var default_left = InputEventKey.new()
-@export var default_right= InputEventKey.new()
-@export var default_down = InputEventKey.new()
-@export var default_jump = InputEventKey.new()
-@export var default_melee = InputEventKey.new()
-@export var default_ranged = InputEventKey.new()
-@export var default_heal = InputEventKey.new()
-@export var default_sp1 = InputEventKey.new()
-@export var default_sp2 = InputEventKey.new()
-@export var default_parry = InputEventKey.new()
-@export var default_dash = InputEventKey.new()
+const ESSENCETAB : String = "EssenceTab"
 
 const input_actions = {
 	MOVE_LEFT : "Move Left",
@@ -36,5 +25,6 @@ const input_actions = {
 	HEAL: "Heal",
 	SP1: "Special 1",
 	SP2: "Special 2",
-	PARRY: "Parry"
+	PARRY: "Parry",
+	ESSENCETAB: "Essence Menu"
 }

@@ -10,6 +10,7 @@ var is_room_locked: bool = false
 
 func _ready() -> void:
 	set_deferred("collision_mask", 2)
+	#print("Peta saat ini berisi: ", LevelManager.current_map)
 	var target_vector = _get_target_room_vector()
 	
 	if target_vector == Vector2i.ZERO:
@@ -97,6 +98,7 @@ func _get_target_room_vector() -> Vector2i:
 	return Vector2i.ZERO
 
 func _try_transition(owner_node: Node) -> void:
+	#await Transition.play_transition()
 	var final_jump_vector = _get_target_room_vector()
 	
 	if final_jump_vector == Vector2i.ZERO:
@@ -107,12 +109,13 @@ func _try_transition(owner_node: Node) -> void:
 
 	owner_node.set_meta(META_USED, true)
 	LevelManager.move_to_room(final_jump_vector)
-
+	#Transition.play_transition_backwards()
 #func save_state(owner_node: Node) -> Dictionary:
 
 #func load_state(owner_node: Node, state: Dictionary) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
+	print(body.name, "has entered")
 	if is_room_locked:
 		return
 	
