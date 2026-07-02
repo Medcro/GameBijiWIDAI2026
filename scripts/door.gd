@@ -12,6 +12,7 @@ func _ready() -> void:
 	add_to_group("Doors")
 	
 	set_deferred("collision_mask", 2)
+	#print("Peta saat ini berisi: ", LevelManager.current_map)
 	var target_vector = _get_target_room_vector()
 	
 	if target_vector == Vector2i.ZERO:
@@ -116,6 +117,7 @@ func _try_transition(owner_node: Node) -> void:
 #func load_state(owner_node: Node, state: Dictionary) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
+	print(body.name, "has entered")
 	if is_room_locked:
 		return
 	

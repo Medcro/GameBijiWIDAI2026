@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=3 uid="uid://b7v14bydn4ky6"]
+[gd_scene load_steps=122 format=3 uid="uid://b7v14bydn4ky6"]
 
 [ext_resource type="Script" uid="uid://uhisi1i3wimt" path="res://scripts/malakos.gd" id="1_0wjb1"]
 [ext_resource type="PackedScene" uid="uid://cymcv8xmiw17j" path="res://scenes/projectile.tscn" id="2_xq4tj"]
@@ -525,7 +525,18 @@ size = Vector2(163, 121.25)
 radius = 17.029375
 height = 103.94263
 
+[sub_resource type="Gradient" id="Gradient_gx3on"]
+offsets = PackedFloat32Array(0, 0.08888889, 1)
+colors = PackedColorArray(1, 1, 0.90588236, 1, 0.62666667, 0.62666667, 0.62666667, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m0ejn"]
+gradient = SubResource("Gradient_gx3on")
+fill = 1
+fill_from = Vector2(0.5077882, 0.5046729)
+fill_to = Vector2(0.8785047, 0.16510904)
+
 [node name="Malakos" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_0wjb1")
 projectile_scene = ExtResource("2_xq4tj")
 max_health = 100
@@ -540,6 +551,7 @@ frame_progress = 0.31602648
 [node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
 scale = Vector2(1, 5.4799995)
 target_position = Vector2(-220, 0)
+collision_mask = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sprite2D"]
 visible = false
@@ -563,6 +575,7 @@ one_shot = true
 one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="SpinHitbox" type="CollisionShape2D" parent="AttackHitbox"]
 position = Vector2(2.000001, -10)
@@ -581,5 +594,16 @@ rotation = -1.5131891
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_gx3on")
 debug_color = Color(0.9307964, 3.1188727e-05, 0.6573525, 0.41960785)
+
+[node name="DoorVisual" type="PointLight2D" parent="."]
+position = Vector2(24, 4)
+scale = Vector2(6, 6)
+energy = 1.5
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 4.0
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_m0ejn")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

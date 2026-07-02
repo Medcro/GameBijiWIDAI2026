@@ -1,26 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://b564y8nhbyjo0"]
+[gd_scene load_steps=12 format=3 uid="uid://npumkxl11hei"]
 
 [ext_resource type="Script" uid="uid://cnyrf82mu86p2" path="res://scripts/collectible.gd" id="1_bkg8t"]
 [ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_ga2k0"]
 [ext_resource type="Resource" uid="uid://rpvl2b0rwrul" path="res://resource/essences/Radiance.tres" id="3_6gns2"]
-[ext_resource type="Resource" uid="uid://bf8xpvg0pv7xp" path="res://resource/essences/Flight.tres" id="4_6gns2"]
-[ext_resource type="Texture2D" uid="uid://sx2ngus3en5g" path="res://assets/UI/EssenceMenu/dream essence.png" id="4_ga2k0"]
+[ext_resource type="Resource" uid="uid://bf8xpvg0pv7xp" path="res://resource/essences/Flight.tres" id="4_mh687"]
+[ext_resource type="Resource" uid="uid://xisnv03hjriy" path="res://resource/essences/Shielding.tres" id="5_ma10x"]
+[ext_resource type="Resource" uid="uid://bsmmy6gvmch36" path="res://resource/essences/The Heart.tres" id="6_fuck5"]
+[ext_resource type="Resource" uid="uid://bntsnticcmwi2" path="res://resource/essences/The Golem.tres" id="7_72l5o"]
+[ext_resource type="Texture2D" uid="uid://duf15gqg32e8w" path="res://assets/essences/dream essence.png" id="7_mh687"]
+[ext_resource type="Texture2D" uid="uid://x3l16qa2evlf" path="res://assets/essences/radiance.png" id="8_ma10x"]
+[ext_resource type="Resource" uid="uid://da50tsp2r5vcv" path="res://resource/essences/The Golden Idol.tres" id="8_udoxq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_61c27"]
 radius = 65.0
 
 [node name="collectible" type="Node2D"]
 script = ExtResource("1_bkg8t")
-collectible_essence = Array[ExtResource("2_ga2k0")]([ExtResource("3_6gns2"), ExtResource("4_6gns2")])
+essence_level_one = Array[ExtResource("2_ga2k0")]([ExtResource("3_6gns2"), ExtResource("4_mh687"), ExtResource("5_ma10x"), ExtResource("6_fuck5")])
+essence_level_two = Array[ExtResource("2_ga2k0")]([ExtResource("7_72l5o"), ExtResource("8_udoxq")])
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.4, 0.4)
 collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-texture = ExtResource("4_ga2k0")
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("7_mh687")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2.4999998, -2.4999998)
 shape = SubResource("CircleShape2D_61c27")
+
+[node name="Essence" type="Sprite2D" parent="Area2D"]
+position = Vector2(2.4999998, -2.4999998)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("8_ma10x")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

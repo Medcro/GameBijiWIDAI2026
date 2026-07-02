@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://wgq2fc11sjby"]
+
+[ext_resource type="Texture2D" uid="uid://c0qjjsw4fdcxn" path="res://assets/essences/efficiency.png" id="1_3sgih"]
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_kunvc"]
+
+[resource]
+script = ExtResource("1_kunvc")
+name = "Efficiency"
+icon = ExtResource("1_3sgih")
+type = 1
+description = "Your ranged attack charge-up is now 20% shorter and costs 30% less Dream Bar"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

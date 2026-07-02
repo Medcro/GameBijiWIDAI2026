@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cixckiuurdbtl"]
+[gd_scene load_steps=20 format=4 uid="uid://cixckiuurdbtl"]
 
 [ext_resource type="Texture2D" uid="uid://b7cc8s6wq3b6p" path="res://assets/boss_room_1.png" id="1_k7u1f"]
 [ext_resource type="Script" uid="uid://dmafvt3j0se44" path="res://scripts/room_controller.gd" id="1_wxb6v"]
@@ -11,9 +11,20 @@
 [ext_resource type="PackedScene" uid="uid://dxl1dmwln6gom" path="res://scenes/player.tscn" id="5_52jls"]
 [ext_resource type="Texture2D" uid="uid://dlufnsh5igg0f" path="res://assets/background/Level 1/Background 3.png" id="6_3ca6k"]
 [ext_resource type="Texture2D" uid="uid://foyvawf0mxxx" path="res://assets/background/Level 1/Foreground.png" id="7_jvamq"]
+[ext_resource type="PackedScene" uid="uid://b7v14bydn4ky6" path="res://scenes/malakos.tscn" id="12_fw82l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7u1f"]
 size = Vector2(1250, 783.5)
+
+[sub_resource type="Gradient" id="Gradient_73xpn"]
+offsets = PackedFloat32Array(0, 0.08888889, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.62666667, 0.62666667, 0.62666667, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fw82l"]
+gradient = SubResource("Gradient_73xpn")
+fill = 1
+fill_from = Vector2(0.5077882, 0.5046729)
+fill_to = Vector2(0.8785047, 0.16510904)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wxb6v"]
 size = Vector2(65.5, 170)
@@ -111,8 +122,16 @@ script = ExtResource("3_1vfen")
 door_direction = 3
 metadata/_custom_type_script = "uid://dy88y4oy8akt2"
 
-[node name="DoorVisual" type="Sprite2D" parent="RightDoor"]
-position = Vector2(84, 40)
+[node name="DoorVisual" type="PointLight2D" parent="RightDoor"]
+position = Vector2(-79, -22)
+scale = Vector2(6, 6)
+energy = 1.3
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 4.0
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_fw82l")
 
 [node name="WallVisual" type="TileMapLayer" parent="RightDoor"]
 position = Vector2(62, 27)
@@ -138,8 +157,16 @@ script = ExtResource("3_1vfen")
 door_direction = 2
 metadata/_custom_type_script = "uid://dy88y4oy8akt2"
 
-[node name="DoorVisual" type="Sprite2D" parent="LeftDoor"]
-position = Vector2(-145, 23)
+[node name="DoorVisual" type="PointLight2D" parent="LeftDoor"]
+position = Vector2(96, -27)
+scale = Vector2(6, 6)
+energy = 1.3
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 4.0
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_fw82l")
 
 [node name="WallVisual" type="TileMapLayer" parent="LeftDoor"]
 position = Vector2(-57, 13)
@@ -162,6 +189,22 @@ debug_color = Color(0.9434277, 0.19743088, 0.3521789, 0.41960785)
 [node name="Player" parent="." instance=ExtResource("5_52jls")]
 position = Vector2(-716, 153)
 scale = Vector2(0.5, 0.5)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.83497655, 0.8506794, 0.90251106, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+rotation = -0.38397244
+color = Color(0.8567511, 0.52654487, 0.48130792, 1)
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.5
+
+[node name="Malakos" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_fw82l")]
+position = Vector2(-37, -81)
+player = NodePath("../Player")
+max_health = 5
 
 [connection signal="body_entered" from="RightDoor" to="RightDoor" method="_on_body_entered"]
 [connection signal="body_entered" from="LeftDoor" to="LeftDoor" method="_on_body_entered"]

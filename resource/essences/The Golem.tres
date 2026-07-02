@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://x4yfrcvy11dw"]
+
+[ext_resource type="Texture2D" uid="uid://cji6pa0jh0iue" path="res://assets/essences/the golem.png" id="1_pnb3s"]
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="2_g31fu"]
+
+[resource]
+script = ExtResource("2_g31fu")
+name = "The Golem"
+icon = ExtResource("1_pnb3s")
+description = "On use, activate the Golem Core. When hit by an attack while the Core is active, release a shockwave"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=3 uid="uid://dxl1dmwln6gom"]
+[gd_scene load_steps=123 format=3 uid="uid://dxl1dmwln6gom"]
 
 [ext_resource type="Script" uid="uid://bvpki648kuwk2" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://jlte8yf857w7" path="res://assets/audio/characters/player/Walking.ogg" id="2_qfm1y"]
@@ -20,6 +20,16 @@
 [ext_resource type="AudioStream" uid="uid://dxau8wp4ouf0j" path="res://assets/audio/characters/player/Dash.ogg" id="18_fulsm"]
 [ext_resource type="AudioStream" uid="uid://r8ph33uw30m1" path="res://assets/audio/characters/player/Jump.ogg" id="19_4r5pv"]
 [ext_resource type="AudioStream" uid="uid://t2y31gua54ki" path="res://assets/audio/characters/player/Landing.ogg" id="20_60mlk"]
+
+[sub_resource type="Gradient" id="Gradient_60mlk"]
+offsets = PackedFloat32Array(0, 0.08888889, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.62666667, 0.62666667, 0.62666667, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i4ail"]
+gradient = SubResource("Gradient_60mlk")
+fill = 1
+fill_from = Vector2(0.5077882, 0.5046729)
+fill_to = Vector2(0.8785047, 0.16510904)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v2ag"]
 animation = &"Idle"
@@ -299,6 +309,9 @@ size = Vector2(55, 107)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
 size = Vector2(85, 123.99997)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qfm1y"]
+radius = 202.48457
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
 radius = 90.44335
@@ -775,6 +788,12 @@ collision_layer = 2
 script = ExtResource("1_g2els")
 step_sounds = ExtResource("2_qfm1y")
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(20, 20)
+energy = 0.6
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_i4ail")
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_qfm1y")
 anim_player = NodePath("../AnimationPlayer")
@@ -809,6 +828,13 @@ position = Vector2(82, 0)
 shape = SubResource("RectangleShape2D_qhqgy")
 debug_color = Color(0.9841493, 0.1169771, 0.1114401, 0.41960785)
 
+[node name="GolemHitbox" type="Area2D" parent="."]
+collision_mask = 5
+
+[node name="ShocwaveCollision" type="CollisionShape2D" parent="GolemHitbox"]
+shape = SubResource("CircleShape2D_qfm1y")
+debug_color = Color(0.9833787, 0, 0.35790488, 0.41960785)
+
 [node name="ParryBox" type="Area2D" parent="."]
 collision_mask = 5
 
@@ -821,7 +847,7 @@ debug_color = Color(0, 0.6437439, 0.30010566, 0.41960785)
 position = Vector2(-9.88, -10.02)
 scale = Vector2(0.249, 0.249)
 sprite_frames = SubResource("SpriteFrames_jej6c")
-animation = &"endFall"
+animation = &"meleeAtk2"
 
 [node name="attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_3v2ag")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EssenceData" load_steps=3 format=3 uid="uid://1727ot8hvqxo"]
+
+[ext_resource type="Texture2D" uid="uid://bp040bmmb52mj" path="res://assets/essences/shielding.png" id="1_psqvs"]
+[ext_resource type="Script" uid="uid://dd8e8yrpxubqt" path="res://resource/EssenceData.gd" id="1_w10n2"]
+
+[resource]
+script = ExtResource("1_w10n2")
+name = "Shielding"
+icon = ExtResource("1_psqvs")
+description = "On use, activate a shield that protects you from one attack Use 30 dream"
+metadata/_custom_type_script = "uid://dd8e8yrpxubqt"

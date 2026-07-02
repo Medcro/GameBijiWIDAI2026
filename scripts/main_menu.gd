@@ -29,8 +29,10 @@ func _on_start_pressed() -> void:
 	if typeof(SaveManager) != TYPE_NIL and SaveManager.has_save():
 		reset_confirm.popup_centered()
 	else:
-		DialogueBox.tutorial1()
-		SaveManager.reset_level()
+    DialogueBox.tutorial1()
+		SaveManager.reset_and_delete_save()
+		LevelManager.current_level_num = 1
+		LevelManager.generate_new_level()
 
 func _on_settings_pressed() -> void:
 	$Click.play()
@@ -60,7 +62,9 @@ func _on_reset_confirm_confirmed() -> void:
 	if typeof(SaveManager) != TYPE_NIL:
 		SaveManager.delete_save()
 	
-	SaveManager.reset_level()
+	SaveManager.reset_and_delete_save()
+	LevelManager.current_level_num = 1
+	LevelManager.generate_new_level()
 
 func _on_reset_confirm_canceled() -> void:
 	reset_confirm.hide()
