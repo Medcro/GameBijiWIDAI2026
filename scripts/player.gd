@@ -347,9 +347,9 @@ func _on_parry_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_attack"):
 		
 		# klo unparryable
-		if "is_unparryable" in area and area.is_unparryable:
+		if area.has_meta("is_unparryable") and area.get_meta("is_unparryable") == true:
 			return
-			
+				
 		trigger_parry_success()
 
 func trigger_parry_success() -> void:
