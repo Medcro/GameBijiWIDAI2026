@@ -1,0 +1,143 @@
+[gd_scene load_steps=20 format=3 uid="uid://bf147if3ydwit"]
+
+[ext_resource type="Script" uid="uid://cqdycrmv20p8m" path="res://scripts/enemies/level5/lanky.gd" id="1_mutt3"]
+[ext_resource type="Texture2D" uid="uid://f4upqeb8oy8e" path="res://assets/characters/resolve/lankywhip.png" id="2_45j3v"]
+[ext_resource type="Texture2D" uid="uid://cvwa5cv4dgy1b" path="res://assets/characters/resolve/lankystep.png" id="2_mutt3"]
+[ext_resource type="Texture2D" uid="uid://0bxmfijx8157" path="res://assets/characters/resolve/lankyslash.png" id="4_0wje5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gux2k"]
+size = Vector2(193, 614)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svqkl"]
+atlas = ExtResource("2_mutt3")
+region = Rect2(0, 0, 410, 623)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mutt3"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(1594, 0, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wje5"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(2391, 0, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gw5qw"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(0, 699, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ciqjw"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(797, 699, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11git"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(1594, 699, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kv5u"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(2391, 699, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou4o0"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(0, 0, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwkfk"]
+atlas = ExtResource("2_45j3v")
+region = Rect2(797, 0, 797, 699)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo2wt"]
+atlas = ExtResource("2_mutt3")
+region = Rect2(0, 0, 410, 623)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2sjc"]
+atlas = ExtResource("2_mutt3")
+region = Rect2(410, 0, 410, 623)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enbol"]
+atlas = ExtResource("2_mutt3")
+region = Rect2(820, 0, 410, 623)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x141b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svqkl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mutt3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wje5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gw5qw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ciqjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11git")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kv5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ou4o0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwkfk")
+}],
+"loop": false,
+"name": &"strike",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo2wt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2sjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enbol")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mc4ow"]
+radius = 28.28648
+
+[node name="Resolve" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_mutt3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(93.5, -5)
+shape = SubResource("RectangleShape2D_gux2k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_x141b")
+animation = &"strike"
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+position = Vector2(-442.00012, 31.999996)
+scale = Vector2(15.23818, 11.178859)
+shape = SubResource("CircleShape2D_mc4ow")
+debug_color = Color(0.9818997, 0.13531008, 5.7756904e-07, 0.41960785)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(96, 296)
+collision_mask = 7
+
+[node name="Lankyslash" type="Sprite2D" parent="."]
+position = Vector2(-488, -6)
+texture = ExtResource("4_0wje5")
