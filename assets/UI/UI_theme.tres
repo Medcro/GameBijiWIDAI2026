@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=19 format=3 uid="uid://c8i2bj4l3d625"]
 
-[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/fonts/LondrinaSolid-Black.ttf" id="1_uxhdi"]
+[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/Fonts/LondrinaSolid-Black.ttf" id="1_uxhdi"]
 [ext_resource type="Texture2D" uid="uid://bmdk356vwpwh4" path="res://assets/UI/audio adjust.png" id="1_v6q6x"]
 [ext_resource type="Texture2D" uid="uid://86hcl8ba7csb" path="res://assets/UI/ui pause menu polos semoga skrg bener.png" id="2_mnw85"]
 

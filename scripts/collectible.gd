@@ -44,6 +44,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			
 			# PANGGIL FUNGSI TUTORIALMU DI SINI
 			print("TUTORIAL MUNCUL: Selamat! Kamu mendapatkan Essence pertama. Tekan R untuk membuka menu.")
+			DialogueBox.tutorial3()
 			# (Contoh jika kamu punya node TutorialManager: )
 			# var tutorial = get_tree().get_first_node_in_group("TutorialManager")
 			# if tutorial: tutorial.show_essence_tutorial()

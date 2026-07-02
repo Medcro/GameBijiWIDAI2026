@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ds7cl02ux8vc6" path="res://assets/UI/setting menu polosan.png" id="2_am25x"]
 [ext_resource type="Theme" uid="uid://c8i2bj4l3d625" path="res://assets/UI/UI_theme.tres" id="2_gjs24"]
 [ext_resource type="Script" uid="uid://bhaica5lawsto" path="res://scripts/master_slider.gd" id="2_r6d6q"]
-[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/fonts/LondrinaSolid-Black.ttf" id="2_uhhto"]
+[ext_resource type="FontFile" uid="uid://bkthkkvjdflxc" path="res://assets/UI/Fonts/LondrinaSolid-Black.ttf" id="2_uhhto"]
 [ext_resource type="Script" uid="uid://4h6pmk1pninm" path="res://scripts/music_slider.gd" id="3_6wm04"]
 [ext_resource type="Script" uid="uid://e31002rpfg7i" path="res://scripts/sfx_slider.gd" id="4_f4mfi"]
 [ext_resource type="PackedScene" uid="uid://bbv1ab788e2yn" path="res://scenes/input_bind_button.tscn" id="5_es4n0"]

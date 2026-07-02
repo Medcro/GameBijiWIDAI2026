@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://fxvacil6cb4x"
-path="res://.godot/imported/LondrinaSolid-Light.ttf-09a6254b2fa25405c5a6887832ab13a6.fontdata"
+path="res://.godot/imported/LondrinaSolid-Light.ttf-4b35ed6c80286b0e2f2d72559ed93d60.fontdata"
 
 [deps]
 
-source_file="res://assets/UI/fonts/LondrinaSolid-Light.ttf"
-dest_files=["res://.godot/imported/LondrinaSolid-Light.ttf-09a6254b2fa25405c5a6887832ab13a6.fontdata"]
+source_file="res://assets/UI/Fonts/LondrinaSolid-Light.ttf"
+dest_files=["res://.godot/imported/LondrinaSolid-Light.ttf-4b35ed6c80286b0e2f2d72559ed93d60.fontdata"]
 
 [params]
 
